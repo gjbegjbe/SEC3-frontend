@@ -15,8 +15,8 @@
             </a>
           </li>
           <li>
-            <a href="javascript:;" >
-              <span ><i class="el-icon-picture-outline" @click="exportPng()"></i>保存为图片</span>
+            <a href="javascript:;" @click="exportPNG" >
+              <span ><i class="el-icon-picture-outline"></i>保存为图片</span>
             </a>
           </li>
         </ul>
@@ -761,15 +761,31 @@ export default {
     btnCollapseNode() {},
     btnOpenNode() {},
     close() {},
-    exportPng() {
-      let blob = this.$cy.png({output: 'blob', bg: 'transparent', full: true, scale: 4, quality: 1});
-      let [aLink, evt] = [document.createElement('a'), document.createEvent("HTMLEvents")];
-      evt.initEvent("click", true, true);
-      [aLink.download, aLink.href] = [`${new Date().getTime()}.png`, URL.createObjectURL(blob)];
-      aLink.dispatchEvent(evt);
-      aLink.click();
+
+    exportPNG: function () {
+      var serializer = new XMLSerializer();
+      var source = '<?xml version="1.0" standalone="no"?>\r\n' + serializer.serializeToString(this.svg.node());
+      var image = new Image;
+      image.src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(source);
+      var canvas = document.createElement("canvas");
+      canvas.width = 2000;
+      canvas.height = 2000;
+      var context = canvas.getContext("2d");
+      context.fillStyle = '#fff';
+      context.fillRect(0, 0, 10000, 10000);
+      context.drawImage(image, 0, 0);
+      image.onload = function () {
+        context.drawImage(image, 0, 0);
+        var a = document.createElement("a");
+        a.download = "export_png.png";
+        a.href = canvas.toDataURL("image/png");
+        a.click();
+      }
     },
+
   },
+
+
 }
 
 

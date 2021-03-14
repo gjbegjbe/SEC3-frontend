@@ -10,7 +10,11 @@
   "dependencies": {
     "axios": "^0.19.2",
     "core-js": "^3.6.5",
+    "cytoscape": "^3.18.1",
+    "cytoscape-cola": "^2.4.0",
+    "cytoscape-cxtmenu": "^3.4.0",
     "element-ui": "^2.13.2",
+    "file-saver": "^2.0.5",
     "jquery": "^3.5.1",
     "vue": "^2.6.11",
     "vue-axios": "^2.1.5",
