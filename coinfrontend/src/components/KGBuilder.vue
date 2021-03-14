@@ -19,6 +19,11 @@
               <span ><i class="el-icon-picture-outline"></i>保存为图片</span>
             </a>
           </li>
+          <li>
+            <a href="javascript:;" @click="exportJSON" >
+              <span ><i class="el-icon-picture-outline"></i>保存为JSON</span>
+            </a>
+          </li>
         </ul>
       </div>
       <div class="ctwh-dibmr" style="float: right">
@@ -172,6 +177,7 @@ export default {
       var _this = this
       axios.get('/static/kgData.json', {}).then(function (response) {
         var data = response.data
+        console.log(data)
         _this.graph.nodes = data.node
         _this.graph.links = data.relationship
         _this.updateGraph()
@@ -727,9 +733,11 @@ export default {
       this.zoomClick(1)
     },
     zoomOut() {
+
       this.zoomClick(-1)
     },
     refresh() {
+      console.log('111');
       this.svg.call(this.zoom.transform, d3.zoomIdentity)
     },
     showFull() {
@@ -763,8 +771,13 @@ export default {
     close() {},
 
     exportPNG: function () {
+
+
       var serializer = new XMLSerializer();
-      var source = '<?xml version="1.0" standalone="no"?>\r\n' + serializer.serializeToString(this.svg.node());
+      var newsvg=this.svg;
+      console.log(newsvg)
+      //newsvg.deleteAll('.buttongroup');
+      var source = '<?xml version="1.0" standalone="no"?>\r\n' + serializer.serializeToString(newsvg.node());
       var image = new Image;
       image.src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(source);
       var canvas = document.createElement("canvas");
@@ -781,6 +794,15 @@ export default {
         a.href = canvas.toDataURL("image/png");
         a.click();
       }
+    },
+    exportJSON: function (){
+      console.log(this.graph)
+      var datastr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(this.graph));
+      var downloadAnchorNode = document.createElement('a')
+      downloadAnchorNode.setAttribute("href", datastr);
+      downloadAnchorNode.setAttribute("download", 'tem.json')
+      downloadAnchorNode.click();
+      downloadAnchorNode.remove();
     },
 
   },
