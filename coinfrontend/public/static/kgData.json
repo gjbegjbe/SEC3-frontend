@@ -1,0 +1,62 @@
+{
+  "node": [
+    {
+      "name": "隔壁老王",
+      "uuid": "1",
+      "imgsrc": "https://software.nju.edu.cn/DFS//file/2021/03/12/20210312102504866gzwnfl.jpg?iid=27878"
+    },
+    {
+      "name": "小红",
+      "uuid": "2",
+      "imgsrc": ""
+    },
+    {
+      "name": "老张",
+      "uuid": "3",
+      "imgsrc": ""
+    },
+    {
+      "name": "小朋友",
+      "uuid": "4",
+      "imgsrc": ""
+    }
+  ],
+  "relationship": [
+    {
+      "sourceid": "1",
+      "targetid": "2",
+      "name": "暗恋",
+      "uuid": "1"
+    },
+    {
+      "sourceid": "2",
+      "targetid": "3",
+      "name": "夫妻",
+      "uuid": "2"
+    },
+    {
+      "sourceid": "3",
+      "targetid": "2",
+      "name": "夫妻",
+      "uuid": "3"
+    },
+    {
+      "sourceid": "3",
+      "targetid": "4",
+      "name": "养育",
+      "uuid": "4"
+    },
+    {
+      "sourceid": "2",
+      "targetid": "4",
+      "name": "不闻不问",
+      "uuid": "5"
+    },
+    {
+      "sourceid": "1",
+      "targetid": "4",
+      "name": "殴打",
+      "uuid": "6"
+    }
+  ]
+}
