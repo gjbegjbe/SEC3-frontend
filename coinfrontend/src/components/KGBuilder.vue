@@ -71,6 +71,8 @@ import axios from 'axios'
 import * as d3 from 'd3'
 import $ from 'jquery'
 
+
+
 export default {
   props: ['pid'],
   data() {
