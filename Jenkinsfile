@@ -16,7 +16,7 @@ pipeline {
         }
         stage('build') {
             steps {
-                sh 'npm run serve'
+                sh 'npm run build'
             }
         }
         stage('deploy') {
