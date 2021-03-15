@@ -21,7 +21,7 @@ pipeline {
         }
         stage('deploy') {
             steps {
-                sh 'cp -r dist var/lib/jenkins/workspace/6plusCOIN-frontend@2'
+                sh 'cp -r dist /var/lib/jenkins/workspace/6plusCOIN-frontend@2'
             }
         }
     }
