@@ -24,6 +24,11 @@
               <span ><i class="el-icon-picture-outline"></i>保存为JSON</span>
             </a>
           </li>
+          <li>
+            <a href="javascript:;" @click="exportXML" >
+              <span ><i class="el-icon-picture-outline"></i>保存为XML</span>
+            </a>
+          </li>
         </ul>
       </div>
       <div class="ctwh-dibmr" style="float: right">
@@ -799,13 +804,24 @@ export default {
     },
     exportJSON: function (){
       console.log(this.graph)
-      var datastr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(this.graph));
+      var datastr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(this.graph,null,4));
       var downloadAnchorNode = document.createElement('a')
       downloadAnchorNode.setAttribute("href", datastr);
       downloadAnchorNode.setAttribute("download", 'tem.json')
       downloadAnchorNode.click();
       downloadAnchorNode.remove();
     },
+    exportXML: function (){
+      var jsonstr = JSON.stringify(this.graph,null,4); //json字符串
+      var jsonob = JSON.parse(jsonstr); //转为json对象
+      var xmlstr = this.$x2js.js2xml(jsonob); //转换为xml字符串
+      var xml = "data:text/xml;charset=utf-8," + encodeURIComponent(xmlstr); //生成包含xml文件的地址以供下载
+      var downloadAnchorNode = document.createElement('a')
+      downloadAnchorNode.setAttribute("href", xml);
+      downloadAnchorNode.setAttribute("download", 'tem.xml')
+      downloadAnchorNode.click();
+      downloadAnchorNode.remove();
+    }
 
   },
 
