@@ -1,7 +1,7 @@
 <template>
   <div>
 
-    <div id="gid_tc" style="float:left;">
+    <div  id="gid_tc" style="float:left;">
       <div id="gid"></div>
       <div class="mengceng"></div>
     </div>
@@ -9,11 +9,14 @@
       <li>
         <textarea id="text" tyle="width: 300px;height: 300px"  @keydown="keydownFn" placeholder=this.data></textarea>
       </li>
+      <li>
+        <el-button type="primary">修改图谱</el-button>
+      </li>
     </div>
     <div class="svg-set-box clearfix">
 
       <div class="ctwh-dibmr">
-        <ul class="toolbar" style="float: left;">
+        <ul class="toolbar" >
 
           <li>
             <a href="javascript:;" @click="addOneNode">
@@ -36,37 +39,39 @@
               <span ><i class="el-icon-picture-outline"></i>保存为XML</span>
             </a>
           </li>
-        </ul>
-      </div>
-      <div class="ctwh-dibmr" style="float: right">
-        <ul class="toolbar">
           <li>
             <a href="javascript:;" @click="zoomIn"
-              ><span><i class="el-icon-zoom-in"></i>放大</span></a
+            ><span><i class="el-icon-zoom-in"></i>放大</span></a
             >
           </li>
           <li>
             <a href="javascript:;" @click="zoomOut"
-              ><span><i class="el-icon-zoom-out"></i>缩小</span></a
+            ><span><i class="el-icon-zoom-out"></i>缩小</span></a
             >
           </li>
           <li>
             <a href="javascript:;" @click="refresh"
-              ><span><i class="el-icon-refresh-right"></i>还原</span></a
+            ><span><i class="el-icon-refresh-right"></i>还原大小</span></a
+            >
+          </li>
+          <li>
+            <a href="javascript:;" @click="initGraph"
+            ><span><i class="el-icon-refresh-right"></i>还原图形</span></a
             >
           </li>
           <li>
             <a
-              v-if="!isFullscreen"
-              id="fullscreenbtn"
+              v-if="this.isFullscreen===false"
               href="javascript:;"
               @click="showFull"
             >
               <span><i class="el-icon-full-screen"></i>全屏</span>
             </a>
+          </li>
+          <li>
             <a
-              v-else
-              id="fullscreenbtn"
+              v-if="this.isFullscreen===true"
+              id="exitfullscreenbtn"
               href="javascript:;"
               @click="exitFullScreen"
             >
@@ -75,6 +80,11 @@
           </li>
         </ul>
       </div>
+<!--      <div class="ctwh-dibmr" style="float: right">-->
+<!--        <ul class="toolbar">-->
+<!--          -->
+<!--        </ul>-->
+<!--      </div>-->
     </div>
   </div>
 </template>
@@ -759,9 +769,13 @@ export default {
       this.svg.call(this.zoom.transform, d3.zoomIdentity)
     },
     showFull() {
+      console.log(this.isFullscreen)
+      console.log('000')
       this.isFullscreen = !this.isFullscreen
-      var full = document.getElementById('kg_container')
+      let full = document.getElementById('kg_container')
       this.fullScreen(full)
+      console.log(this.isFullscreen)
+      console.log('111')
     },
     fullScreen(element) {
       if (element.requestFullscreen) {
@@ -799,8 +813,8 @@ export default {
       var image = new Image;
       image.src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(source);
       var canvas = document.createElement("canvas");
-      canvas.width = 2000;
-      canvas.height = 2000;
+      canvas.width = window.screen.width;
+      canvas.height = window.screen.height;
       var context = canvas.getContext("2d");
       context.fillStyle = '#fff';
       context.fillRect(0, 0, 10000, 10000);
@@ -832,7 +846,10 @@ export default {
       downloadAnchorNode.setAttribute("download", 'tem.xml')
       downloadAnchorNode.click();
       downloadAnchorNode.remove();
-    }
+    },
+    changeGraph:function(){
+      this.initGraph();
+    },
 
   },
 
@@ -854,10 +871,10 @@ export default {
   bottom: 300px;
 }
 .svg-set-box {
-  width: 75%;
+  /*width: 75%;*/
   height: 46px;
   line-height: 46px;
-  padding-left: 15px;
+  /*padding-left: 15px;*/
   color: #ffffff;
   /* background: #f7f7f7; */
   position: absolute;
@@ -902,7 +919,7 @@ li {
 }
 .toolbar li {
   float: left;
-  width: 60px;
+  width: 120px;
 }
 
 .toolbar li a {
