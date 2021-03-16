@@ -5,7 +5,13 @@
       <div id="gid"></div>
       <div class="mengceng"></div>
     </div>
+    <div class="svg-set-box0 clearfix">
+      <li>
+        <textarea id="text" tyle="width: 300px;height: 300px"  @keydown="keydownFn" placeholder=this.data></textarea>
+      </li>
+    </div>
     <div class="svg-set-box clearfix">
+
       <div class="ctwh-dibmr">
         <ul class="toolbar" style="float: left;">
 
@@ -14,6 +20,7 @@
               <span><i class="el-icon-plus"></i>添加节点</span>
             </a>
           </li>
+
           <li>
             <a href="javascript:;" @click="exportPNG" >
               <span ><i class="el-icon-picture-outline"></i>保存为图片</span>
@@ -136,6 +143,7 @@ export default {
   created() {},
   watch: {},
   methods: {
+
     initGraphContainer() {
       this.gcontainer = d3.select('#gid')
       if (this.isFullscreen) {
@@ -189,6 +197,7 @@ export default {
         _this.graph.links = data.relationship
         _this.updateGraph()
       })
+
     },
     addMaker() {
       var arrowMarker = this.svg
@@ -702,6 +711,8 @@ export default {
       _this.svg.on('dblclick.zoom', null)
       //为按钮组绑定事件
       _this.bindEventButtonGroup()
+      //在文本框显示json内容
+      document.getElementById("text").value = JSON.stringify(this.graph,null,4);
     },
     dragStarted(d) {
       if (!d3.event.active) this.simulation.alphaTarget(0.8).restart()
@@ -831,6 +842,17 @@ export default {
 
 </script>
 <style>
+.svg-set-box0 {
+
+  height: 46px;
+  left: 3%;
+  /*line-height: 46px;*/
+  /*padding-left: 15px;*/
+  color: #ffffff;
+  /* background: #f7f7f7; */
+  position: absolute;
+  bottom: 300px;
+}
 .svg-set-box {
   width: 75%;
   height: 46px;
