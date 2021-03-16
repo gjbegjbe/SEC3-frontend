@@ -1,79 +1,64 @@
 <template>
   <div>
+    <input type='checkbox' id='sidemenu'>
+    <aside>
+      <h2>主菜单</h2>
+      <h4>导出</h4>
+      <div id="download">
+        <a href="javascript:;" @click="exportPNG">
+          <li><i class="el-icon-picture-outline"></i>保存为图片</li>
+        </a>
+        <a href="javascript:;" @click="exportJSON">
+          <li><i class="el-icon-picture-outline"></i>保存为JSON</li>
+        </a>
+        <a href="javascript:;" @click="exportXML">
+          <li><i class="el-icon-picture-outline"></i>保存为XML</li>
+        </a>
+      </div>
+      <h4>调整</h4>
+      <div id="adjust">
+        <div id="left" style="width:150px;float:left;">
+          <a href="javascript:;" @click="zoomIn">
+            <li><i class="el-icon-zoom-in"></i>放大</li>
+          </a>
+          <a href="javascript:;" @click="refresh">
+            <li><i class="el-icon-refresh-right"></i>还原大小</li>
+          </a>
+          <a href="javascript:;" @click="changeFull">
+            <li><i class="el-icon-full-screen"></i>全屏切换</li>
+          </a>
+        </div>
+        <div id="right" style="width:150px;float:left;">
+          <a href="javascript:;" @click="zoomOut">
+            <li><i class="el-icon-zoom-out"></i>缩小</li>
+          </a>
+          <a href="javascript:;" @click="initGraph">
+            <li><i class="el-icon-refresh-right"></i>还原图形</li>
+          </a>
+        </div>
+        <div id="##" style="clear:both"></div>
+      </div>
+      <h4>修改</h4>
+      <div class="svg-set-box0 clearfix">
+        <li>
+          <textarea id="text" tyle="width: 300px;height: 300px"  @keydown="keydownFn" placeholder=this.data></textarea>
+        </li>
+        <li>
+          <el-button type="primary">修改图谱</el-button>
+        </li>
+      </div>
+    </aside>
+
+    <div id='wrap'>
+      <label id='sideMenuControl' for='sidemenu'>≡</label>
+      <!--for 属性规定 label 与哪个表单元素绑定，即将这个控制侧边栏进出的按钮与checkbox绑定-->
+    </div>
 
     <div  id="gid_tc" style="float:left;">
       <div id="gid"></div>
       <div class="mengceng"></div>
     </div>
-    <div class="svg-set-box0 clearfix">
-      <li>
-        <textarea id="text" tyle="width: 300px;height: 300px"  @keydown="keydownFn" placeholder=this.data></textarea>
-      </li>
-      <li>
-        <el-button type="primary">修改图谱</el-button>
-      </li>
-    </div>
-    <div class="svg-set-box clearfix">
 
-      <div class="ctwh-dibmr">
-        <ul class="toolbar" >
-
-          <li>
-            <a href="javascript:;" @click="addOneNode">
-              <span><i class="el-icon-plus"></i>添加节点</span>
-            </a>
-          </li>
-
-          <li>
-            <a href="javascript:;" @click="exportPNG" >
-              <span ><i class="el-icon-picture-outline"></i>保存为图片</span>
-            </a>
-          </li>
-          <li>
-            <a href="javascript:;" @click="exportJSON" >
-              <span ><i class="el-icon-picture-outline"></i>保存为JSON</span>
-            </a>
-          </li>
-          <li>
-            <a href="javascript:;" @click="exportXML" >
-              <span ><i class="el-icon-picture-outline"></i>保存为XML</span>
-            </a>
-          </li>
-          <li>
-            <a href="javascript:;" @click="zoomIn"
-            ><span><i class="el-icon-zoom-in"></i>放大</span></a
-            >
-          </li>
-          <li>
-            <a href="javascript:;" @click="zoomOut"
-            ><span><i class="el-icon-zoom-out"></i>缩小</span></a
-            >
-          </li>
-          <li>
-            <a href="javascript:;" @click="refresh"
-            ><span><i class="el-icon-refresh-right"></i>还原大小</span></a
-            >
-          </li>
-          <li>
-            <a href="javascript:;" @click="initGraph"
-            ><span><i class="el-icon-refresh-right"></i>还原图形</span></a
-            >
-          </li>
-          <li>
-            <a href="javascript:;"
-              @click="changeFull"
-            >
-              <span><i class="el-icon-full-screen"></i>全屏切换</span>
-            </a>
-          </li>
-        </ul>
-      </div>
-<!--      <div class="ctwh-dibmr" style="float: right">-->
-<!--        <ul class="toolbar">-->
-<!--          -->
-<!--        </ul>-->
-<!--      </div>-->
-    </div>
   </div>
 </template>
 <script>
@@ -853,16 +838,109 @@ export default {
 
 </script>
 <style>
-.svg-set-box0 {
+#sidemenu{
+  display: none;
+}
 
-  height: 46px;
-  left: 3%;
+#sidemenu:checked + aside {
+  /*为被选中的sidemenu后的aside设置属性（紧邻）*/
+  left: 0;
+  /*点击按钮即选中checked后,侧边栏位置变为贴着左边,配合ease-out使用,有渐变滑出的效果*/
+}
+
+#sidemenu:checked ~ #wrap {
+  /*为被选中的sidemenu后的wrap设置属性（非紧邻）*/
+  padding-left: 300px;
+}
+
+aside {
+  /*侧边栏,初始位置为-300px，即隐藏效果*/
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -300px;
+  width: 300px;
+  background: cornflowerblue;
+  transition: 0.2s ease-out;
+  /*动画效果的执行方式是ease-out，即侧边栏滑动效果为渐变式，而不是生硬的突然变化*/
+}
+
+h2 {
+  color: white;
+  text-align: center;
+  font-size: 2em;
+}
+
+h4 {
+  color: white;
+  text-align: center;
+  font-size: 1.2em;
+  line-height: 0em;
+}
+
+#download li {
+  list-style: none;
+  color: white;
+  width: 100%;
+  height: 1.6em;
+  text-align: center;
+  font-size: 1.2em;
+}
+
+#adjust li {
+  list-style: none;
+  color: white;
+  width: 100%;
+  height: 1.6em;
+  text-align: center;
+  font-size: 1em;
+}
+
+a {
+  text-decoration: none;
+}
+
+/*控制侧边栏进出的按钮（外部包裹）*/
+#wrap {
+  transition: 0.2s ease-out;
+}
+
+/*控制侧边栏进出的按钮（内部文字样式）*/
+label {
+  /*控制侧边栏进出的按钮*/
+  background: white;
+  border-radius: 70px;
+  color: orange;
+  cursor: pointer;
+  display: block;
+  font-family: Courier New;
+  font-size: 2em;
+  width: 1.5em;
+  height: 1.5em;
+  line-height: 1.5em;
+  text-align: center;
+}
+
+label:hover {
+  background: #000;
+}
+
+#sideul li:hover {
+  color: orange;
+}
+.svg-set-box0 {
+  width: 300px;
   /*line-height: 46px;*/
   /*padding-left: 15px;*/
   color: #ffffff;
   /* background: #f7f7f7; */
   position: absolute;
-  bottom: 300px;
+}
+.svg-set-box0 textarea{
+  left: 10px;
+  right: 10px;
+  height: 280px;
+  width: 280px;
 }
 .svg-set-box {
   /*width: 75%;*/
