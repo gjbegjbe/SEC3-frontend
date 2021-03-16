@@ -3,48 +3,48 @@
     <input type='checkbox' id='sidemenu'>
     <aside>
       <h2>主菜单</h2>
-      <h4>导出</h4>
+      <h4>- 导出</h4>
       <div id="download">
         <a href="javascript:;" @click="exportPNG">
-          <li><i class="el-icon-picture-outline"></i>保存为图片</li>
+          <li><i class="el-icon-picture-outline"></i> 保存为图片</li>
         </a>
         <a href="javascript:;" @click="exportJSON">
-          <li><i class="el-icon-picture-outline"></i>保存为JSON</li>
+          <li><i class="el-icon-picture-outline"></i> 保存为JSON</li>
         </a>
         <a href="javascript:;" @click="exportXML">
-          <li><i class="el-icon-picture-outline"></i>保存为XML</li>
+          <li><i class="el-icon-picture-outline"></i> 保存为XML</li>
         </a>
       </div>
-      <h4>调整</h4>
+      <h4>- 调整</h4>
       <div id="adjust">
         <div id="left" style="width:150px;float:left;">
           <a href="javascript:;" @click="zoomIn">
-            <li><i class="el-icon-zoom-in"></i>放大</li>
+            <li><i class="el-icon-zoom-in"></i> 放大</li>
           </a>
           <a href="javascript:;" @click="refresh">
-            <li><i class="el-icon-refresh-right"></i>还原大小</li>
+            <li><i class="el-icon-refresh-right"></i> 还原大小</li>
           </a>
           <a href="javascript:;" @click="changeFull">
-            <li><i class="el-icon-full-screen"></i>全屏切换</li>
+            <li><i class="el-icon-full-screen"></i> 全屏切换</li>
           </a>
         </div>
         <div id="right" style="width:150px;float:left;">
           <a href="javascript:;" @click="zoomOut">
-            <li><i class="el-icon-zoom-out"></i>缩小</li>
+            <li><i class="el-icon-zoom-out"></i> 缩小</li>
           </a>
           <a href="javascript:;" @click="initGraph">
-            <li><i class="el-icon-refresh-right"></i>还原图形</li>
+            <li><i class="el-icon-refresh-right"></i> 还原图形</li>
           </a>
         </div>
         <div id="##" style="clear:both"></div>
       </div>
-      <h4>修改</h4>
+      <h4>- 修改</h4>
       <div class="svg-set-box0 clearfix">
         <li>
           <textarea id="text" tyle="width: 300px;height: 300px"  @keydown="keydownFn" placeholder=this.data></textarea>
         </li>
         <li>
-          <el-button type="primary">修改图谱</el-button>
+          <el-button round type="modify">修改图谱</el-button>
         </li>
       </div>
     </aside>
@@ -860,21 +860,23 @@ aside {
   bottom: 0;
   left: -300px;
   width: 300px;
-  background: cornflowerblue;
+  background: #7bc6cc;
   transition: 0.2s ease-out;
   /*动画效果的执行方式是ease-out，即侧边栏滑动效果为渐变式，而不是生硬的突然变化*/
 }
 
 h2 {
   color: white;
-  text-align: center;
+  text-align: left;
+  margin-left: 10px;
   font-size: 2em;
 }
 
 h4 {
   color: white;
-  text-align: center;
-  font-size: 1.2em;
+  text-align: left;
+  margin-left: 25px;
+  font-size: 1.4em;
   line-height: 0em;
 }
 
@@ -883,8 +885,9 @@ h4 {
   color: white;
   width: 100%;
   height: 1.6em;
-  text-align: center;
-  font-size: 1.2em;
+  text-align: left;
+  margin-left: 40px;
+  font-size: 1em;
 }
 
 #adjust li {
@@ -892,7 +895,8 @@ h4 {
   color: white;
   width: 100%;
   height: 1.6em;
-  text-align: center;
+  text-align: left;
+  margin-left: 40px;
   font-size: 1em;
 }
 
@@ -928,6 +932,7 @@ label:hover {
 #sideul li:hover {
   color: orange;
 }
+
 .svg-set-box0 {
   width: 300px;
   /*line-height: 46px;*/
@@ -937,10 +942,17 @@ label:hover {
   position: absolute;
 }
 .svg-set-box0 textarea{
-  left: 10px;
-  right: 10px;
+  left: 40px;
+  right: 40px;
   height: 280px;
-  width: 280px;
+  width: 240px;
+  /*background-color: transparent;*/
+  background: rgba(204, 204, 204, 0.35);/*半透明*/
+  color: white;
+  resize: none;
+  border: 0;
+  border-radius: 20px;
+  padding: 15px;
 }
 .svg-set-box {
   /*width: 75%;*/
@@ -979,7 +991,7 @@ label:hover {
   height: 16px;
 }
 .sd-active {
-  background: #08aefc !important;
+  background: #08b7fc !important;
 }
 .toolbar {
 
@@ -1012,4 +1024,5 @@ li {
   stroke-dashoffset: 0;
   stroke-dasharray: 100;
 }
+
 </style>
