@@ -60,22 +60,10 @@
             >
           </li>
           <li>
-            <a
-              v-if="this.isFullscreen===false"
-              href="javascript:;"
-              @click="showFull"
+            <a href="javascript:;"
+              @click="changeFull"
             >
-              <span><i class="el-icon-full-screen"></i>全屏</span>
-            </a>
-          </li>
-          <li>
-            <a
-              v-if="this.isFullscreen===true"
-              id="exitfullscreenbtn"
-              href="javascript:;"
-              @click="exitFullScreen"
-            >
-              <span><i class="el-icon-full-screen"></i>退出全屏</span>
+              <span><i class="el-icon-full-screen"></i>全屏切换</span>
             </a>
           </li>
         </ul>
@@ -768,12 +756,18 @@ export default {
       console.log('111');
       this.svg.call(this.zoom.transform, d3.zoomIdentity)
     },
-    showFull() {
+    changeFull() {
       console.log(this.isFullscreen)
       console.log('000')
       this.isFullscreen = !this.isFullscreen
-      let full = document.getElementById('kg_container')
-      this.fullScreen(full)
+      if(this.isFullscreen){
+        let full = document.getElementById('kg_container')
+        this.fullScreen(full)
+      }
+      else{
+        this.exitFullScreen()
+      }
+
       console.log(this.isFullscreen)
       console.log('111')
     },
@@ -789,7 +783,7 @@ export default {
       }
     },
     exitFullScreen() {
-      this.isFullscreen = !this.isFullscreen
+
       if (document.exitFullscreen) {
         document.exitFullscreen()
       } else if (document.mozCancelFullScreen) {
