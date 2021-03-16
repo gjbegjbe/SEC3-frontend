@@ -944,7 +944,7 @@ label:hover {
 .svg-set-box0 textarea{
   left: 40px;
   right: 40px;
-  height: 280px;
+  height: 240px;
   width: 240px;
   /*background-color: transparent;*/
   background: rgba(204, 204, 204, 0.35);/*半透明*/
