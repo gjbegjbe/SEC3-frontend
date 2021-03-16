@@ -44,7 +44,7 @@
           <textarea id="text" tyle="width: 300px;height: 300px"  @keydown="keydownFn" placeholder=this.data></textarea>
         </li>
         <li>
-          <el-button round type="modify">修改图谱</el-button>
+          <el-button round  >修改图谱</el-button>
         </li>
       </div>
     </aside>
@@ -95,13 +95,9 @@ export default {
       colorList: [
         '#ff8373',
         '#f9c62c',
-        '#a5ca34',
-        '#6fce7a',
+        '#7f7fd5',
+        '#7f7fd5',
         '#70d3bd',
-        '#ea91b0',
-      ],
-      pagesizelist: [
-        { size: 100, isactive: false },
         { size: 300, isactive: false },
         { size: 500, isactive: true },
         { size: 1000, isactive: false },
@@ -539,7 +535,7 @@ export default {
             .attr('d', function (d) {
               return arc(d)
             })
-            .attr('fill', '#E6A23C')
+            .attr('fill', '#86a8e7')
             .style('opacity', 0.6)
             .attr('stroke', '#6CB7ED')
             .attr('stroke-width', 1)
@@ -862,6 +858,7 @@ aside {
   width: 300px;
   background: #7bc6cc;
   transition: 0.2s ease-out;
+  overflow: auto;
   /*动画效果的执行方式是ease-out，即侧边栏滑动效果为渐变式，而不是生硬的突然变化*/
 }
 
@@ -944,16 +941,21 @@ label:hover {
 .svg-set-box0 textarea{
   left: 40px;
   right: 40px;
-  height: 240px;
+  height: 260px;
   width: 240px;
   /*background-color: transparent;*/
   background: rgba(204, 204, 204, 0.35);/*半透明*/
   color: white;
   resize: none;
-  border: 0;
+  border: none;
+  outline-width: 5px;
+  outline-color: rgba(204, 204, 204, 0.2);
   border-radius: 20px;
   padding: 15px;
+  margin-bottom: 20px;
+
 }
+
 .svg-set-box {
   /*width: 75%;*/
   height: 46px;
