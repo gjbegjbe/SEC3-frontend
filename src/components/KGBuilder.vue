@@ -1077,18 +1077,23 @@ h4 {
   margin-left: 40px;
   margin-bottom: 5px;
   margin-top: 7px;
-
-
-;
-
   font-size: 1em;
 }
 
 #modify span{
   color: white;
-  margin-bottom:10px  ;
+  margin-bottom:10px;
   line-height: 2em;
 
+}
+#modify select {
+  background: rgba(204, 204, 204, 0.75); /*半透明*/
+  border: 0;
+  border-radius: 4px;
+  appearance: auto;
+  -moz-appearance: menuitem;
+  outline-width: 5px;
+  outline-color: rgba(204, 204, 204, 0.2);
 }
 
 a {
