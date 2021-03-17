@@ -226,17 +226,17 @@ export default {
         .append("marker")
         .attr("id", "arrow")
         .attr("markerUnits", "strokeWidth")
-        .attr("markerWidth", "12") //
-        .attr("markerHeight", "12")
+        .attr("markerWidth", "20") //
+        .attr("markerHeight", "20")
         .attr("viewBox", "0 0 12 12")
-        .attr("refX", "38")
+        .attr("refX", "28")
         .attr("refY", "6")
         .attr("orient", "auto");
       var arrowPath = "M2,2 L10,6 L2,10 L6,6 L2,2"; // 定义箭头形状
       arrowMarker
         .append("path")
         .attr("d", arrowPath)
-        .attr("fill", "#ccc");
+        .attr("fill", "#56c38a");
     },
     openNode() {
       var _this = this;
@@ -1103,11 +1103,13 @@ label {
 }
 
 label:hover {
-  background: #000;
+  background: #daddda;
+  fill-opacity: 0.2;
 }
 
 #sideul li:hover {
   color: orange;
+
 }
 
 .svg-set-box0 {
