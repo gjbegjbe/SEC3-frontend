@@ -784,6 +784,7 @@ export default {
       var serializer = new XMLSerializer();
       var newsvg=this.svg;
       console.log(newsvg)
+      newsvg.selectAll('.nodebutton').remove()
 
       var source = '<?xml version="1.0" standalone="no"?>\r\n' + serializer.serializeToString(newsvg.node());
       var image = new Image;
