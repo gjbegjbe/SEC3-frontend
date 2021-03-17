@@ -26,7 +26,7 @@
         <a href="javascript:;" @click="refresh">
           <li><i class="el-icon-refresh-right"></i> 还原大小</li>
         </a>
-        <a href="javascript:;" @click="initGraph">
+        <a href="javascript:;" @click="restartPicture">
           <li><i class="el-icon-magic-stick"></i> 还原图形</li>
         </a>
         <a href="javascript:;" @click="changeFull">
