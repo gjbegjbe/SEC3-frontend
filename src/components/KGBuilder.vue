@@ -39,10 +39,10 @@
           <li><i class="el-icon-plus"></i> 添加节点
           </li>
         </a>
-<!--        <a href="javascript:;" >-->
-<!--          <li><i class="el-icon-minus"></i> 删除关系-->
-<!--          </li>-->
-<!--        </a>-->
+        <a href="javascript:;" @click="deleteLink">
+          <li><i class="el-icon-minus"></i> 删除关系
+          </li>
+        </a>
       </div>
       <div class="svg-set-box0 clearfix">
         <li>
@@ -866,7 +866,7 @@ export default {
         type: 'warning'
       }).then(() => {
         for (let i = 0; i < _this.graph.links.length; i++) {
-          if (_this.graph.links[i].uuid == 3) {
+          if ((_this.graph.links[i].sourceid == 3)&&(_this.graph.links[i].targetid == 4)) {
             _this.graph.links.splice(i, 1)
             break
           }
