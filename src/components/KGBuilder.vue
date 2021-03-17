@@ -276,7 +276,7 @@ export default {
       })
       nodeEnter.on('mouseenter', function () {
         console.log('鼠标移入')
-        d3.select(this).style('stroke-width', '6')
+        d3.select(this).style('stroke-width', '15')      //增大涟漪
       })
       nodeEnter.on('mouseleave', function () {
         console.log('鼠标移出')
@@ -423,8 +423,8 @@ export default {
         })
         .attr('class', 'nodetext')
         .attr('dy', '3.6em')
-        .attr('font-family', '黑体')
-        .attr('font-size', 16)
+        .attr('font-family', '方正雅黑')
+        .attr('font-size', 14)
         .attr('text-anchor', 'middle')
         .text(function (d) {
           return d.name
@@ -470,6 +470,7 @@ export default {
         .append('text')
         .attr('class', 'linetext')
         .style('fill', '#888888')
+        .attr('font-family','方正雅黑')
         .style('font-size', '10px')
         .text(function (d) {
           return d.lk.name
@@ -553,8 +554,8 @@ export default {
             })
             .attr('fill', '#86a8e7')
             .style('opacity', 0.6)
-            .attr('stroke', '#6CB7ED')
-            .attr('stroke-width', 1)
+            .attr('stroke', 'white')
+            .attr('stroke-width', 5)
           buttonGroupEnter
             .append('text')
             .attr('transform', function (d) {
@@ -565,9 +566,9 @@ export default {
               return d.data.name
             })
             .style('fill', function () {
-              return '#000'
+              return '#3b3b3b'
             })
-            .attr('font-size', 15)
+            .attr('font-size', 12)
         }
       })
     },
