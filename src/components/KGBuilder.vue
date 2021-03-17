@@ -9,10 +9,10 @@
           <li><i class="el-icon-picture-outline"></i> 保存为图片</li>
         </a>
         <a href="javascript:;" @click="exportJSON">
-          <li><i class="el-icon-picture-outline"></i> 保存为JSON</li>
+          <li><i class="el-icon-document"></i> 保存为JSON</li>
         </a>
         <a href="javascript:;" @click="exportXML">
-          <li><i class="el-icon-picture-outline"></i> 保存为XML</li>
+          <li><i class="el-icon-document-copy"></i> 保存为XML</li>
         </a>
       </div>
       <h4>- 调整</h4>
@@ -27,13 +27,18 @@
           <li><i class="el-icon-refresh-right"></i> 还原大小</li>
         </a>
         <a href="javascript:;" @click="initGraph">
-          <li><i class="el-icon-refresh-right"></i> 还原图形</li>
+          <li><i class="el-icon-magic-stick"></i> 还原图形</li>
         </a>
         <a href="javascript:;" @click="changeFull">
           <li><i class="el-icon-full-screen"></i> 全屏切换</li>
         </a>
       </div>
       <h4>- 修改</h4>
+      <div id="modify">
+        <a href="javascript:;" @click="addNode">
+          <li><i class="el-icon-plus"></i> 添加节点</li>
+        </a>
+      </div>
       <div class="svg-set-box0 clearfix">
         <li>
           <textarea id="text" @keydown="keydownFn" placeholder=this.data></textarea>
@@ -891,6 +896,16 @@ h4 {
 }
 
 #adjust li {
+  list-style: none;
+  color: white;
+  width: 100%;
+  height: 1.6em;
+  text-align: left;
+  margin-left: 40px;
+  font-size: 1em;
+}
+
+#modify li {
   list-style: none;
   color: white;
   width: 100%;
