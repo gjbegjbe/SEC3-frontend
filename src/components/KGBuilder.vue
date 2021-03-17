@@ -17,35 +17,31 @@
       </div>
       <h4>- 调整</h4>
       <div id="adjust">
-        <div id="left" style="width:150px;float:left;">
-          <a href="javascript:;" @click="zoomIn">
-            <li><i class="el-icon-zoom-in"></i> 放大</li>
-          </a>
-          <a href="javascript:;" @click="refresh">
-            <li><i class="el-icon-refresh-right"></i> 还原大小</li>
-          </a>
-          <a href="javascript:;" @click="changeFull">
-            <li><i class="el-icon-full-screen"></i> 全屏切换</li>
-          </a>
-        </div>
-        <div id="right" style="width:150px;float:left;">
-          <a href="javascript:;" @click="zoomOut">
-            <li><i class="el-icon-zoom-out"></i> 缩小</li>
-          </a>
-          <a href="javascript:;" @click="restartPicture">
-            <li><i class="el-icon-refresh-right"></i> 还原图形</li>
-          </a>
-        </div>
-        <div id="##" style="clear:both"></div>
+        <a href="javascript:;" @click="zoomIn">
+          <li><i class="el-icon-zoom-in"></i> 放大</li>
+        </a>
+        <a href="javascript:;" @click="zoomOut">
+          <li><i class="el-icon-zoom-out"></i> 缩小</li>
+        </a>
+        <a href="javascript:;" @click="refresh">
+          <li><i class="el-icon-refresh-right"></i> 还原大小</li>
+        </a>
+        <a href="javascript:;" @click="initGraph">
+          <li><i class="el-icon-refresh-right"></i> 还原图形</li>
+        </a>
+        <a href="javascript:;" @click="changeFull">
+          <li><i class="el-icon-full-screen"></i> 全屏切换</li>
+        </a>
       </div>
       <h4>- 修改</h4>
       <div class="svg-set-box0 clearfix">
         <li>
-          <textarea id="text" tyle="width: 300px;height: 300px"  @keydown="keydownFn" placeholder=this.data></textarea>
+          <textarea id="text" @keydown="keydownFn" placeholder=this.data></textarea>
         </li>
         <li>
           <el-button round  >修改图谱</el-button>
         </li>
+        <br/>
       </div>
     </aside>
 
@@ -98,6 +94,10 @@ export default {
         '#7f7fd5',
         '#7f7fd5',
         '#70d3bd',
+        '#ea91b0',
+      ],
+      pagesizelist: [
+        { size: 100, isactive: false },
         { size: 300, isactive: false },
         { size: 500, isactive: true },
         { size: 1000, isactive: false },
@@ -860,7 +860,8 @@ aside {
   width: 300px;
   background: #7bc6cc;
   transition: 0.2s ease-out;
-  overflow: auto;
+  overflow-y: auto;
+  overflow-x: hidden;
   /*动画效果的执行方式是ease-out，即侧边栏滑动效果为渐变式，而不是生硬的突然变化*/
 }
 
@@ -954,7 +955,7 @@ label:hover {
   outline-color: rgba(204, 204, 204, 0.2);
   border-radius: 20px;
   padding: 15px;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 
 }
 
