@@ -17,8 +17,10 @@ export default {
 </script>
 <style>
 #kg_container {
-  height: 100vh;
+  height: 97vh;
   width: 100%;
+  overflow: hidden;
+  background-color: white;
 }
 #kg_container2 {
   height: 50vh;

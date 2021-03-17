@@ -35,20 +35,27 @@
       </div>
       <h4>- 修改</h4>
       <div id="modify">
-        <a href="javascript:;" @click="addNode">
-          <li><i class="el-icon-plus"></i> 添加节点</li>
+        <a href="javascript:;" >
+          <li><i class="el-icon-plus"></i> 添加节点
+          </li>
         </a>
+<!--        <a href="javascript:;" >-->
+<!--          <li><i class="el-icon-minus"></i> 删除关系-->
+<!--          </li>-->
+<!--        </a>-->
       </div>
       <div class="svg-set-box0 clearfix">
         <li>
-          <textarea id="text" @keydown="keydownFn" placeholder=this.data></textarea>
+          <textarea id="text" @keydown="keydownFn"></textarea>
         </li>
         <li>
-          <el-button round  >修改图谱</el-button>
+          <el-button round  @click="change">修改图谱</el-button>
         </li>
         <br/>
       </div>
+
     </aside>
+
 
     <div id='wrap'>
       <label id='sideMenuControl' for='sidemenu'>≡</label>
@@ -59,7 +66,6 @@
       <div id="gid"></div>
       <div class="mengceng"></div>
     </div>
-
   </div>
 </template>
 <script>
@@ -116,6 +122,11 @@ export default {
       ],
       selectUuid: 0,
       nodeRecordList: [],
+      //
+      // selectrelationid: '',//选择操作的关系id
+      //
+      // deleteLinkDialogVisible:true
+
     }
   },
   components: {},
@@ -808,6 +819,8 @@ export default {
         a.href = canvas.toDataURL("image/png");
         a.click();
       }
+
+
     },
     exportJSON: function (){
       console.log(this.graph)
@@ -834,6 +847,54 @@ export default {
       this.initGraphContainer()
       this.addMaker()
       this.initGraph()
+    },
+    addNode() {
+      this.isAddingNode = true
+      this.cancelOperationMessage = '取消添加节点'
+      this.isCancelOperationShow = true
+      d3.select('.grid').style("cursor", "crosshair")
+    },
+    // 删除联系
+    deleteLink() {
+      let _this = this
+      _this.$confirm('该操作不可撤销', '将要删除该联系，是否继续？', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        for (let i = 0; i < _this.graph.links.length; i++) {
+          if (_this.graph.links[i].uuid == 3) {
+            _this.graph.links.splice(i, 1)
+            break
+          }
+        }
+        _this.updateGraph()
+        _this.selectrelationid = ''
+        _this.deleteLinkDialogVisible=true
+        // _this.isEditingLink = false
+        // _this.emptyLinkEntity()
+        // _this.EditLinkDialogVisible = false
+        _this.$message({
+          type: 'success',
+          message: '删除成功！'
+        })
+      }).catch(() => {
+        _this.selectrelationid = ''
+        // _this.isEditingLink = false
+        // _this.emptyLinkEntity()
+        // _this.EditLinkDialogVisible = false
+        _this.$message({
+          type: 'info',
+          message: '操作已取消'
+        })
+      })
+    },
+
+    change:function(){
+      var _this=this
+      _this.graph = JSON.parse(document.getElementById('text').value)
+      _this.updateGraph()
+
     },
   },
 }
