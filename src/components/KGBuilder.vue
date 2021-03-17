@@ -1,6 +1,6 @@
 <template>
   <div>
-    <input type='checkbox' id='sidemenu'>
+    <input type="checkbox" id="sidemenu" />
     <aside>
       <h2>主菜单</h2>
       <h4>- 导出</h4>
@@ -35,13 +35,33 @@
       </div>
       <h4>- 修改</h4>
       <div id="modify">
-        <a href="javascript:;" >
-          <li><i class="el-icon-plus"></i> 添加节点
-          </li>
+        <a href="javascript:;">
+          <li><i class="el-icon-plus"></i> 添加节点</li>
         </a>
+        <div>
+          <span>请选择关系发起者：</span>
+          <select v-model="source">
+            <option disabled value="">请选择</option>
+            <option>隔壁老王</option>
+            <option>张太太</option>
+            <option>老张</option>
+            <option>张小小</option>
+            <option>王太太</option>
+          </select>
+        </div>
+        <div>
+          <span>请选择关系接受者：</span>
+          <select v-model="target">
+            <option disabled value="">请选择</option>
+            <option>隔壁老王</option>
+            <option>张太太</option>
+            <option>老张</option>
+            <option>张小小</option>
+            <option>王太太</option>
+          </select>
+        </div>
         <a href="javascript:;" @click="deleteLink">
-          <li><i class="el-icon-minus"></i> 删除关系
-          </li>
+          <li><i class="el-icon-minus"></i> 删除关系</li>
         </a>
       </div>
       <div class="svg-set-box0 clearfix">
@@ -49,34 +69,30 @@
           <textarea id="text" @keydown="keydownFn"></textarea>
         </li>
         <li>
-          <el-button round  @click="change">修改图谱</el-button>
+          <el-button round @click="change">修改图谱</el-button>
         </li>
-        <br/>
+        <br />
       </div>
-
     </aside>
 
-
-    <div id='wrap'>
-      <label id='sideMenuControl' for='sidemenu'>≡</label>
+    <div id="wrap">
+      <label id="sideMenuControl" for="sidemenu">≡</label>
       <!--for 属性规定 label 与哪个表单元素绑定，即将这个控制侧边栏进出的按钮与checkbox绑定-->
     </div>
 
-    <div  id="gid_tc" style="float:left;">
+    <div id="gid_tc" style="float:left;">
       <div id="gid"></div>
       <div class="mengceng"></div>
     </div>
   </div>
 </template>
 <script>
-import axios from 'axios'
-import * as d3 from 'd3'
-import $ from 'jquery'
-
-
+import axios from "axios";
+import * as d3 from "d3";
+import $ from "jquery";
 
 export default {
-  props: ['pid'],
+  props: ["pid"],
   data() {
     return {
       theme: 0,
@@ -96,817 +112,842 @@ export default {
       qaGraphLinkText: {},
       graph: {
         nodes: [],
-        links: [],
+        links: []
       },
       defaultR: 30,
       colorList: [
-        '#ff8373',
-        '#f9c62c',
-        '#7f7fd5',
-        '#7f7fd5',
-        '#70d3bd',
-        '#ea91b0',
+        "#ff8373",
+        "#f9c62c",
+        "#7f7fd5",
+        "#7f7fd5",
+        "#70d3bd",
+        "#ea91b0"
       ],
       pagesizelist: [
         { size: 100, isactive: false },
         { size: 300, isactive: false },
         { size: 500, isactive: true },
-        { size: 1000, isactive: false },
+        { size: 1000, isactive: false }
       ],
       toolbarData: [
-        { name: '编辑', value: 1, code: 'edit' },
-        { name: '展开', value: 1, code: 'more' },
-        { name: '追加', value: 1, code: 'append' },
-        { name: '连线', value: 1, code: 'link' },
-        { name: '删除', value: 1, code: 'delete' },
+        { name: "编辑", value: 1, code: "edit" },
+        { name: "展开", value: 1, code: "more" },
+        { name: "追加", value: 1, code: "append" },
+        { name: "连线", value: 1, code: "link" },
+        { name: "删除", value: 1, code: "delete" }
       ],
       selectUuid: 0,
-      nodeRecordList: [],
+      nodeRecordList: []
       //
       // selectrelationid: '',//选择操作的关系id
       //
       // deleteLinkDialogVisible:true
-
-    }
+    };
   },
   components: {},
   mounted() {
-    this.initGraphContainer()
-    this.addMaker()
-    this.initGraph()
+    this.initGraphContainer();
+    this.addMaker();
+    this.initGraph();
   },
   created() {},
   watch: {},
   methods: {
-
     initGraphContainer() {
-      this.gcontainer = d3.select('#gid')
+      this.gcontainer = d3.select("#gid");
       if (this.isFullscreen) {
-        this.width = window.screen.width
-        this.height = window.screen.height
+        this.width = window.screen.width;
+        this.height = window.screen.height;
       } else {
-        this.width = $('#' + this.pid).width()
-        this.height = $('#' + this.pid).height()
+        this.width = $("#" + this.pid).width();
+        this.height = $("#" + this.pid).height();
       }
-      this.svg = this.gcontainer.append('svg')
-      var sWidth = this.width
-      var sHeight = this.height
-      this.svg.attr('width', sWidth)
-      this.svg.attr('height', sHeight)
+      this.svg = this.gcontainer.append("svg");
+      var sWidth = this.width;
+      var sHeight = this.height;
+      this.svg.attr("width", sWidth);
+      this.svg.attr("height", sHeight);
       // this.svg.attr("viewBox", "0 0 " + sWidth / 2 + " " + sHeight / 2);
-      this.svg.attr('id', 'svg_idx')
-      this.svg.attr('preserveAspectRatio', 'xMidYMidmeet')
+      this.svg.attr("id", "svg_idx");
+      this.svg.attr("preserveAspectRatio", "xMidYMidmeet");
       this.simulation = d3
         .forceSimulation()
-        .force('charge', d3.forceManyBody().strength(-1500))
+        .force("charge", d3.forceManyBody().strength(-1500))
         .force(
-          'link',
+          "link",
           d3
             .forceLink()
             .distance(60)
-            .id(function (d) {
-              return d.uuid
+            .id(function(d) {
+              return d.uuid;
             })
         )
-        .force('collide', d3.forceCollide().strength(-30))
-        .force('center', d3.forceCenter(this.width / 2, this.height / 2))
-      this.qaGraphLink = this.svg.append('g').attr('class', 'line')
-      this.qaGraphLinkText = this.svg.append('g').attr('class', 'linetext')
-      this.qaGraphNode = this.svg.append('g').attr('class', 'node')
-      this.qaGraphNodeText = this.svg.append('g').attr('class', 'nodetext')
-      this.nodebuttonGroup = this.svg.append('g').attr('class', 'nodebutton')
+        .force("collide", d3.forceCollide().strength(-30))
+        .force("center", d3.forceCenter(this.width / 2, this.height / 2));
+      this.qaGraphLink = this.svg.append("g").attr("class", "line");
+      this.qaGraphLinkText = this.svg.append("g").attr("class", "linetext");
+      this.qaGraphNode = this.svg.append("g").attr("class", "node");
+      this.qaGraphNodeText = this.svg.append("g").attr("class", "nodetext");
+      this.nodebuttonGroup = this.svg.append("g").attr("class", "nodebutton");
       this.svg.on(
-        'click',
-        function () {
-          d3.selectAll('.buttongroup').classed('notshow', true)
+        "click",
+        function() {
+          d3.selectAll(".buttongroup").classed("notshow", true);
         },
         false
-      )
+      );
     },
     initGraph() {
-      var _this = this
-      axios.get('/static/kgData.json', {}).then(function (response) {
-        var data = response.data
-        console.log(data)
-        _this.graph.nodes = data.node
-        _this.graph.links = data.relationship
-        _this.updateGraph()
-      })
-
+      var _this = this;
+      axios.get("/static/kgData.json", {}).then(function(response) {
+        var data = response.data;
+        console.log(data);
+        _this.graph.nodes = data.node;
+        _this.graph.links = data.relationship;
+        _this.updateGraph();
+      });
     },
     addMaker() {
       var arrowMarker = this.svg
-        .append('marker')
-        .attr('id', 'arrow')
-        .attr('markerUnits', 'strokeWidth')
-        .attr('markerWidth', '12') //
-        .attr('markerHeight', '12')
-        .attr('viewBox', '0 0 12 12')
-        .attr('refX', '38')
-        .attr('refY', '6')
-        .attr('orient', 'auto')
-      var arrowPath = 'M2,2 L10,6 L2,10 L6,6 L2,2' // 定义箭头形状
-      arrowMarker.append('path').attr('d', arrowPath).attr('fill', '#ccc')
+        .append("marker")
+        .attr("id", "arrow")
+        .attr("markerUnits", "strokeWidth")
+        .attr("markerWidth", "12") //
+        .attr("markerHeight", "12")
+        .attr("viewBox", "0 0 12 12")
+        .attr("refX", "38")
+        .attr("refY", "6")
+        .attr("orient", "auto");
+      var arrowPath = "M2,2 L10,6 L2,10 L6,6 L2,2"; // 定义箭头形状
+      arrowMarker
+        .append("path")
+        .attr("d", arrowPath)
+        .attr("fill", "#ccc");
     },
     openNode() {
-      var _this = this
+      var _this = this;
       var noddd = [
         {
-          flag: '1',
-          code: '27301111',
-          parentCode: '273',
-          grade: '2',
-          name: '儒家2',
-          uuid: '4617858011',
+          flag: "1",
+          code: "27301111",
+          parentCode: "273",
+          grade: "2",
+          name: "儒家2",
+          uuid: "4617858011"
         },
         {
-          code: '273012222',
-          flag: '1',
-          parentCode: '273',
-          grade: '3',
-          name: '故事轶闻2',
-          uuid: '2636501111',
-        },
-      ]
+          code: "273012222",
+          flag: "1",
+          parentCode: "273",
+          grade: "3",
+          name: "故事轶闻2",
+          uuid: "2636501111"
+        }
+      ];
       var newships = [
         {
-          sourceid: '273',
-          targetid: '2636501111',
-          name: '',
-          targetcode: '2730107',
-          uuid: '91804213',
-          sourcecode: '27301',
+          sourceid: "273",
+          targetid: "2636501111",
+          name: "",
+          targetcode: "2730107",
+          uuid: "91804213",
+          sourcecode: "27301"
         },
         {
-          sourceid: '273',
-          targetid: '4617858011',
-          name: '',
-          targetcode: '273010723',
-          uuid: '91804389',
-          sourcecode: '2730107',
-        },
-      ]
-      _this.graph.nodes = _this.graph.nodes.concat(noddd)
-      _this.graph.links = _this.graph.links.concat(newships)
-      _this.updategraph()
+          sourceid: "273",
+          targetid: "4617858011",
+          name: "",
+          targetcode: "273010723",
+          uuid: "91804389",
+          sourcecode: "2730107"
+        }
+      ];
+      _this.graph.nodes = _this.graph.nodes.concat(noddd);
+      _this.graph.links = _this.graph.links.concat(newships);
+      _this.updategraph();
     },
     drawNode(nodes) {
-      var _this = this
-      var node = this.qaGraphNode.selectAll('circle').data(nodes, function (d) {
-        return d.uuid
-      })
-      node.exit().remove()
-      var nodeEnter = node.enter().append('circle')
-      nodeEnter.on('click', function (d) {
-        console.log('触发单击')
-        _this.selectUuid = d.uuid
-        var out_buttongroup_id = '.out_buttongroup_' + d.uuid
-        var selectItem = d3.select(out_buttongroup_id)._groups[0][0]
-        if (selectItem.classList.contains('notshow')) {
-          _this.svg.selectAll('.buttongroup').classed('notshow', true)
-          d3.select(out_buttongroup_id).classed('notshow', false)
+      var _this = this;
+      var node = this.qaGraphNode.selectAll("circle").data(nodes, function(d) {
+        return d.uuid;
+      });
+      node.exit().remove();
+      var nodeEnter = node.enter().append("circle");
+      nodeEnter.on("click", function(d) {
+        console.log("触发单击");
+        _this.selectUuid = d.uuid;
+        var out_buttongroup_id = ".out_buttongroup_" + d.uuid;
+        var selectItem = d3.select(out_buttongroup_id)._groups[0][0];
+        if (selectItem.classList.contains("notshow")) {
+          _this.svg.selectAll(".buttongroup").classed("notshow", true);
+          d3.select(out_buttongroup_id).classed("notshow", false);
         } else {
-          d3.select(out_buttongroup_id).classed('notshow', true)
+          d3.select(out_buttongroup_id).classed("notshow", true);
         }
-        event.stopPropagation()
-      })
-      nodeEnter.on('dblclick', function (d) {
-        console.log('触发双击:' + d)
-        event.preventDefault()
-      })
-      nodeEnter.on('mouseenter', function () {
-        console.log('鼠标移入')
-        d3.select(this).style('stroke-width', '15')      //增大涟漪
-      })
-      nodeEnter.on('mouseleave', function () {
-        console.log('鼠标移出')
-        d3.select(this).style('stroke-width', 2)
+        event.stopPropagation();
+      });
+      nodeEnter.on("dblclick", function(d) {
+        console.log("触发双击:" + d);
+        event.preventDefault();
+      });
+      nodeEnter.on("mouseenter", function() {
+        console.log("鼠标移入");
+        d3.select(this).style("stroke-width", "6"); //增大涟漪
+      });
+      nodeEnter.on("mouseleave", function() {
+        console.log("鼠标移出");
+        d3.select(this).style("stroke-width", 2);
         //todo其他节点和连线一并显示
-        d3.select('.node').style('fill-opacity', 1)
-        d3.select('.nodetext').style('fill-opacity', 1)
-        d3.selectAll('.line').style('stroke-opacity', 1)
-        d3.selectAll('.linetext').style('fill-opacity', 1)
-      })
-      nodeEnter.on('mouseover', function (d) {
+        d3.select(".node").style("fill-opacity", 1);
+        d3.select(".nodetext").style("fill-opacity", 1);
+        d3.selectAll(".line").style("stroke-opacity", 1);
+        d3.selectAll(".linetext").style("fill-opacity", 1);
+      });
+      nodeEnter.on("mouseover", function(d) {
         //todo鼠标放上去只显示相关节点，其他节点和连线隐藏
-        d3.selectAll('.node').style('fill-opacity', 0.1)
-        var relvantNodeIds = []
-        var relvantNodes = _this.graph.links.filter(function (n) {
-          return n.sourceid == d.uuid || n.targetid == d.uuid
-        })
-        relvantNodes.forEach(function (item) {
-          relvantNodeIds.push(item.sourceid)
-          relvantNodeIds.push(item.targetid)
-        })
+        d3.selectAll(".node").style("fill-opacity", 0.1);
+        var relvantNodeIds = [];
+        var relvantNodes = _this.graph.links.filter(function(n) {
+          return n.sourceid == d.uuid || n.targetid == d.uuid;
+        });
+        relvantNodes.forEach(function(item) {
+          relvantNodeIds.push(item.sourceid);
+          relvantNodeIds.push(item.targetid);
+        });
         //显示相关的节点
         _this.qaGraphNode
-          .selectAll('circle')
-          .style('fill-opacity', function (c) {
+          .selectAll("circle")
+          .style("fill-opacity", function(c) {
             if (relvantNodeIds.indexOf(c.uuid) > -1) {
-              return 1.0
+              return 1.0;
             }
-          })
+          });
         //透明所有节点文字
-        d3.selectAll('.nodetext').style('fill-opacity', 0.1)
+        d3.selectAll(".nodetext").style("fill-opacity", 0.1);
         //显示相关的节点文字
         _this.qaGraphNodeText
-          .selectAll('text')
-          .style('fill-opacity', function (c) {
+          .selectAll("text")
+          .style("fill-opacity", function(c) {
             if (relvantNodeIds.indexOf(c.uuid) > -1) {
-              return 1.0
+              return 1.0;
             }
-          })
+          });
         //透明所有连线
-        d3.selectAll('.line').style('stroke-opacity', 0.1)
+        d3.selectAll(".line").style("stroke-opacity", 0.1);
         //显示相关的连线
         _this.qaGraphLink
-          .selectAll('line')
-          .style('stroke-opacity', function (c) {
+          .selectAll("line")
+          .style("stroke-opacity", function(c) {
             if (c.lk.targetid === d.uuid) {
-              console.log(c)
-              return 1.0
+              console.log(c);
+              return 1.0;
             }
-          })
+          });
         //透明所有连线文字
-        d3.selectAll('.linetext').style('fill-opacity', 0.1)
+        d3.selectAll(".linetext").style("fill-opacity", 0.1);
         //显示相关的连线文字
         _this.qaGraphLinkText
-          .selectAll('.linetext')
-          .style('fill-opacity', function (c) {
+          .selectAll(".linetext")
+          .style("fill-opacity", function(c) {
             if (c.lk.targetid === d.uuid) {
-              return 1.0
+              return 1.0;
             }
-          })
-      })
+          });
+      });
       nodeEnter.call(
         d3
           .drag()
-          .on('start', _this.dragStarted)
-          .on('drag', _this.dragged)
-          .on('end', _this.dragEnded)
-      )
-      node = nodeEnter.merge(node).text(function (d) {
-        return d.name
-      })
-      node.style('stroke', function (d) {
+          .on("start", _this.dragStarted)
+          .on("drag", _this.dragged)
+          .on("end", _this.dragEnded)
+      );
+      node = nodeEnter.merge(node).text(function(d) {
+        return d.name;
+      });
+      node.style("stroke", function(d) {
         if (d.color) {
-          return d.color
+          return d.color;
         }
-        return '#cccccc'
-      })
-      node.style('stroke-opacity', 0.6)
-      node.attr('r', function (d) {
+        return "#cccccc";
+      });
+      node.style("stroke-opacity", 0.6);
+      node.attr("r", function(d) {
         if (d.r) {
-          return d.r
+          return d.r;
         }
-        return d.index === 0 ? 28 : 20
-      })
-      node.attr('fill', function (d, i) {
+        return d.index === 0 ? 28 : 20;
+      });
+      node.attr("fill", function(d, i) {
         //创建圆形图像
         if (d.imgsrc) {
           var img_w = 77,
-            img_h = 80
-          var defs = d3.selectAll('svg >defs')
+            img_h = 80;
+          var defs = d3.selectAll("svg >defs");
           var catpattern = defs
-            .append('pattern')
-            .attr('id', 'catpattern' + i)
-            .attr('height', 1)
-            .attr('width', 1)
+            .append("pattern")
+            .attr("id", "catpattern" + i)
+            .attr("height", 1)
+            .attr("width", 1);
           catpattern
-            .append('image')
-            .attr('x', -(img_w / 2 - d.r))
-            .attr('y', -(img_h / 2 - d.r))
-            .attr('width', img_w)
-            .attr('height', img_h)
-            .attr('xlink:href', d.imgsrc)
-          return 'url(#catpattern' + i + ')'
+            .append("image")
+            .attr("x", -(img_w / 2 - d.r))
+            .attr("y", -(img_h / 2 - d.r))
+            .attr("width", img_w)
+            .attr("height", img_h)
+            .attr("xlink:href", d.imgsrc);
+          return "url(#catpattern" + i + ")";
         } else {
-          if (d.cur === '1') {
-            return _this.colorList[0]
+          if (d.cur === "1") {
+            return _this.colorList[0];
           } else {
-            return _this.colorList[2]
+            return _this.colorList[2];
           }
         }
-      })
+      });
       node
-        .append('title') // 为每个节点设置title
-        .text(function (d) {
+        .append("title") // 为每个节点设置title
+        .text(function(d) {
           if (d.name) {
-            return d.name
+            return d.name;
           }
-          return ''
-        })
-      return node
+          return "";
+        });
+      return node;
     },
     drawNodeText(nodes) {
-      var _this = this
+      var _this = this;
       var nodetext = this.qaGraphNodeText
-        .selectAll('text')
-        .data(nodes, function (d) {
-          return d.uuid
-        })
-      nodetext.exit().remove()
-      var nodetextEnter = nodetext.enter().append('text')
+        .selectAll("text")
+        .data(nodes, function(d) {
+          return d.uuid;
+        });
+      nodetext.exit().remove();
+      var nodetextEnter = nodetext.enter().append("text");
       nodetextEnter.call(
         d3
           .drag()
-          .on('start', _this.dragStarted)
-          .on('drag', _this.dragged)
-          .on('end', _this.dragEnded)
-      )
-      nodetext = nodetextEnter.merge(nodetext).text(function (d) {
-        return d.name
-      })
+          .on("start", _this.dragStarted)
+          .on("drag", _this.dragged)
+          .on("end", _this.dragEnded)
+      );
+      nodetext = nodetextEnter.merge(nodetext).text(function(d) {
+        return d.name;
+      });
       nodetext
-        .style('fill', function () {
-          return '#222'
+        .style("fill", function() {
+          return "#222";
         })
-        .attr('class', 'nodetext')
-        .attr('dy', '3.6em')
-        .attr('font-family', '方正雅黑')
-        .attr('font-size', 14)
-        .attr('text-anchor', 'middle')
-        .text(function (d) {
-          return d.name
-        })
+        .attr("class", "nodetext")
+        .attr("dy", "3.6em")
+        .attr("font-family", "黑体")
+        .attr("font-size", 16)
+        .attr("text-anchor", "middle")
+        .text(function(d) {
+          return d.name;
+        });
       nodetext
-        .append('title') // 为每个节点设置title
-        .text(function (d) {
+        .append("title") // 为每个节点设置title
+        .text(function(d) {
           if (d.name) {
-            return d.name
+            return d.name;
           }
-          return ''
-        })
-      return nodetext
+          return "";
+        });
+      return nodetext;
     },
     drawLink(links) {
-      var _this = this
-      var link = this.qaGraphLink.selectAll('line').data(links, function (d) {
-        return d.uuid
-      })
-      link.exit().remove()
+      var _this = this;
+      var link = this.qaGraphLink.selectAll("line").data(links, function(d) {
+        return d.uuid;
+      });
+      link.exit().remove();
       var linkEnter = link
         .enter()
-        .append('line')
-        .attr('class', 'link')
-        .attr('stroke-width', 1)
-        .attr('stroke', function () {
-          return _this.colorList[2]
+        .append("line")
+        .attr("class", "link")
+        .attr("stroke-width", 1)
+        .attr("stroke", function() {
+          return _this.colorList[2];
         })
-        .attr('marker-end', 'url(#arrow)') // 箭头
-      link = linkEnter.merge(link)
-      return link
+        .attr("marker-end", "url(#arrow)"); // 箭头
+      link = linkEnter.merge(link);
+      return link;
     },
     drawLinkText(links) {
-      var _this = this
+      var _this = this;
       var linktext = _this.qaGraphLinkText
-        .selectAll('text')
-        .data(links, function (d) {
-          return d.uuid
-        })
-      linktext.exit().remove()
+        .selectAll("text")
+        .data(links, function(d) {
+          return d.uuid;
+        });
+      linktext.exit().remove();
       var linktextEnter = linktext
         .enter()
-        .append('text')
-        .attr('class', 'linetext')
-        .style('fill', '#888888')
-        .attr('font-family','方正雅黑')
-        .style('font-size', '10px')
-        .text(function (d) {
-          return d.lk.name
-        })
-      linktext = linktextEnter.merge(linktext).text(function (d) {
-        return d.lk.name
-      })
-      return linktext
+        .append("text")
+        .attr("class", "linetext")
+        .style("fill", "#888888")
+        .style("font-size", "10px")
+        .text(function(d) {
+          return d.lk.name;
+        });
+      linktext = linktextEnter.merge(linktext).text(function(d) {
+        return d.lk.name;
+      });
+      return linktext;
     },
     drawButtonGroup(nodes) {
-      var _this = this
-      d3.selectAll('.nodebutton >g').remove()
+      var _this = this;
+      d3.selectAll(".nodebutton >g").remove();
       var nodebutton = _this.nodebuttonGroup
-        .selectAll('.nodebutton')
-        .data(nodes, function (d) {
-          return d.uuid
-        })
-      nodebutton.exit().remove()
+        .selectAll(".nodebutton")
+        .data(nodes, function(d) {
+          return d.uuid;
+        });
+      nodebutton.exit().remove();
       var nodebuttonEnter = nodebutton
         .enter()
-        .append('use') //  为每个节点组添加一个 use 子元素
-        .attr('r', function (d) {
+        .append("use") //  为每个节点组添加一个 use 子元素
+        .attr("r", function(d) {
           if (!d.r) {
-            return _this.defaultR
+            return _this.defaultR;
           }
-          return d.r
+          return d.r;
         })
-        .attr('uuid', function (d) {
-          return d.uuid
+        .attr("uuid", function(d) {
+          return d.uuid;
         })
-        .attr('xlink:href', function (d) {
+        .attr("xlink:href", function(d) {
           if (!d.r) {
-            return '#out_circle_' + _this.defaultR
+            return "#out_circle_" + _this.defaultR;
           }
-          return '#out_circle_' + d.r
+          return "#out_circle_" + d.r;
         }) //  指定 use 引用的内容
-        .attr('class', function (d) {
-          return 'buttongroup out_buttongroup_' + d.uuid
+        .attr("class", function(d) {
+          return "buttongroup out_buttongroup_" + d.uuid;
         })
-        .classed('notshow', true)
-      nodebutton = nodebuttonEnter.merge(nodebutton)
-      return nodebutton
+        .classed("notshow", true);
+      nodebutton = nodebuttonEnter.merge(nodebutton);
+      return nodebutton;
     },
     drawToolButton() {
-      var _this = this
+      var _this = this;
       //先删除所有为节点自定义的按钮组
-      d3.selectAll('svg >defs').remove()
-      var nodes = _this.graph.nodes
-      var pie = d3.pie().value(function (d) {
-        return d.value //处理数据，指定value作为计算比例的字段
-      })
-      var piedata = pie(_this.toolbarData)
-      var nodeButtonGroup = this.svg.append('defs')
-      var nodeRArr = []
-      nodes.forEach(function (m) {
+      d3.selectAll("svg >defs").remove();
+      var nodes = _this.graph.nodes;
+      var pie = d3.pie().value(function(d) {
+        return d.value; //处理数据，指定value作为计算比例的字段
+      });
+      var piedata = pie(_this.toolbarData);
+      var nodeButtonGroup = this.svg.append("defs");
+      var nodeRArr = [];
+      nodes.forEach(function(m) {
         if (!m.r) {
-          m.r = _this.defaultR
+          m.r = _this.defaultR;
         }
         //按半径分别定义每种按钮组的图标
         if (nodeRArr.indexOf(m.r) == -1) {
-          nodeRArr.push(m.r)
+          nodeRArr.push(m.r);
           var nbtng = nodeButtonGroup
-            .append('g')
-            .attr('id', 'out_circle_' + m.r) //为每一个节点定制一个按钮组，在画按钮组的时候为其指定该id
+            .append("g")
+            .attr("id", "out_circle_" + m.r); //为每一个节点定制一个按钮组，在画按钮组的时候为其指定该id
           var buttonGroupEnter = nbtng
-            .selectAll('.buttongroup')
+            .selectAll(".buttongroup")
             .data(piedata)
             .enter()
-            .append('g')
-            .attr('class', function (d) {
-              return 'action_' + d.data.code
-            })
+            .append("g")
+            .attr("class", function(d) {
+              return "action_" + d.data.code;
+            });
           var arc = d3
             .arc()
             .innerRadius(m.r)
-            .outerRadius(m.r + 30)
+            .outerRadius(m.r + 30);
           buttonGroupEnter
-            .append('path')
-            .attr('d', function (d) {
-              return arc(d)
+            .append("path")
+            .attr("d", function(d) {
+              return arc(d);
             })
-            .attr('fill', '#86a8e7')
-            .style('opacity', 0.6)
-            .attr('stroke', 'white')
-            .attr('stroke-width', 5)
+            .attr("fill", "#86a8e7")
+            .style("opacity", 0.6)
+            .attr("stroke", "#6CB7ED")
+            .attr("stroke-width", 1);
           buttonGroupEnter
-            .append('text')
-            .attr('transform', function (d) {
-              return 'translate(' + arc.centroid(d) + ')'
+            .append("text")
+            .attr("transform", function(d) {
+              return "translate(" + arc.centroid(d) + ")";
             })
-            .attr('text-anchor', 'middle')
-            .text(function (d) {
-              return d.data.name
+            .attr("text-anchor", "middle")
+            .text(function(d) {
+              return d.data.name;
             })
-            .style('fill', function () {
-              return '#3b3b3b'
+            .style("fill", function() {
+              return "#000";
             })
-            .attr('font-size', 12)
+            .attr("font-size", 15);
         }
-      })
+      });
     },
     bindEventButtonGroup() {
-      var _this = this
+      var _this = this;
       //按钮组事件绑定
-      _this.toolbarData.forEach(function (m) {
-        var btnClass = '.action_' + m.code
-        _this.svg.selectAll(btnClass).on('click', function (d) {
+      _this.toolbarData.forEach(function(m) {
+        var btnClass = ".action_" + m.code;
+        _this.svg.selectAll(btnClass).on("click", function(d) {
           console.log(
-            d.data.name + ':' + d.data.code + ':uuid:' + _this.selectUuid
-          )
-        })
-      })
+            d.data.name + ":" + d.data.code + ":uuid:" + _this.selectUuid
+          );
+        });
+      });
     },
     formatData() {
-      var _this = this
-      var lks = _this.graph.links
-      var nodes = _this.graph.nodes
-      nodes.forEach(function (n) {
-        if (n.center === 1 || n.center === '1') {
-          n.fx = _this.width / 2
-          n.fy = _this.height / 2
+      var _this = this;
+      var lks = _this.graph.links;
+      var nodes = _this.graph.nodes;
+      nodes.forEach(function(n) {
+        if (n.center === 1 || n.center === "1") {
+          n.fx = _this.width / 2;
+          n.fy = _this.height / 2;
         }
-        if (typeof n.fx === 'undefined' || n.fx === '') {
-          n.fx = null
+        if (typeof n.fx === "undefined" || n.fx === "") {
+          n.fx = null;
         }
-        if (typeof n.fy === 'undefined' || n.fy === '') {
-          n.fy = null
+        if (typeof n.fy === "undefined" || n.fy === "") {
+          n.fy = null;
         }
-      })
-      var links = []
-      lks.forEach(function (m) {
-        var sourceNode = nodes.filter(function (n) {
-          return n.uuid === m.sourceid
-        })[0]
-        if (!sourceNode) return
-        var targetNode = nodes.filter(function (n) {
-          return n.uuid === m.targetid
-        })[0]
-        if (!targetNode) return
-        links.push({ source: sourceNode.uuid, target: targetNode.uuid, lk: m })
-      })
-      var data = {}
-      data.nodes = nodes
-      data.links = links
-      return data
+      });
+      var links = [];
+      lks.forEach(function(m) {
+        var sourceNode = nodes.filter(function(n) {
+          return n.uuid === m.sourceid;
+        })[0];
+        if (!sourceNode) return;
+        var targetNode = nodes.filter(function(n) {
+          return n.uuid === m.targetid;
+        })[0];
+        if (!targetNode) return;
+        links.push({ source: sourceNode.uuid, target: targetNode.uuid, lk: m });
+      });
+      var data = {};
+      data.nodes = nodes;
+      data.links = links;
+      return data;
     },
     updateGraph() {
-
-      var _this = this
-      var data = _this.formatData()
-      var nodes = data.nodes
-      var links = data.links
+      var _this = this;
+      var data = _this.formatData();
+      var nodes = data.nodes;
+      var links = data.links;
       //定义按钮组引用的use元素
-      _this.drawToolButton(nodes)
+      _this.drawToolButton(nodes);
       // 更新节点
-      var graphNode = _this.drawNode(nodes)
+      var graphNode = _this.drawNode(nodes);
       // 更新节点文字
-      var graphNodeText = _this.drawNodeText(nodes)
+      var graphNodeText = _this.drawNodeText(nodes);
       // 更新按钮组
-      var graphNodeButtonGroup = _this.drawButtonGroup(nodes)
+      var graphNodeButtonGroup = _this.drawButtonGroup(nodes);
       // 更新连线 links
-      var graphLink = _this.drawLink(links)
+      var graphLink = _this.drawLink(links);
       // 更新连线文字
-      var graphLinkText = _this.drawLinkText(links)
+      var graphLinkText = _this.drawLinkText(links);
       _this.simulation
         .nodes(nodes)
         .alphaTarget(0)
         .alphaDecay(0.05)
-        .on('tick', ticked)
+        .on("tick", ticked);
       function ticked() {
         // 更新连线坐标
         graphLink
-          .attr('x1', function (d) {
-            return d.source.x
+          .attr("x1", function(d) {
+            return d.source.x;
           })
-          .attr('y1', function (d) {
-            return d.source.y
+          .attr("y1", function(d) {
+            return d.source.y;
           })
-          .attr('x2', function (d) {
-            return d.target.x
+          .attr("x2", function(d) {
+            return d.target.x;
           })
-          .attr('y2', function (d) {
-            return d.target.y
-          })
+          .attr("y2", function(d) {
+            return d.target.y;
+          });
         // 刷新连接线上的文字位置
         graphLinkText
-          .attr('x', function (d) {
-            if (!d.source.x || !d.target.x) return 0
-            var x = (parseFloat(d.source.x) + parseFloat(d.target.x)) / 2
-            return x
+          .attr("x", function(d) {
+            if (!d.source.x || !d.target.x) return 0;
+            var x = (parseFloat(d.source.x) + parseFloat(d.target.x)) / 2;
+            return x;
           })
-          .attr('y', function (d) {
-            if (!d.source.y || !d.target.y) return 0
-            var y = (parseFloat(d.source.y) + parseFloat(d.target.y)) / 2
-            return y
-          })
+          .attr("y", function(d) {
+            if (!d.source.y || !d.target.y) return 0;
+            var y = (parseFloat(d.source.y) + parseFloat(d.target.y)) / 2;
+            return y;
+          });
         // 更新节点坐标
         graphNode
-          .attr('cx', function (d) {
-            return d.x
+          .attr("cx", function(d) {
+            return d.x;
           })
-          .attr('cy', function (d) {
-            return d.y
-          })
+          .attr("cy", function(d) {
+            return d.y;
+          });
         // 更新节点操作按钮组坐标
         graphNodeButtonGroup
-          .attr('cx', function (d) {
-            return d.x
+          .attr("cx", function(d) {
+            return d.x;
           })
-          .attr('cy', function (d) {
-            return d.y
+          .attr("cy", function(d) {
+            return d.y;
           })
-          .attr('transform', function (d) {
-            return 'translate(' + d.x + ',' + d.y + ') scale(1)'
-          })
+          .attr("transform", function(d) {
+            return "translate(" + d.x + "," + d.y + ") scale(1)";
+          });
         // 更新文字坐标
         graphNodeText
-          .attr('x', function (d) {
-            return d.x
+          .attr("x", function(d) {
+            return d.x;
           })
-          .attr('y', function (d) {
-            return d.y
-          })
+          .attr("y", function(d) {
+            return d.y;
+          });
       }
-      _this.simulation.force('link').links(links)
+      _this.simulation.force("link").links(links);
       _this.simulation.force(
-        'center',
+        "center",
         d3.forceCenter(_this.width / 2, _this.height / 2)
-      )
-      _this.simulation.alpha(1).restart()
+      );
+      _this.simulation.alpha(1).restart();
       // 鼠标滚轮缩放
-      _this.zoom = d3.zoom().scaleExtent([0.1, 4]).on('zoom', _this.zoomed)
-      _this.svg.call(_this.zoom)
+      _this.zoom = d3
+        .zoom()
+        .scaleExtent([0.1, 4])
+        .on("zoom", _this.zoomed);
+      _this.svg.call(_this.zoom);
       // 静止双击缩放
-      _this.svg.on('dblclick.zoom', null)
+      _this.svg.on("dblclick.zoom", null);
       //为按钮组绑定事件
-      _this.bindEventButtonGroup()
+      _this.bindEventButtonGroup();
       //在文本框显示json内容
-      document.getElementById("text").value = JSON.stringify(this.graph,null,4);
+      document.getElementById("text").value = JSON.stringify(
+        this.graph,
+        null,
+        4
+      );
     },
     dragStarted(d) {
-      if (!d3.event.active) this.simulation.alphaTarget(0.8).restart()
-      d.fx = d.x
-      d.fy = d.y
+      if (!d3.event.active) this.simulation.alphaTarget(0.8).restart();
+      d.fx = d.x;
+      d.fy = d.y;
     },
     dragged(d) {
-      d.fx = d3.event.x
-      d.fy = d3.event.y
+      d.fx = d3.event.x;
+      d.fy = d3.event.y;
     },
     dragEnded(d) {
-      if (!d3.event.active) this.simulation.alphaTarget(0)
-      d.fx = d3.event.x
-      d.fy = d3.event.y
+      if (!d3.event.active) this.simulation.alphaTarget(0);
+      d.fx = d3.event.x;
+      d.fy = d3.event.y;
     },
     zoomed() {
-      d3.selectAll('.node').attr('transform', d3.event.transform)
-      d3.selectAll('.nodetext text').attr('transform', d3.event.transform)
-      d3.selectAll('.line').attr('transform', d3.event.transform)
-      d3.selectAll('.linetext text').attr('transform', d3.event.transform)
-      d3.selectAll('.nodebutton').attr('transform', d3.event.transform)
+      d3.selectAll(".node").attr("transform", d3.event.transform);
+      d3.selectAll(".nodetext text").attr("transform", d3.event.transform);
+      d3.selectAll(".line").attr("transform", d3.event.transform);
+      d3.selectAll(".linetext text").attr("transform", d3.event.transform);
+      d3.selectAll(".nodebutton").attr("transform", d3.event.transform);
       //_this.svg.selectAll("g").attr("transform", d3.event.transform);
     },
     zoomClick(direction) {
-      var self = this
-      var factor = 0.2
-      var targetZoom = 1
-      var extent = self.zoom.scaleExtent()
-      targetZoom = 1 + factor * direction
+      var self = this;
+      var factor = 0.2;
+      var targetZoom = 1;
+      var extent = self.zoom.scaleExtent();
+      targetZoom = 1 + factor * direction;
       if (targetZoom < extent[0] || targetZoom > extent[1]) {
-        return false
+        return false;
       }
-      self.zoom.scaleBy(self.svg, targetZoom) // 执行该方法后 会触发zoom事件
+      self.zoom.scaleBy(self.svg, targetZoom); // 执行该方法后 会触发zoom事件
     },
     zoomIn() {
-      this.zoomClick(1)
+      this.zoomClick(1);
     },
     zoomOut() {
-
-      this.zoomClick(-1)
+      this.zoomClick(-1);
     },
     refresh() {
-      console.log('111');
-      this.svg.call(this.zoom.transform, d3.zoomIdentity)
+      console.log("111");
+      this.svg.call(this.zoom.transform, d3.zoomIdentity);
     },
     changeFull() {
-      console.log(this.isFullscreen)
-      console.log('000')
-      this.isFullscreen = !this.isFullscreen
-      if(this.isFullscreen){
-        let full = document.getElementById('kg_container')
-        this.fullScreen(full)
-      }
-      else{
-        this.exitFullScreen()
+      console.log(this.isFullscreen);
+      console.log("000");
+      this.isFullscreen = !this.isFullscreen;
+      if (this.isFullscreen) {
+        let full = document.getElementById("kg_container");
+        this.fullScreen(full);
+      } else {
+        this.exitFullScreen();
       }
 
-      console.log(this.isFullscreen)
-      console.log('111')
+      console.log(this.isFullscreen);
+      console.log("111");
     },
     fullScreen(element) {
       if (element.requestFullscreen) {
-        element.requestFullscreen()
+        element.requestFullscreen();
       } else if (element.mozRequestFullScreen) {
-        element.mozRequestFullScreen()
+        element.mozRequestFullScreen();
       } else if (element.webkitRequestFullscreen) {
-        element.webkitRequestFullscreen()
+        element.webkitRequestFullscreen();
       } else if (element.msRequestFullscreen) {
-        element.msRequestFullscreen()
+        element.msRequestFullscreen();
       }
     },
     exitFullScreen() {
-
       if (document.exitFullscreen) {
-        document.exitFullscreen()
+        document.exitFullscreen();
       } else if (document.mozCancelFullScreen) {
-        document.mozCancelFullScreen()
+        document.mozCancelFullScreen();
       } else if (document.webkitExitFullscreen) {
-        document.webkitExitFullscreen()
+        document.webkitExitFullscreen();
       }
     },
     btnCollapseNode() {},
     btnOpenNode() {},
     close() {},
 
-    exportPNG: function () {
-
-
+    exportPNG: function() {
       var serializer = new XMLSerializer();
-      var newsvg=this.svg;
-      console.log(newsvg)
-      newsvg.selectAll('.nodebutton').remove()
+      var newsvg = this.svg;
+      console.log(newsvg);
+      newsvg.selectAll(".nodebutton").remove();
 
-      var source = '<?xml version="1.0" standalone="no"?>\r\n' + serializer.serializeToString(newsvg.node());
-      var image = new Image;
-      image.src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(source);
+      var source =
+        '<?xml version="1.0" standalone="no"?>\r\n' +
+        serializer.serializeToString(newsvg.node());
+      var image = new Image();
+      image.src =
+        "data:image/svg+xml;charset=utf-8," + encodeURIComponent(source);
       var canvas = document.createElement("canvas");
       canvas.width = window.screen.width;
       canvas.height = window.screen.height;
       var context = canvas.getContext("2d");
-      context.fillStyle = '#fff';
+      context.fillStyle = "#fff";
       context.fillRect(0, 0, 10000, 10000);
       context.drawImage(image, 0, 0);
-      image.onload = function () {
+      image.onload = function() {
         context.drawImage(image, 0, 0);
         var a = document.createElement("a");
         var timestamp = Date.parse(new Date());
-        a.download = timestamp+".png";
+        a.download = timestamp + ".png";
         a.href = canvas.toDataURL("image/png");
         a.click();
-      }
-
-
+      };
     },
-    exportJSON: function (){
-      console.log(this.graph)
-      var datastr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(this.graph,null,4));
-      var downloadAnchorNode = document.createElement('a')
+    exportJSON: function() {
+      console.log(this.graph);
+      var datastr =
+        "data:text/json;charset=utf-8," +
+        encodeURIComponent(JSON.stringify(this.graph, null, 4));
+      var downloadAnchorNode = document.createElement("a");
       downloadAnchorNode.setAttribute("href", datastr);
       var timestamp = Date.parse(new Date());
-      downloadAnchorNode.setAttribute("download", timestamp+'.json')
+      downloadAnchorNode.setAttribute("download", timestamp + ".json");
       downloadAnchorNode.click();
       downloadAnchorNode.remove();
     },
-    exportXML: function (){
-      var jsonstr = JSON.stringify(this.graph,null,4); //json字符串
+    exportXML: function() {
+      var jsonstr = JSON.stringify(this.graph, null, 4); //json字符串
       var jsonob = JSON.parse(jsonstr); //转为json对象
       var xmlstr = this.$x2js.js2xml(jsonob); //转换为xml字符串
       var xml = "data:text/xml;charset=utf-8," + encodeURIComponent(xmlstr); //生成包含xml文件的地址以供下载
-      var downloadAnchorNode = document.createElement('a')
+      var downloadAnchorNode = document.createElement("a");
       downloadAnchorNode.setAttribute("href", xml);
       var timestamp = Date.parse(new Date());
-      downloadAnchorNode.setAttribute("download", timestamp+'.xml')
+      downloadAnchorNode.setAttribute("download", timestamp + ".xml");
       downloadAnchorNode.click();
       downloadAnchorNode.remove();
     },
-    restartPicture:function(){
-      d3.select('svg').remove();
-      this.initGraphContainer()
-      this.addMaker()
-      this.initGraph()
+    restartPicture: function() {
+      d3.select("svg").remove();
+      this.initGraphContainer();
+      this.addMaker();
+      this.initGraph();
     },
     addNode() {
-      this.isAddingNode = true
-      this.cancelOperationMessage = '取消添加节点'
-      this.isCancelOperationShow = true
-      d3.select('.grid').style("cursor", "crosshair")
+      this.isAddingNode = true;
+      this.cancelOperationMessage = "取消添加节点";
+      this.isCancelOperationShow = true;
+      d3.select(".grid").style("cursor", "crosshair");
     },
     // 删除联系
     deleteLink() {
-      let _this = this
-      _this.$confirm('该操作不可撤销', '将要删除该联系，是否继续？', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        for (let i = 0; i < _this.graph.links.length; i++) {
-          if ((_this.graph.links[i].sourceid == 3)&&(_this.graph.links[i].targetid == 4)) {
-            _this.graph.links.splice(i, 1)
-            break
-          }
+      console.log(this.source);
+      console.log(this.target);
+      let _this = this;
+      for (let m = 0; m < _this.graph.nodes.length; m++) {
+        console.log(_this.source)
+        console.log(_this.graph.nodes[m].name)
+        if (_this.graph.nodes[m].name === _this.source) {
+          this.source = _this.graph.nodes[m].uuid;
+          break;
         }
-        _this.updateGraph()
-        _this.selectrelationid = ''
-        _this.deleteLinkDialogVisible=true
-        // _this.isEditingLink = false
-        // _this.emptyLinkEntity()
-        // _this.EditLinkDialogVisible = false
-        _this.$message({
-          type: 'success',
-          message: '删除成功！'
+      }
+      for (let n = 0; n < _this.graph.nodes.length; n++) {
+        console.log(_this.target)
+        console.log(_this.graph.nodes[n].name)
+        if (_this.graph.nodes[n].name === _this.target) {
+          this.target = _this.graph.nodes[n].uuid;
+          break;
+        }
+      }
+      console.log(_this.source,_this.target);
+      _this
+        .$confirm("该操作不可撤销", "将要删除该联系，是否继续？", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning"
         })
-      }).catch(() => {
-        _this.selectrelationid = ''
-        // _this.isEditingLink = false
-        // _this.emptyLinkEntity()
-        // _this.EditLinkDialogVisible = false
-        _this.$message({
-          type: 'info',
-          message: '操作已取消'
+        .then(() => {
+          for (let i = 0; i < _this.graph.links.length; i++) {
+            if (
+              _this.graph.links[i].sourceid === _this.source &&
+              _this.graph.links[i].targetid === _this.target
+            ) {
+              _this.graph.links.splice(i, 1);
+              break;
+            }
+          }
+          _this.updateGraph();
+          _this.selectrelationid = "";
+          _this.deleteLinkDialogVisible = true;
+          // _this.isEditingLink = false
+          // _this.emptyLinkEntity()
+          // _this.EditLinkDialogVisible = false
+          _this.$message({
+            type: "success",
+            message: "删除成功！"
+          });
         })
-      })
+        .catch(() => {
+          _this.selectrelationid = "";
+          // _this.isEditingLink = false
+          // _this.emptyLinkEntity()
+          // _this.EditLinkDialogVisible = false
+          _this.$message({
+            type: "info",
+            message: "操作已取消"
+          });
+        });
     },
 
-    change:function(){
-      var _this=this
-      _this.graph = JSON.parse(document.getElementById('text').value)
-      _this.updateGraph()
-
-    },
-  },
-}
-
-
+    change: function() {
+      var _this = this;
+      _this.graph = JSON.parse(document.getElementById("text").value);
+      _this.updateGraph();
+    }
+  }
+};
 </script>
 <style>
-#sidemenu{
+#sidemenu {
   display: none;
 }
 
@@ -1021,13 +1062,13 @@ label:hover {
   /* background: #f7f7f7; */
   position: absolute;
 }
-.svg-set-box0 textarea{
+.svg-set-box0 textarea {
   left: 40px;
   right: 40px;
   height: 260px;
   width: 240px;
   /*background-color: transparent;*/
-  background: rgba(204, 204, 204, 0.35);/*半透明*/
+  background: rgba(204, 204, 204, 0.35); /*半透明*/
   color: white;
   resize: none;
   border: none;
@@ -1036,7 +1077,6 @@ label:hover {
   border-radius: 20px;
   padding: 15px;
   margin-bottom: 10px;
-
 }
 
 .svg-set-box {
@@ -1079,7 +1119,6 @@ label:hover {
   background: #08b7fc !important;
 }
 .toolbar {
-
   line-height: 18px;
 }
 ul,
@@ -1109,5 +1148,4 @@ li {
   stroke-dashoffset: 0;
   stroke-dasharray: 100;
 }
-
 </style>
