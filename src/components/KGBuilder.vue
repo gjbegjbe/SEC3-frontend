@@ -39,6 +39,20 @@
           <li><i class="el-icon-plus"></i> 添加节点</li>
         </a>
         <div>
+          <span>请选择删除的节点：</span>
+          <select v-model="node">
+            <option disabled value="">请选择</option>
+            <option>隔壁老王</option>
+            <option>张太太</option>
+            <option>老张</option>
+            <option>张小小</option>
+            <option>王太太</option>
+          </select>
+        </div>
+        <a href="javascript:;" @click="deleteNode">
+          <li><i class="el-icon-minus"></i> 删除节点</li>
+        </a>
+        <div>
           <span>请选择关系发起者：</span>
           <select v-model="source">
             <option disabled value="">请选择</option>
@@ -877,28 +891,60 @@ export default {
       this.isCancelOperationShow = true;
       d3.select(".grid").style("cursor", "crosshair");
     },
+    // 删除节点
+    deleteNode() {
+      console.log(this.node);
+      let _this = this;
+      _this
+        .$confirm("该操作不可撤销", "将要删除该节点，是否继续？", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning"
+        })
+        .then(() => {
+          for (let i = 0; i < _this.graph.nodes.length; i++) {
+            if (_this.graph.nodes[i].name === _this.node) {
+              _this.graph.nodes.splice(i, 1);
+              break;
+            }
+          }
+          _this.updateGraph();
+          _this.selectrelationid = "";
+          _this.deleteNodeDialogVisible = true;
+          // _this.isEditingLink = false
+          // _this.emptyLinkEntity()
+          // _this.EditLinkDialogVisible = false
+          _this.$message({
+            type: "success",
+            message: "删除成功！"
+          });
+        })
+        .catch(() => {
+          _this.selectrelationid = "";
+          // _this.isEditingLink = false
+          // _this.emptyLinkEntity()
+          // _this.EditLinkDialogVisible = false
+          _this.$message({
+            type: "info",
+            message: "操作已取消"
+          });
+        });
+    },
     // 删除联系
     deleteLink() {
-      console.log(this.source);
-      console.log(this.target);
       let _this = this;
       for (let m = 0; m < _this.graph.nodes.length; m++) {
-        console.log(_this.source)
-        console.log(_this.graph.nodes[m].name)
         if (_this.graph.nodes[m].name === _this.source) {
           this.source = _this.graph.nodes[m].uuid;
           break;
         }
       }
       for (let n = 0; n < _this.graph.nodes.length; n++) {
-        console.log(_this.target)
-        console.log(_this.graph.nodes[n].name)
         if (_this.graph.nodes[n].name === _this.target) {
           this.target = _this.graph.nodes[n].uuid;
           break;
         }
       }
-      console.log(_this.source,_this.target);
       _this
         .$confirm("该操作不可撤销", "将要删除该联系，是否继续？", {
           confirmButtonText: "确定",

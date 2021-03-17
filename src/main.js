@@ -17,6 +17,7 @@ new Vue({
   router,
   store,
   data: {
+    node: "",
     source: "",
     target: ""
   },
