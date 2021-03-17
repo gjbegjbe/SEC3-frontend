@@ -306,7 +306,7 @@ export default {
       });
       nodeEnter.on("mouseenter", function() {
         console.log("鼠标移入");
-        d3.select(this).style("stroke-width", "6"); //增大涟漪
+        d3.select(this).style("stroke-width", "12"); //增大涟漪
       });
       nodeEnter.on("mouseleave", function() {
         console.log("鼠标移出");
@@ -453,8 +453,8 @@ export default {
         })
         .attr("class", "nodetext")
         .attr("dy", "3.6em")
-        .attr("font-family", "黑体")
-        .attr("font-size", 16)
+        .attr("font-family", "方正雅黑")
+        .attr("font-size", 12)
         .attr("text-anchor", "middle")
         .text(function(d) {
           return d.name;
@@ -499,6 +499,7 @@ export default {
         .enter()
         .append("text")
         .attr("class", "linetext")
+        .attr('fontfamily','方正雅黑')
         .style("fill", "#888888")
         .style("font-size", "10px")
         .text(function(d) {
@@ -550,7 +551,10 @@ export default {
       var nodes = _this.graph.nodes;
       var pie = d3.pie().value(function(d) {
         return d.value; //处理数据，指定value作为计算比例的字段
-      });
+      })
+      .startAngle(Math.PI*(-0.7))
+      .endAngle(Math.PI*0.4) ;
+
       var piedata = pie(_this.toolbarData);
       var nodeButtonGroup = this.svg.append("defs");
       var nodeRArr = [];
@@ -574,8 +578,13 @@ export default {
             });
           var arc = d3
             .arc()
-            .innerRadius(m.r)
-            .outerRadius(m.r + 30);
+            .innerRadius(m.r+4)
+            .outerRadius(m.r + 28)
+            .padAngle(.04)
+            .padRadius(100)
+            .cornerRadius(3)
+          ;
+
           buttonGroupEnter
             .append("path")
             .attr("d", function(d) {
@@ -584,7 +593,7 @@ export default {
             .attr("fill", "#86a8e7")
             .style("opacity", 0.6)
             .attr("stroke", "#6CB7ED")
-            .attr("stroke-width", 1);
+            .attr("stroke-width", 0);
           buttonGroupEnter
             .append("text")
             .attr("transform", function(d) {
@@ -597,7 +606,8 @@ export default {
             .style("fill", function() {
               return "#000";
             })
-            .attr("font-size", 15);
+            .style('fill-opacity',0.8)
+            .attr("font-size", 10);
         }
       });
     },
