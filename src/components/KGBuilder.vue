@@ -815,7 +815,8 @@ export default {
       image.onload = function () {
         context.drawImage(image, 0, 0);
         var a = document.createElement("a");
-        a.download = "export_png.png";
+        var timestamp = Date.parse(new Date());
+        a.download = timestamp+".png";
         a.href = canvas.toDataURL("image/png");
         a.click();
       }
@@ -827,7 +828,8 @@ export default {
       var datastr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(this.graph,null,4));
       var downloadAnchorNode = document.createElement('a')
       downloadAnchorNode.setAttribute("href", datastr);
-      downloadAnchorNode.setAttribute("download", 'tem.json')
+      var timestamp = Date.parse(new Date());
+      downloadAnchorNode.setAttribute("download", timestamp+'.json')
       downloadAnchorNode.click();
       downloadAnchorNode.remove();
     },
@@ -838,7 +840,8 @@ export default {
       var xml = "data:text/xml;charset=utf-8," + encodeURIComponent(xmlstr); //生成包含xml文件的地址以供下载
       var downloadAnchorNode = document.createElement('a')
       downloadAnchorNode.setAttribute("href", xml);
-      downloadAnchorNode.setAttribute("download", 'tem.xml')
+      var timestamp = Date.parse(new Date());
+      downloadAnchorNode.setAttribute("download", timestamp+'.xml')
       downloadAnchorNode.click();
       downloadAnchorNode.remove();
     },
