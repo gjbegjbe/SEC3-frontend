@@ -32,7 +32,7 @@
           <a href="javascript:;" @click="zoomOut">
             <li><i class="el-icon-zoom-out"></i> 缩小</li>
           </a>
-          <a href="javascript:;" @click="initGraph">
+          <a href="javascript:;" @click="restartPicture">
             <li><i class="el-icon-refresh-right"></i> 还原图形</li>
           </a>
         </div>
@@ -601,6 +601,7 @@ export default {
       return data
     },
     updateGraph() {
+
       var _this = this
       var data = _this.formatData()
       var nodes = data.nodes
@@ -783,7 +784,7 @@ export default {
       var serializer = new XMLSerializer();
       var newsvg=this.svg;
       console.log(newsvg)
-      //newsvg.deleteAll('.buttongroup');
+
       var source = '<?xml version="1.0" standalone="no"?>\r\n' + serializer.serializeToString(newsvg.node());
       var image = new Image;
       image.src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(source);
@@ -822,13 +823,13 @@ export default {
       downloadAnchorNode.click();
       downloadAnchorNode.remove();
     },
-    changeGraph:function(){
-      this.initGraph();
+    restartPicture:function(){
+      d3.select('svg').remove();
+      this.initGraphContainer()
+      this.addMaker()
+      this.initGraph()
     },
-
   },
-
-
 }
 
 
