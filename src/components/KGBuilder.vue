@@ -1073,12 +1073,27 @@ h4 {
   width: 100%;
   height: 1.6em;
   text-align: left;
+  text-decoration-color: white;
   margin-left: 40px;
+  margin-bottom: 5px;
+  margin-top: 7px;
+
+
+;
+
   font-size: 1em;
+}
+
+#modify span{
+  color: white;
+  margin-bottom:10px  ;
+  line-height: 2em;
+
 }
 
 a {
   text-decoration: none;
+
 }
 
 /*控制侧边栏进出的按钮（外部包裹）*/
