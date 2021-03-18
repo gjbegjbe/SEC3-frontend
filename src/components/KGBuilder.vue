@@ -45,6 +45,24 @@
           <textarea></textarea>
 
         </div>
+        <div>
+          <span> 请输入关系名称：</span>
+          <textarea></textarea>
+
+        </div>
+        <div>
+          <span> 请选择关系接受者：</span>
+          <select v-model="target">
+            <option disabled value="">请选择</option>
+            <option>徐志摩</option>
+            <option>金岳霖</option>
+            <option>梁思成</option>
+            <option>林徽因</option>
+            <option>陆小曼</option>
+            <option>《再别康桥》</option>
+
+          </select>
+        </div>
 
         <a href="javascript:;" @click="deleteNode">
           <li><i class="el-icon-minus"></i> 删除节点</li>
@@ -1084,7 +1102,7 @@ h4 {
 }
 #modify{
   margin-bottom: 10px;
-  height: 300px;
+  height: 380px;
 }
 
 #modify li {
@@ -1112,6 +1130,8 @@ h4 {
   background: rgba(204, 204, 204, 0.75); /*半透明*/
   border: 0;
   border-radius: 4px;
+  height: 18px;
+  padding: 2px;
   outline-width: 5px;
   outline-color: rgba(204, 204, 204, 0.2);
   float: left;
@@ -1125,12 +1145,11 @@ h4 {
   outline-width: 5px;
   outline-color: rgba(204, 204, 204, 0.2);
   height: 14px;
-  width: 113px;
+  width: 115px;
   resize: none;
-  line-height: 2em;
+  line-height: 1em;
   margin-top: 7px;
   font-size: 1em;
-
   float: left;
 ;
 
@@ -1197,7 +1216,7 @@ label:hover {
   outline-color: rgba(204, 204, 204, 0.2);
   border-radius: 20px;
   padding: 15px;
-  margin-bottom: 40px;
+  margin-bottom: 20px;
   margin-top: 10px;
   float: bottom;
 
