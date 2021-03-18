@@ -41,7 +41,7 @@
         </a>
 
         <div>
-          <span>请输入节点名称：</span>
+          <span> 请输入节点名称：</span>
           <textarea></textarea>
 
         </div>
@@ -51,7 +51,7 @@
         </a>
 
         <div>
-          <span>请选择删除的节点：</span>
+          <span> 请选择删除的节点：</span>
           <select v-model="node">
             <option disabled value="">请选择</option>
             <option>徐志摩</option>
@@ -79,7 +79,7 @@
           </select>
         </div>
         <div>
-          <span>请选择关系接受者：</span>
+          <span> 请选择关系接受者：</span>
           <select v-model="target">
             <option disabled value="">请选择</option>
             <option>徐志摩</option>
@@ -1082,6 +1082,10 @@ h4 {
   margin-left: 40px;
   font-size: 1em;
 }
+#modify{
+  margin-bottom: 10px;
+  height: 300px;
+}
 
 #modify li {
   list-style: none;
@@ -1093,14 +1097,16 @@ h4 {
   margin-left: 40px;
   margin-bottom: 5px;
   margin-top: 7px;
-  font-size: 1em;
+  font-size: 1.2em;
+  float: left;
 }
 
 #modify span {
   color: white;
-  margin-bottom:10px;
+  margin-bottom:7px;
   line-height: 2em;
-  margin-left:40px;
+  margin-left:50px;
+  float: left;
 }
 #modify select {
   background: rgba(204, 204, 204, 0.75); /*半透明*/
@@ -1108,6 +1114,9 @@ h4 {
   border-radius: 4px;
   outline-width: 5px;
   outline-color: rgba(204, 204, 204, 0.2);
+  float: left;
+  margin-top: 7px;
+
 }
 #modify textarea{
   background: rgba(204, 204, 204, 0.75); /*半透明*/
@@ -1115,12 +1124,14 @@ h4 {
   border-radius: 4px;
   outline-width: 5px;
   outline-color: rgba(204, 204, 204, 0.2);
-  height: 1em;
-  width: 8.5em;
+  height: 14px;
+  width: 113px;
   resize: none;
   line-height: 2em;
-  margin-bottom: -3px;
-  font-size: 0.9em;
+  margin-top: 7px;
+  font-size: 1em;
+
+  float: left;
 ;
 
 }
@@ -1168,6 +1179,9 @@ label:hover {
   color: #ffffff;
   /* background: #f7f7f7; */
   position: absolute;
+  margin-top: 10px;
+  float: left;
+  margin-left: 10px;
 }
 .svg-set-box0 textarea {
   left: 40px;
@@ -1183,8 +1197,10 @@ label:hover {
   outline-color: rgba(204, 204, 204, 0.2);
   border-radius: 20px;
   padding: 15px;
-  margin-bottom: 10px;
+  margin-bottom: 40px;
   margin-top: 10px;
+  float: bottom;
+
 }
 
 .svg-set-box {
