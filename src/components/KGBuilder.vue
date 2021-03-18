@@ -1127,7 +1127,7 @@ h4 {
   float: left;
 }
 #modify select {
-  background: rgba(204, 204, 204, 0.75); /*半透明*/
+  background: rgba(204, 204, 204, 0.5); /*半透明*/
   border: 0;
   border-radius: 4px;
   height: 18px;
@@ -1139,7 +1139,7 @@ h4 {
 
 }
 #modify textarea{
-  background: rgba(204, 204, 204, 0.75); /*半透明*/
+  background: rgba(204, 204, 204, 0.5); /*半透明*/
   border: 0;
   border-radius: 4px;
   outline-width: 5px;
