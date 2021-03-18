@@ -35,9 +35,21 @@
       </div>
       <h4>- 修改</h4>
       <div id="modify">
-        <a href="javascript:;">
+
+        <a href="javascript:;" @click="addNode">
           <li><i class="el-icon-plus"></i> 添加节点</li>
         </a>
+
+        <div>
+          <span>请输入节点名称：</span>
+          <textarea></textarea>
+
+        </div>
+
+        <a href="javascript:;" @click="deleteNode">
+          <li><i class="el-icon-minus"></i> 删除节点</li>
+        </a>
+
         <div>
           <span>请选择删除的节点：</span>
           <select v-model="node">
@@ -51,8 +63,8 @@
 
           </select>
         </div>
-        <a href="javascript:;" @click="deleteNode">
-          <li><i class="el-icon-minus"></i> 删除节点</li>
+        <a href="javascript:;" @click="deleteLink">
+          <li><i class="el-icon-minus"></i> 删除关系</li>
         </a>
         <div>
           <span>请选择关系发起者：</span>
@@ -79,9 +91,7 @@
 
           </select>
         </div>
-        <a href="javascript:;" @click="deleteLink">
-          <li><i class="el-icon-minus"></i> 删除关系</li>
-        </a>
+
       </div>
       <div class="svg-set-box0 clearfix">
         <li>
@@ -1085,7 +1095,7 @@ h4 {
   font-size: 1em;
 }
 
-#modify span{
+#modify span {
   color: white;
   margin-bottom:10px;
   line-height: 2em;
@@ -1095,10 +1105,23 @@ h4 {
   background: rgba(204, 204, 204, 0.75); /*半透明*/
   border: 0;
   border-radius: 4px;
-  appearance: auto;
-  -moz-appearance: menuitem;
   outline-width: 5px;
   outline-color: rgba(204, 204, 204, 0.2);
+}
+#modify textarea{
+  background: rgba(204, 204, 204, 0.75); /*半透明*/
+  border: 0;
+  border-radius: 4px;
+  outline-width: 5px;
+  outline-color: rgba(204, 204, 204, 0.2);
+  height: 1em;
+  width: 8.5em;
+  resize: none;
+  line-height: 2em;
+  margin-bottom: -3px;
+  font-size: 0.9em;
+;
+
 }
 
 a {
