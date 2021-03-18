@@ -931,8 +931,8 @@ export default {
     },
     addNode() {
       this.isAddingNode = true;
-      this.cancelOperationMessage = "取消添加节点";
-      this.isCancelOperationShow = true;
+      // this.cancelOperationMessage = "取消添加节点";
+      // this.isCancelOperationShow = true;
       d3.select(".grid").style("cursor", "crosshair");
       let _this =this;
       _this
@@ -943,26 +943,38 @@ export default {
         })
 
       .then(()=>{
-        for (let n = 0; n < _this.graph.nodes.length; n++) {
-          if (_this.graph.nodes[n].name === _this.target) {
-            this.target = _this.graph.nodes[n].uuid;
-            break;
-          }
-        }
-        _this.graph.nodes.append({
-          "name":$("nameIn").val(),
-          "vvid":_this.graph.nodes.length,
-          "imgsrc":""
-        })
-        _this.graph.links.append({
-          "sourceid":_this.graph.nodes.length,
-          "targetid":_this.target,
-          "name":$("relNameIn").val(),
-          "vvid":_this.graph.links.length
-        })
+        // for (let n = 0; n < _this.graph.nodes.length; n++) {
+        //   if (_this.graph.nodes[n].name === _this.target) {
+        //     this.target = _this.graph.nodes[n].uuid;
+        //     break;
+        //   }
+        // }
+        var name=document.getElementById("nameIn").value
+        console.log(name)
+        let newNode = {}
+        newNode.name = name
+        newNode.id = _this.graph.nodes.length
+        newNode.x = 0
+        newNode.y = 0
+        newNode.fx = 350
+        newNode.fy = 350
+        _this.graph.nodes.push(newNode)
+        // _this.graph.nodes.append({
+        //   "name":name,
+        //   "uuid":_this.graph.nodes.length,
+        //   "imgsrc":""
+        // }).catch(()=>{
+        //   console.log('error!')
+        // })
+        // _this.graph.links.append({
+        //   "sourceid":_this.graph.nodes.length,
+        //   "targetid":_this.target,
+        //   "name":$("relNameIn").val(),
+        //   "uuid":_this.graph.links.length
+        // })
         _this.updateGraph();
-        _this.selectrelationid = "";
-        _this.deleteNodeDialogVisible = true;
+        // _this.selectrelationid = "";
+        // _this.deleteNodeDialogVisible = true;
         // _this.isEditingLink = false
         // _this.emptyLinkEntity()
         // _this.EditLinkDialogVisible = false
@@ -972,7 +984,7 @@ export default {
         });
 
       })
-          .catch(() => {
+        .catch(() => {
             _this.selectrelationid = "";
             // _this.isEditingLink = false
             // _this.emptyLinkEntity()
