@@ -1031,7 +1031,7 @@ export default {
 
 #sidemenu:checked ~ #wrap {
   /*为被选中的sidemenu后的wrap设置属性（非紧邻）*/
-  padding-left: 300px;
+  padding-left: 320px;
 }
 
 aside {
@@ -1039,8 +1039,8 @@ aside {
   position: absolute;
   top: 0;
   bottom: 0;
-  left: -300px;
-  width: 300px;
+  left: -320px;
+  width: 320px;
   background: #7bc6cc;
   transition: 0.2s ease-out;
   overflow-y: auto;
