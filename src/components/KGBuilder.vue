@@ -42,11 +42,13 @@
           <span>请选择删除的节点：</span>
           <select v-model="node">
             <option disabled value="">请选择</option>
-            <option>隔壁老王</option>
-            <option>张太太</option>
-            <option>老张</option>
-            <option>张小小</option>
-            <option>王太太</option>
+            <option>徐志摩</option>
+            <option>金岳霖</option>
+            <option>梁思成</option>
+            <option>林徽因</option>
+            <option>陆小曼</option>
+            <option>《再别康桥》</option>
+
           </select>
         </div>
         <a href="javascript:;" @click="deleteNode">
@@ -56,22 +58,25 @@
           <span>请选择关系发起者：</span>
           <select v-model="source">
             <option disabled value="">请选择</option>
-            <option>隔壁老王</option>
-            <option>张太太</option>
-            <option>老张</option>
-            <option>张小小</option>
-            <option>王太太</option>
+            <option>徐志摩</option>
+            <option>金岳霖</option>
+            <option>梁思成</option>
+            <option>林徽因</option>
+            <option>陆小曼</option>
+            <option>《再别康桥》</option>
           </select>
         </div>
         <div>
           <span>请选择关系接受者：</span>
           <select v-model="target">
             <option disabled value="">请选择</option>
-            <option>隔壁老王</option>
-            <option>张太太</option>
-            <option>老张</option>
-            <option>张小小</option>
-            <option>王太太</option>
+            <option>徐志摩</option>
+            <option>金岳霖</option>
+            <option>梁思成</option>
+            <option>林徽因</option>
+            <option>陆小曼</option>
+            <option>《再别康桥》</option>
+
           </select>
         </div>
         <a href="javascript:;" @click="deleteLink">
