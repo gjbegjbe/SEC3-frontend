@@ -604,9 +604,9 @@ export default {
               return d.data.name;
             })
             .style("fill", function() {
-              return "#000";
+              return "#ffffff";
             })
-            .style('fill-opacity',0.8)
+            .style('fill-opacity',1)
             .attr("font-size", 10);
         }
       });
