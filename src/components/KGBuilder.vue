@@ -90,6 +90,7 @@
             <option>《再别康桥》</option>
 
           </select>
+          <li><i class="el-icon-edit-outline"></i> 文档修改</li>
         </div>
 
       </div>
@@ -1183,6 +1184,7 @@ label:hover {
   border-radius: 20px;
   padding: 15px;
   margin-bottom: 10px;
+  margin-top: 10px;
 }
 
 .svg-set-box {
