@@ -42,12 +42,12 @@
 
         <div>
           <span> 请输入节点名称：</span>
-          <textarea></textarea>
+          <textarea id="nameIn"></textarea>
 
         </div>
         <div>
           <span> 请输入关系名称：</span>
-          <textarea></textarea>
+          <textarea id="relNameIn"></textarea>
 
         </div>
         <div>
@@ -934,6 +934,55 @@ export default {
       this.cancelOperationMessage = "取消添加节点";
       this.isCancelOperationShow = true;
       d3.select(".grid").style("cursor", "crosshair");
+      let _this =this;
+      _this
+        .$confirm("是否加入该节点？",{
+          confirmButtonText:"确定",
+          cancelButtonText:"取消",
+          type:"warning"
+        })
+
+      .then(()=>{
+        for (let n = 0; n < _this.graph.nodes.length; n++) {
+          if (_this.graph.nodes[n].name === _this.target) {
+            this.target = _this.graph.nodes[n].uuid;
+            break;
+          }
+        }
+        _this.graph.nodes.append({
+          "name":$("nameIn").val(),
+          "vvid":_this.graph.nodes.length,
+          "imgsrc":""
+        })
+        _this.graph.links.append({
+          "sourceid":_this.graph.nodes.length,
+          "targetid":_this.target,
+          "name":$("relNameIn").val(),
+          "vvid":_this.graph.links.length
+        })
+        _this.updateGraph();
+        _this.selectrelationid = "";
+        _this.deleteNodeDialogVisible = true;
+        // _this.isEditingLink = false
+        // _this.emptyLinkEntity()
+        // _this.EditLinkDialogVisible = false
+        _this.$message({
+          type: "success",
+          message: "添加成功！"
+        });
+
+      })
+          .catch(() => {
+            _this.selectrelationid = "";
+            // _this.isEditingLink = false
+            // _this.emptyLinkEntity()
+            // _this.EditLinkDialogVisible = false
+            _this.$message({
+              type: "info",
+              message: "操作已取消"
+            });
+          });
+
     },
     // 删除节点
     deleteNode() {
@@ -973,6 +1022,7 @@ export default {
             message: "操作已取消"
           });
         });
+
     },
     // 删除联系
     deleteLink() {
