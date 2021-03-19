@@ -19,7 +19,6 @@ export default {
 html,body{
   margin: 0;
   padding: 0;
-  ;
   background-attachment: fixed;
   background-repeat: no-repeat;
 }
@@ -29,6 +28,7 @@ html,body{
   overflow: hidden;
   background: linear-gradient(rgba(209, 214, 219, 0.3), rgba(255, 255, 255, 0.8)),url('../assets/azur.jpg') no-repeat;
   /*overflow: hidden;*/
+  background-size: cover;
 
 }
 #kg_container2 {
