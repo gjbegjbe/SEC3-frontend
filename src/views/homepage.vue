@@ -20,7 +20,8 @@ export default {
   height: 97vh;
   width: 100%;
   overflow: hidden;
-  background-image: url('../assets/azur.jpg');
+  background: linear-gradient(rgba(189, 200, 205, 0.3), rgba(220, 229, 238, 0.9));
+
   /*background-color: white;*/
 
 }
