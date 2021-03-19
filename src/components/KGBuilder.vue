@@ -1,6 +1,7 @@
 <template>
   <div>
     <input type="checkbox" id="sidemenu" />
+
     <aside>
       <h2>6PlusCOIN MENU </h2>
       <h4>- 导出</h4>
@@ -43,10 +44,10 @@
         </div>
         <div>
           <a href="javascript:;" @click="addNode">
-            <li style="margin-left: 50%"><i class="el-icon-plus"></i> 添加</li>
+            <li style="margin-left: 50%;text-shadow:2px 2px 4px #545d5d;"><i class="el-icon-plus"></i> 添加</li>
           </a>
           <a href="javascript:;" @click="deleteNode">
-            <li><i class="el-icon-minus"></i> 删除</li>
+            <li style="text-shadow:2px 2px 4px #545D5D;"><i class="el-icon-minus"></i> 删除</li>
           </a>
         </div>
 
@@ -69,10 +70,10 @@
         </div>
         <div>
           <a href="javascript:;" @click="addLink">
-            <li style="margin-left: 50%"><i class="el-icon-plus"></i> 添加</li>
+            <li style="margin-left: 50% ;text-shadow:2px 2px 4px #545D5D;"><i class="el-icon-plus"></i> 添加</li>
           </a>
           <a href="javascript:;" @click="deleteLink">
-            <li><i class="el-icon-minus"></i> 删除</li>
+            <li style="text-shadow:2px 2px 4px #545D5D;"><i class="el-icon-minus"></i> 删除</li>
           </a>
         </div>
 
@@ -98,6 +99,7 @@
       <div id="gid"></div>
       <div class="mengceng"></div>
     </div>
+
   </div>
 </template>
 <script>
@@ -180,6 +182,7 @@ export default {
       this.svg = this.gcontainer.append("svg");
       var sWidth = this.width;
       var sHeight = this.height;
+
       this.svg.attr("width", sWidth);
       this.svg.attr("height", sHeight);
       // this.svg.attr("viewBox", "0 0 " + sWidth / 2 + " " + sHeight / 2);
@@ -1133,6 +1136,13 @@ aside {
   left: -320px;
   width: 320px;
   background: #7bc6cc;
+  box-shadow: 0px 0px 10px 0px rgba(18,29,29,0.25),   /*上边阴影  */
+
+  -10px 0px 10px 0px rgba(18,29,29,0.25),   /*左边阴影 */
+
+  10px 0px 10px 0px rgba(18,29,29,0.25),    /*右边阴影  */
+
+  0px 10px 10px 0px rgba(18,29,29,0.25);    /*下边阴影  */
   transition: 0.2s ease-out;
   overflow-y: auto;
   overflow-x: hidden;
@@ -1144,6 +1154,7 @@ h2 {
   text-align: -moz-center;
   margin-left: 10px;
   font-size: 2em;
+  text-shadow:2px 2px 4px #999999;
 }
 
 h4 {
@@ -1152,6 +1163,7 @@ h4 {
   margin-left: 25px;
   font-size: 1.4em;
   line-height: 0em;
+  text-shadow:2px 2px 2px #999999;
 }
 
 #download li {
@@ -1198,6 +1210,7 @@ h4 {
   line-height: 2em;
   margin-left:50px;
   float: left;
+
 }
 #modify select {
   background: rgba(204, 204, 204, 0.5); /*半透明*/
