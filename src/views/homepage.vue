@@ -21,6 +21,7 @@ html,body{
   padding: 0;
   background-image: url('../assets/azur.jpg');
   background-attachment: fixed;
+  background-repeat: no-repeat;
 }
 #kg_container {
   height: 97vh;
