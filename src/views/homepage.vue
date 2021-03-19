@@ -20,7 +20,9 @@ export default {
   height: 97vh;
   width: 100%;
   overflow: hidden;
-  background-color: white;
+  background-image: url('../assets/azur.jpg');
+  /*background-color: white;*/
+
 }
 #kg_container2 {
   height: 50vh;
