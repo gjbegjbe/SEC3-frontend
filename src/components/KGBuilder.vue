@@ -36,83 +36,49 @@
       <h4>- 修改</h4>
       <div id="modify">
 
-        <a href="javascript:;" @click="addNode">
-          <li><i class="el-icon-plus"></i> 添加节点</li>
-        </a>
-
-        <div>
-          <span> 请输入节点名称：</span>
+        <div style="margin-bottom: 10px">
+          <span style="font-size: 1.2em">节点名称：</span>
           <textarea id="nameIn"></textarea>
 
         </div>
         <div>
-          <span> 请输入关系名称：</span>
+          <a href="javascript:;" @click="addNode">
+            <li style="margin-left: 50%"><i class="el-icon-plus"></i> 添加</li>
+          </a>
+          <a href="javascript:;" @click="deleteNode">
+            <li><i class="el-icon-minus"></i> 删除</li>
+          </a>
+        </div>
+
+        <div style="margin-bottom: 10px;margin-top: 15px">
+          <span style="font-size: 1.2em"> 关系名称 *：</span>
           <textarea id="relNameIn"></textarea>
 
         </div>
-        <div>
-          <span> 请选择关系接受者：</span>
-          <select v-model="target">
-            <option disabled value="">请选择</option>
-            <option>徐志摩</option>
-            <option>金岳霖</option>
-            <option>梁思成</option>
-            <option>林徽因</option>
-            <option>陆小曼</option>
-            <option>《再别康桥》</option>
 
-          </select>
+        <div style="margin-bottom: 4px;float: left">
+          <span style="font-size: 1.2em">   FROM：</span>
+          <textarea id="from_id"></textarea>
+
         </div>
 
-        <a href="javascript:;" @click="deleteNode">
-          <li><i class="el-icon-minus"></i> 删除节点</li>
-        </a>
+        <div style="margin-bottom: 4px;float: left">
+          <span style="font-size: 1.2em"> TO：</span>
+          <textarea id="to_id"></textarea>
 
-        <div>
-          <span> 请选择删除的节点：</span>
-          <select v-model="node">
-            <option disabled value="">请选择</option>
-            <option>徐志摩</option>
-            <option>金岳霖</option>
-            <option>梁思成</option>
-            <option>林徽因</option>
-            <option>陆小曼</option>
-            <option>《再别康桥》</option>
-
-          </select>
-        </div>
-        <a href="javascript:;" @click="deleteLink">
-          <li><i class="el-icon-minus"></i> 删除关系</li>
-        </a>
-        <div>
-          <span>请选择关系发起者：</span>
-          <select v-model="source">
-            <option disabled value="">请选择</option>
-            <option>徐志摩</option>
-            <option>金岳霖</option>
-            <option>梁思成</option>
-            <option>林徽因</option>
-            <option>陆小曼</option>
-            <option>《再别康桥》</option>
-          </select>
         </div>
         <div>
-          <span> 请选择关系接受者：</span>
-          <select v-model="target">
-            <option disabled value="">请选择</option>
-            <option>徐志摩</option>
-            <option>金岳霖</option>
-            <option>梁思成</option>
-            <option>林徽因</option>
-            <option>陆小曼</option>
-            <option>《再别康桥》</option>
-
-          </select>
-          <li><i class="el-icon-edit-outline"></i> 文档修改</li>
+          <a href="javascript:;" @click="addLink">
+            <li style="margin-left: 50%"><i class="el-icon-plus"></i> 添加</li>
+          </a>
+          <a href="javascript:;" @click="deleteLink">
+            <li><i class="el-icon-minus"></i> 删除</li>
+          </a>
         </div>
 
       </div>
-      <div class="svg-set-box0 clearfix">
+      <div class="svg-set-box0">
+        <li style="float: left;margin-left: 35px;margin-top: 10px;font-size: 1.2em"><i class="el-icon-edit-outline" ></i> 文档修改</li>
         <li>
           <textarea id="text" @keydown="keydownFn"></textarea>
         </li>
@@ -150,6 +116,7 @@ export default {
       gcontainer: {},
       svg: {},
       zoom: null,
+      relnameIn:"",
       arrowMarker: {},
       simulation: {},
       isFullscreen: false,
@@ -702,7 +669,7 @@ export default {
       // 更新节点文字
       var graphNodeText = _this.drawNodeText(nodes);
       // 更新按钮组
-      var graphNodeButtonGroup = _this.drawButtonGroup(nodes);
+      //var graphNodeButtonGroup = _this.drawButtonGroup(nodes);
       // 更新连线 links
       var graphLink = _this.drawLink(links);
       // 更新连线文字
@@ -748,7 +715,7 @@ export default {
             return d.y;
           });
         // 更新节点操作按钮组坐标
-        graphNodeButtonGroup
+        /*graphNodeButtonGroup
           .attr("cx", function(d) {
             return d.x;
           })
@@ -758,6 +725,8 @@ export default {
           .attr("transform", function(d) {
             return "translate(" + d.x + "," + d.y + ") scale(1)";
           });
+
+         */
         // 更新文字坐标
         graphNodeText
           .attr("x", function(d) {
@@ -949,35 +918,35 @@ export default {
         //     break;
         //   }
         // }
-        var name=document.getElementById("nameIn").value
-        console.log(name)
+        var nName=document.getElementById("nameIn").value
+        var rName=document.getElementById("relNameIn").value
+        console.log(nName)
+        console.log(rName)
         let newNode = {}
         newNode.name = name
-        newNode.id = _this.graph.nodes.length
+        newNode.uuid = _this.graph.nodes.length+1//bug 如果已经有过删减节点操作length变短 random一个
+        console.log((newNode.uuid))
+        console.log(_this.target)
         newNode.x = 0
         newNode.y = 0
         newNode.fx = 350
         newNode.fy = 350
         _this.graph.nodes.push(newNode)
-        // _this.graph.nodes.append({
-        //   "name":name,
-        //   "uuid":_this.graph.nodes.length,
-        //   "imgsrc":""
-        // }).catch(()=>{
-        //   console.log('error!')
-        // })
-        // _this.graph.links.append({
-        //   "sourceid":_this.graph.nodes.length,
-        //   "targetid":_this.target,
-        //   "name":$("relNameIn").val(),
-        //   "uuid":_this.graph.links.length
-        // })
+        let newLink={}
+        newLink.uuid = _this.graph.links.length+1//bug
+        newLink.sourceid=newNode.uuid
+        for (let m = 0; m < _this.graph.nodes.length; m++) {
+          if (_this.graph.nodes[m].name === _this.target) {
+            newLink.targetid = _this.graph.nodes[m].uuid;
+            break;
+          }
+        }
+        newLink.name=rName
+        console.log(newLink)
+        _this.graph.links.push(newLink)
+
         _this.updateGraph();
-        // _this.selectrelationid = "";
-        // _this.deleteNodeDialogVisible = true;
-        // _this.isEditingLink = false
-        // _this.emptyLinkEntity()
-        // _this.EditLinkDialogVisible = false
+
         _this.$message({
           type: "success",
           message: "添加成功！"
@@ -1034,6 +1003,9 @@ export default {
             message: "操作已取消"
           });
         });
+
+    },
+    addLink(){
 
     },
     // 删除联系
@@ -1164,21 +1136,21 @@ h4 {
 }
 #modify{
   margin-bottom: 10px;
-  height: 380px;
+  height: 230px;
 }
 
 #modify li {
   list-style: none;
   color: white;
-  width: 100%;
-  height: 1.6em;
-  text-align: left;
-  text-decoration-color: white;
-  margin-left: 40px;
-  margin-bottom: 5px;
-  margin-top: 7px;
-  font-size: 1.2em;
+  width: 20%;
+  height: 1em;
   float: left;
+  text-decoration-color: white;
+
+  margin-bottom: 10px;
+  margin-top: 0px;
+  font-size: 1em;
+
 }
 
 #modify span {
@@ -1200,7 +1172,7 @@ h4 {
   margin-top: 7px;
 
 }
-#modify textarea{
+#modify input{
   background: rgba(204, 204, 204, 0.5); /*半透明*/
   border: 0;
   border-radius: 4px;
@@ -1212,6 +1184,24 @@ h4 {
   line-height: 1em;
   margin-top: 7px;
   font-size: 1em;
+  float: left;
+;
+
+}
+
+#modify textarea{
+  background: rgba(204, 204, 204, 0.5); /*半透明*/
+  border: 0;
+  border-radius: 4px;
+  outline-width: 5px;
+  outline-color: rgba(204, 204, 204, 0.2);
+  height: 18px;
+  width: 120px;
+
+  resize: none;
+  line-height: 1.2em;
+  margin-top: 8px;
+  font-size: 1.2em;
   float: left;
 ;
 
@@ -1265,8 +1255,8 @@ label:hover {
   margin-left: 10px;
 }
 .svg-set-box0 textarea {
-  left: 40px;
-  right: 40px;
+  left: 45px;
+  right: 45px;
   height: 260px;
   width: 240px;
   /*background-color: transparent;*/
