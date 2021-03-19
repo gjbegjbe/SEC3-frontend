@@ -19,14 +19,15 @@ export default {
 html,body{
   margin: 0;
   padding: 0;
-  background-image: url('../assets/azur.jpg');
+  ;
   background-attachment: fixed;
   background-repeat: no-repeat;
 }
 #kg_container {
-  height: 97vh;
-  width: 99%;
+  height: 100vh;
+  width: 100%;
   overflow: hidden;
+  background: linear-gradient(rgba(209, 214, 219, 0.3), rgba(255, 255, 255, 0.8)),url('../assets/azur.jpg') no-repeat;
   /*overflow: hidden;*/
 
 }
