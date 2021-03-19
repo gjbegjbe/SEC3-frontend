@@ -1236,9 +1236,9 @@ h4 {
   outline-color: rgba(204, 204, 204, 0.2);
   height: 18px;
   width: 120px;
-
+  text-align: justify;
   resize: none;
-  line-height: 1.2em;
+  line-height: 1em;
   margin-top: 8px;
   font-size: 1.1em;
   float: left;
