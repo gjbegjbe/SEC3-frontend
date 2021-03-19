@@ -1285,6 +1285,15 @@ label {
   height: 1.5em;
   line-height: 1.5em;
   text-align: center;
+  margin-left: 10px;
+  margin-top: 10px;
+  box-shadow: 0px 0px 10px 0px rgba(18,29,29,0.1),   /*上边阴影  */
+
+  -10px 0px 10px 0px rgba(18,29,29,0.1),   /*左边阴影 */
+
+  10px 0px 10px 0px rgba(18,29,29,0.1),    /*右边阴影  */
+
+  0px 10px 10px 0px rgba(18,29,29,0.1);    /*下边阴影  */
 
 }
 
