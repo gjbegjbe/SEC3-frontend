@@ -20,8 +20,9 @@ export default {
   height: 97vh;
   width: 100%;
   overflow: hidden;
-  background: linear-gradient(rgba(189, 200, 205, 0.3), rgba(220, 229, 238, 0.9));
-
+  background: linear-gradient(rgba(189, 200, 205, 0.3), rgba(220, 229, 238, 0.9)) no-repeat;
+  background-size: 100% 100%;
+  position: absolute;
   /*background-color: white;*/
 
 }
