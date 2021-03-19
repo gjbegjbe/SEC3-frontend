@@ -3,7 +3,7 @@
     <input type="checkbox" id="sidemenu" />
 
     <aside>
-      <h2>6PlusCOIN MENU </h2>
+      <h2>6PlusCOIN MENU</h2>
       <h4>- 导出</h4>
       <div id="download">
         <a href="javascript:;" @click="exportPNG">
@@ -36,50 +36,76 @@
       </div>
       <h4>- 修改</h4>
       <div id="modify">
-
         <div style="margin-bottom: 10px">
           <span style="font-size: 1.2em">节点名称：</span>
           <textarea id="nameIn"></textarea>
-
+        </div>
+        <div style="margin-bottom: 4px;float: left">
+          <span style="font-size: 1.2em">修改名称：</span>
+          <textarea id="nameOut"></textarea>
         </div>
         <div>
           <a href="javascript:;" @click="addNode">
-            <li style="margin-left: 50%;text-shadow:2px 2px 4px #545d5d;"><i class="el-icon-plus"></i> 添加</li>
+            <li style="margin-left: 25%;text-shadow:2px 2px 4px #545d5d;">
+              <i class="el-icon-plus"></i> 添加
+            </li>
           </a>
           <a href="javascript:;" @click="deleteNode">
-            <li style="text-shadow:2px 2px 4px #545D5D;"><i class="el-icon-minus"></i> 删除</li>
+            <li style="text-shadow:2px 2px 4px #545D5D;">
+              <i class="el-icon-minus"></i> 删除
+            </li>
+          </a>
+          <a href="javascript:;" @click="changeNode">
+            <li style="text-shadow:2px 2px 4px #545D5D;">
+              <i class="el-icon-minus"></i> 修改
+            </li>
           </a>
         </div>
 
         <div style="margin-bottom: 10px;margin-top: 15px">
           <span style="font-size: 1.2em"> 关系名称 *：</span>
           <textarea id="relNameIn"></textarea>
-
         </div>
 
         <div style="margin-bottom: 4px;float: left">
-          <span style="font-size: 1.2em">   FROM：</span>
-          <textarea id="from_id"></textarea>
+          <span style="font-size: 1.2em"> 修改名称：</span>
+          <textarea id="relNameOut"></textarea>
+        </div>
 
+        <div style="margin-bottom: 4px;float: left">
+          <span style="font-size: 1.2em"> FROM：</span>
+          <textarea id="from_id"></textarea>
         </div>
 
         <div style="margin-bottom: 4px;float: left">
           <span style="font-size: 1.2em"> TO：</span>
           <textarea id="to_id"></textarea>
-
         </div>
+
         <div>
           <a href="javascript:;" @click="addLink">
-            <li style="margin-left: 50% ;text-shadow:2px 2px 4px #545D5D;"><i class="el-icon-plus"></i> 添加</li>
+            <li style="margin-left: 25% ;text-shadow:2px 2px 4px #545D5D;">
+              <i class="el-icon-plus"></i> 添加
+            </li>
           </a>
           <a href="javascript:;" @click="deleteLink">
-            <li style="text-shadow:2px 2px 4px #545D5D;"><i class="el-icon-minus"></i> 删除</li>
+            <li style="text-shadow:2px 2px 4px #545D5D;">
+              <i class="el-icon-minus"></i> 删除
+            </li>
+          </a>
+          <a href="javascript:;" @click="changeLink">
+            <li style="text-shadow:2px 2px 4px #545D5D;">
+              <i class="el-icon-minus"></i> 修改
+            </li>
           </a>
         </div>
-
       </div>
       <div class="svg-set-box0">
-        <li style="float: left;margin-left: 35px;margin-top: 10px;font-size: 1.2em"><i class="el-icon-edit-outline" ></i> 文档修改</li>
+        <li
+          style="float: left;margin-left: 35px;margin-top: 10px;font-size: 1.2em"
+        >
+          <i class="el-icon-edit-outline"></i> 文档修改
+        </li>
         <li>
           <textarea id="text" @keydown="keydownFn"></textarea>
         </li>
@@ -99,7 +125,6 @@
       <div id="gid"></div>
       <div class="mengceng"></div>
     </div>
-
   </div>
 </template>
 <script>
@@ -118,7 +143,7 @@ export default {
       gcontainer: {},
       svg: {},
       zoom: null,
-      relnameIn:"",
+      relnameIn: "",
       arrowMarker: {},
       simulation: {},
       isFullscreen: false,
@@ -503,7 +528,7 @@ export default {
         .enter()
         .append("text")
         .attr("class", "linetext")
-        .attr('fontfamily','方正雅黑')
+        .attr("fontfamily", "方正雅黑")
         .style("fill", "#888888")
         .style("font-size", "10px")
         .text(function(d) {
@@ -553,11 +578,13 @@ export default {
       //先删除所有为节点自定义的按钮组
       d3.selectAll("svg >defs").remove();
       var nodes = _this.graph.nodes;
-      var pie = d3.pie().value(function(d) {
-        return d.value; //处理数据，指定value作为计算比例的字段
-      })
-      .startAngle(Math.PI*(-0.7))
-      .endAngle(Math.PI*0.4) ;
+      var pie = d3
+        .pie()
+        .value(function(d) {
+          return d.value; //处理数据，指定value作为计算比例的字段
+        })
+        .startAngle(Math.PI * -0.7)
+        .endAngle(Math.PI * 0.4);
 
       var piedata = pie(_this.toolbarData);
       var nodeButtonGroup = this.svg.append("defs");
@@ -582,13 +609,11 @@ export default {
             });
           var arc = d3
             .arc()
-            .innerRadius(m.r+4)
+            .innerRadius(m.r + 4)
             .outerRadius(m.r + 28)
-            .padAngle(.04)
+            .padAngle(0.04)
             .padRadius(100)
-            .cornerRadius(3)
-          ;
-
+            .cornerRadius(3);
           buttonGroupEnter
             .append("path")
             .attr("d", function(d) {
@@ -610,7 +635,7 @@ export default {
             .style("fill", function() {
               return "#ffffff";
             })
-            .style('fill-opacity',1)
+            .style("fill-opacity", 1)
             .attr("font-size", 10);
         }
       });
@@ -901,59 +926,56 @@ export default {
       this.addMaker();
       this.initGraph();
     },
+    // 增加节点
     addNode() {
       this.isAddingNode = true;
       // this.cancelOperationMessage = "取消添加节点";
       // this.isCancelOperationShow = true;
       d3.select(".grid").style("cursor", "crosshair");
-      let _this =this;
+      let _this = this;
       _this
-        .$confirm("是否加入该节点？",{
-          confirmButtonText:"确定",
-          cancelButtonText:"取消",
-          type:"warning"
+        .$confirm("是否加入该节点？", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning"
         })
 
-      .then(()=>{
+        .then(() => {
+          var nName = document.getElementById("nameIn").value;
 
-        var nName=document.getElementById("nameIn").value
+          console.log(nName);
 
-        console.log(nName)
+          let newNode = {};
+          newNode.name = nName;
+          newNode.uuid = _this.graph.nodes.length + 1; //bug 如果已经有过删减节点操作length变短 random一个
+          console.log(newNode.uuid);
 
-        let newNode = {}
-        newNode.name = nName
-        newNode.uuid = _this.graph.nodes.length+1//bug 如果已经有过删减节点操作length变短 random一个
-        console.log((newNode.uuid))
+          newNode.x = 0;
+          newNode.y = 0;
+          newNode.fx = 350;
+          newNode.fy = 350;
+          _this.graph.nodes.push(newNode);
 
-        newNode.x = 0
-        newNode.y = 0
-        newNode.fx = 350
-        newNode.fy = 350
-        _this.graph.nodes.push(newNode)
+          _this.updateGraph();
 
-        _this.updateGraph();
-
-        _this.$message({
-          type: "success",
-          message: "添加成功！"
-        });
-
-      })
-        .catch(() => {
-            _this.selectrelationid = "";
-            // _this.isEditingLink = false
-            // _this.emptyLinkEntity()
-            // _this.EditLinkDialogVisible = false
-            _this.$message({
-              type: "info",
-              message: "操作已取消"
-            });
+          _this.$message({
+            type: "success",
+            message: "添加成功！"
           });
-
+        })
+        .catch(() => {
+          _this.selectrelationid = "";
+          // _this.isEditingLink = false
+          // _this.emptyLinkEntity()
+          // _this.EditLinkDialogVisible = false
+          _this.$message({
+            type: "info",
+            message: "操作已取消"
+          });
+        });
     },
     // 删除节点
     deleteNode() {
-
       let _this = this;
       _this
         .$confirm("该操作暂时不可撤销", "将要删除该节点，是否继续？", {
@@ -962,8 +984,8 @@ export default {
           type: "warning"
         })
         .then(() => {
-          var nName=document.getElementById("nameIn").value
-          console.log(nName)
+          var nName = document.getElementById("nameIn").value;
+          console.log(nName);
           for (let i = 0; i < _this.graph.nodes.length; i++) {
             if (_this.graph.nodes[i].name === nName) {
               _this.graph.nodes.splice(i, 1);
@@ -971,7 +993,7 @@ export default {
             }
           }
           _this.updateGraph();
-          console.log(_this.graph.links)
+          console.log(_this.graph.links);
           _this.selectrelationid = "";
           _this.deleteNodeDialogVisible = true;
           // _this.isEditingLink = false
@@ -992,66 +1014,105 @@ export default {
             message: "操作已取消"
           });
         });
-
     },
-    addLink(){
-      let _this =this;
+    // 修改节点名
+    changeNode() {
+      let _this = this;
       _this
-          .$confirm("是否添加该关系？",{
-            confirmButtonText:"确定",
-            cancelButtonText:"取消",
-            type:"warning"
-          })
-      .then(() => {
-        var rName=document.getElementById("relNameIn").value
-        console.log(rName)
-        let newLink={}
-        newLink.uuid = _this.graph.links.length+1//bug
-        var sourceName=document.getElementById("from_id").value
-        var targetName =document.getElementById("to_id").value
-        for (let m = 0; m < _this.graph.nodes.length; m++) {
-          if (_this.graph.nodes[m].name === targetName) {
-            newLink.targetid = _this.graph.nodes[m].uuid;
-            break;
+        .$confirm("是否修改该节点？", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning"
+        })
+        .then(() => {
+          var nName = document.getElementById("nameIn").value;
+          var nNewName = document.getElementById("nameOut").value;
+          console.log(nName);
+          for (let i = 0; i < _this.graph.nodes.length; i++) {
+            if (_this.graph.nodes[i].name === nName) {
+              this.graph.nodes[i].name = nNewName;
+              break;
+            }
           }
-        }
-        for (let n = 0; n < _this.graph.nodes.length; n++) {
-          if (_this.graph.nodes[n].name === sourceName) {
-            newLink.sourceid = _this.graph.nodes[n].uuid;
-            break;
-          }
-        }
-
-        newLink.name=rName
-        console.log(newLink)
-         _this.graph.links.push(newLink)
-        _this.updateGraph();
-
-        _this.$message({
-          type: "success",
-          message: "添加成功！"
-        });
-
-      })
-          .catch(() => {
-            _this.selectrelationid = "";
-            // _this.isEditingLink = false
-            // _this.emptyLinkEntity()
-            // _this.EditLinkDialogVisible = false
-            _this.$message({
-              type: "info",
-              message: "操作已取消"
-            });
+          _this.updateGraph();
+          console.log(_this.graph.links);
+          _this.selectrelationid = "";
+          _this.deleteNodeDialogVisible = true;
+          // _this.isEditingLink = false
+          // _this.emptyLinkEntity()
+          // _this.EditLinkDialogVisible = false
+          _this.$message({
+            type: "success",
+            message: "修改成功！"
           });
+        })
+        .catch(() => {
+          _this.selectrelationid = "";
+          // _this.isEditingLink = false
+          // _this.emptyLinkEntity()
+          // _this.EditLinkDialogVisible = false
+          _this.$message({
+            type: "info",
+            message: "操作已取消"
+          });
+        });
+    },
+    // 增加联系
+    addLink() {
+      let _this = this;
+      _this
+        .$confirm("是否添加该关系？", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning"
+        })
+        .then(() => {
+          var rName = document.getElementById("relNameIn").value;
+          console.log(rName);
+          let newLink = {};
+          newLink.uuid = _this.graph.links.length + 1; //bug
+          var sourceName = document.getElementById("from_id").value;
+          var targetName = document.getElementById("to_id").value;
+          for (let m = 0; m < _this.graph.nodes.length; m++) {
+            if (_this.graph.nodes[m].name === targetName) {
+              newLink.targetid = _this.graph.nodes[m].uuid;
+              break;
+            }
+          }
+          for (let n = 0; n < _this.graph.nodes.length; n++) {
+            if (_this.graph.nodes[n].name === sourceName) {
+              newLink.sourceid = _this.graph.nodes[n].uuid;
+              break;
+            }
+          }
 
+          newLink.name = rName;
+          console.log(newLink);
+          _this.graph.links.push(newLink);
+          _this.updateGraph();
 
+          _this.$message({
+            type: "success",
+            message: "添加成功！"
+          });
+        })
+        .catch(() => {
+          _this.selectrelationid = "";
+          // _this.isEditingLink = false
+          // _this.emptyLinkEntity()
+          // _this.EditLinkDialogVisible = false
+          _this.$message({
+            type: "info",
+            message: "操作已取消"
+          });
+        });
     },
     // 删除联系
     deleteLink() {
-      var sourceName =document.getElementById("from_id").value
-      var targetName =document.getElementById("to_id").value
-      console.log(sourceName)
-      console.log(targetName)
+      var sourceName = document.getElementById("from_id").value;
+      var targetName = document.getElementById("to_id").value;
+      console.log(sourceName);
+      console.log(targetName);
       let _this = this;
       for (let m = 0; m < _this.graph.nodes.length; m++) {
         if (_this.graph.nodes[m].name === sourceName) {
@@ -1103,6 +1164,64 @@ export default {
           });
         });
     },
+    // 修改联系名
+    changeLink() {
+      var sourceName = document.getElementById("from_id").value;
+      var targetName = document.getElementById("to_id").value;
+      console.log(sourceName);
+      console.log(targetName);
+      let _this = this;
+      for (let m = 0; m < _this.graph.nodes.length; m++) {
+        if (_this.graph.nodes[m].name === sourceName) {
+          this.source = _this.graph.nodes[m].uuid;
+          break;
+        }
+      }
+      for (let n = 0; n < _this.graph.nodes.length; n++) {
+        if (_this.graph.nodes[n].name === targetName) {
+          this.target = _this.graph.nodes[n].uuid;
+          break;
+        }
+      }
+      _this
+        .$confirm("是否添加该关系？", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning"
+        })
+        .then(() => {
+          var lNewName = document.getElementById("relNameOut").value;
+          for (let i = 0; i < _this.graph.links.length; i++) {
+            if (
+              _this.graph.links[i].sourceid === _this.source &&
+              _this.graph.links[i].targetid === _this.target
+            ) {
+              this.graph.links[i].name = lNewName;
+              break;
+            }
+          }
+          _this.updateGraph();
+          _this.selectrelationid = "";
+          _this.deleteLinkDialogVisible = true;
+          // _this.isEditingLink = false
+          // _this.emptyLinkEntity()
+          // _this.EditLinkDialogVisible = false
+          _this.$message({
+            type: "success",
+            message: "修改成功！"
+          });
+        })
+        .catch(() => {
+          _this.selectrelationid = "";
+          // _this.isEditingLink = false
+          // _this.emptyLinkEntity()
+          // _this.EditLinkDialogVisible = false
+          _this.$message({
+            type: "info",
+            message: "操作已取消"
+          });
+        });
+    },
 
     change: function() {
       var _this = this;
@@ -1136,13 +1255,10 @@ aside {
   left: -320px;
   width: 320px;
   background: #7bc6cc;
-  box-shadow: 0px 0px 10px 0px rgba(18,29,29,0.25),   /*上边阴影  */
-
-  -10px 0px 10px 0px rgba(18,29,29,0.25),   /*左边阴影 */
-
-  10px 0px 10px 0px rgba(18,29,29,0.25),    /*右边阴影  */
-
-  0px 10px 10px 0px rgba(18,29,29,0.25);    /*下边阴影  */
+  box-shadow: 0px 0px 10px 0px rgba(18, 29, 29, 0.25),
+    /*上边阴影  */ -10px 0px 10px 0px rgba(18, 29, 29, 0.25),
+    /*左边阴影 */ 10px 0px 10px 0px rgba(18, 29, 29, 0.25),
+    /*右边阴影  */ 0px 10px 10px 0px rgba(18, 29, 29, 0.25); /*下边阴影  */
   transition: 0.2s ease-out;
   overflow-y: auto;
   overflow-x: hidden;
@@ -1154,7 +1270,7 @@ h2 {
   text-align: -moz-center;
   margin-left: 10px;
   font-size: 2em;
-  text-shadow:2px 2px 4px #999999;
+  text-shadow: 2px 2px 4px #999999;
 }
 
 h4 {
@@ -1163,7 +1279,7 @@ h4 {
   margin-left: 25px;
   font-size: 1.4em;
   line-height: 0em;
-  text-shadow:2px 2px 2px #999999;
+  text-shadow: 2px 2px 2px #999999;
 }
 
 #download li {
@@ -1185,9 +1301,9 @@ h4 {
   margin-left: 40px;
   font-size: 1em;
 }
-#modify{
+#modify {
   margin-bottom: 10px;
-  height: 230px;
+  height: 330px;
 }
 
 #modify li {
@@ -1201,16 +1317,14 @@ h4 {
   margin-bottom: 10px;
   margin-top: 0px;
   font-size: 1em;
-
 }
 
 #modify span {
   color: white;
-  margin-bottom:7px;
+  margin-bottom: 7px;
   line-height: 2em;
-  margin-left:50px;
+  margin-left: 50px;
   float: left;
-
 }
 #modify select {
   background: rgba(204, 204, 204, 0.5); /*半透明*/
@@ -1222,9 +1336,8 @@ h4 {
   outline-color: rgba(204, 204, 204, 0.2);
   float: left;
   margin-top: 7px;
-
 }
-#modify input{
+#modify input {
   background: rgba(204, 204, 204, 0.5); /*半透明*/
   border: 0;
   border-radius: 4px;
@@ -1237,11 +1350,9 @@ h4 {
   margin-top: 7px;
   font-size: 1em;
   float: left;
-;
-
 }
 
-#modify textarea{
+#modify textarea {
   background: rgba(204, 204, 204, 0.5); /*半透明*/
   border: 0;
   border-radius: 4px;
@@ -1257,13 +1368,10 @@ h4 {
   float: left;
   font-family: "方正雅黑";
   color: white;
-;
-
 }
 
 a {
   text-decoration: none;
-
 }
 
 /*控制侧边栏进出的按钮（外部包裹）*/
@@ -1287,14 +1395,10 @@ label {
   text-align: center;
   margin-left: 10px;
   margin-top: 10px;
-  box-shadow: 0px 0px 10px 0px rgba(18,29,29,0.1),   /*上边阴影  */
-
-  -10px 0px 10px 0px rgba(18,29,29,0.1),   /*左边阴影 */
-
-  10px 0px 10px 0px rgba(18,29,29,0.1),    /*右边阴影  */
-
-  0px 10px 10px 0px rgba(18,29,29,0.1);    /*下边阴影  */
-
+  box-shadow: 0px 0px 10px 0px rgba(18, 29, 29, 0.1),
+    /*上边阴影  */ -10px 0px 10px 0px rgba(18, 29, 29, 0.1),
+    /*左边阴影 */ 10px 0px 10px 0px rgba(18, 29, 29, 0.1),
+    /*右边阴影  */ 0px 10px 10px 0px rgba(18, 29, 29, 0.1); /*下边阴影  */
 }
 
 label:hover {
@@ -1304,7 +1408,6 @@ label:hover {
 
 #sideul li:hover {
   color: orange;
-
 }
 
 .svg-set-box0 {
@@ -1335,7 +1438,6 @@ label:hover {
   margin-bottom: 20px;
   margin-top: 10px;
   float: bottom;
-
 }
 
 .svg-set-box {
