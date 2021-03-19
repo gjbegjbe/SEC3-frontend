@@ -912,38 +912,21 @@ export default {
         })
 
       .then(()=>{
-        // for (let n = 0; n < _this.graph.nodes.length; n++) {
-        //   if (_this.graph.nodes[n].name === _this.target) {
-        //     this.target = _this.graph.nodes[n].uuid;
-        //     break;
-        //   }
-        // }
+
         var nName=document.getElementById("nameIn").value
-        var rName=document.getElementById("relNameIn").value
+
         console.log(nName)
-        console.log(rName)
+
         let newNode = {}
-        newNode.name = name
+        newNode.name = nName
         newNode.uuid = _this.graph.nodes.length+1//bug 如果已经有过删减节点操作length变短 random一个
         console.log((newNode.uuid))
-        console.log(_this.target)
+
         newNode.x = 0
         newNode.y = 0
         newNode.fx = 350
         newNode.fy = 350
         _this.graph.nodes.push(newNode)
-        let newLink={}
-        newLink.uuid = _this.graph.links.length+1//bug
-        newLink.sourceid=newNode.uuid
-        for (let m = 0; m < _this.graph.nodes.length; m++) {
-          if (_this.graph.nodes[m].name === _this.target) {
-            newLink.targetid = _this.graph.nodes[m].uuid;
-            break;
-          }
-        }
-        newLink.name=rName
-        console.log(newLink)
-        _this.graph.links.push(newLink)
 
         _this.updateGraph();
 
@@ -967,22 +950,25 @@ export default {
     },
     // 删除节点
     deleteNode() {
-      console.log(this.node);
+
       let _this = this;
       _this
-        .$confirm("该操作不可撤销", "将要删除该节点，是否继续？", {
+        .$confirm("该操作暂时不可撤销", "将要删除该节点，是否继续？", {
           confirmButtonText: "确定",
           cancelButtonText: "取消",
           type: "warning"
         })
         .then(() => {
+          var nName=document.getElementById("nameIn").value
+          console.log(nName)
           for (let i = 0; i < _this.graph.nodes.length; i++) {
-            if (_this.graph.nodes[i].name === _this.node) {
+            if (_this.graph.nodes[i].name === nName) {
               _this.graph.nodes.splice(i, 1);
               break;
             }
           }
           _this.updateGraph();
+          console.log(_this.graph.links)
           _this.selectrelationid = "";
           _this.deleteNodeDialogVisible = true;
           // _this.isEditingLink = false
@@ -1006,19 +992,72 @@ export default {
 
     },
     addLink(){
+      let _this =this;
+      _this
+          .$confirm("是否添加该关系？",{
+            confirmButtonText:"确定",
+            cancelButtonText:"取消",
+            type:"warning"
+          })
+      .then(() => {
+        var rName=document.getElementById("relNameIn").value
+        console.log(rName)
+        let newLink={}
+        newLink.uuid = _this.graph.links.length+1//bug
+        var sourceName=document.getElementById("from_id").value
+        var targetName =document.getElementById("to_id").value
+        for (let m = 0; m < _this.graph.nodes.length; m++) {
+          if (_this.graph.nodes[m].name === targetName) {
+            newLink.targetid = _this.graph.nodes[m].uuid;
+            break;
+          }
+        }
+        for (let n = 0; n < _this.graph.nodes.length; n++) {
+          if (_this.graph.nodes[n].name === sourceName) {
+            newLink.sourceid = _this.graph.nodes[n].uuid;
+            break;
+          }
+        }
+
+        newLink.name=rName
+        console.log(newLink)
+         _this.graph.links.push(newLink)
+        _this.updateGraph();
+
+        _this.$message({
+          type: "success",
+          message: "添加成功！"
+        });
+
+      })
+          .catch(() => {
+            _this.selectrelationid = "";
+            // _this.isEditingLink = false
+            // _this.emptyLinkEntity()
+            // _this.EditLinkDialogVisible = false
+            _this.$message({
+              type: "info",
+              message: "操作已取消"
+            });
+          });
+
 
     },
     // 删除联系
     deleteLink() {
+      var sourceName =document.getElementById("from_id").value
+      var targetName =document.getElementById("to_id").value
+      console.log(sourceName)
+      console.log(targetName)
       let _this = this;
       for (let m = 0; m < _this.graph.nodes.length; m++) {
-        if (_this.graph.nodes[m].name === _this.source) {
+        if (_this.graph.nodes[m].name === sourceName) {
           this.source = _this.graph.nodes[m].uuid;
           break;
         }
       }
       for (let n = 0; n < _this.graph.nodes.length; n++) {
-        if (_this.graph.nodes[n].name === _this.target) {
+        if (_this.graph.nodes[n].name === targetName) {
           this.target = _this.graph.nodes[n].uuid;
           break;
         }
@@ -1201,8 +1240,10 @@ h4 {
   resize: none;
   line-height: 1.2em;
   margin-top: 8px;
-  font-size: 1.2em;
+  font-size: 1.1em;
   float: left;
+  font-family: "方正雅黑";
+  color: white;
 ;
 
 }
@@ -1231,6 +1272,7 @@ label {
   height: 1.5em;
   line-height: 1.5em;
   text-align: center;
+
 }
 
 label:hover {
