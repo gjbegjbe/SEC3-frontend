@@ -2,7 +2,7 @@
   <div>
     <input type="checkbox" id="sidemenu" />
     <aside>
-      <h2>主菜单</h2>
+      <h2>6PlusCOIN MENU </h2>
       <h4>- 导出</h4>
       <div id="download">
         <a href="javascript:;" @click="exportPNG">
@@ -1141,7 +1141,7 @@ aside {
 
 h2 {
   color: white;
-  text-align: left;
+  text-align: -moz-center;
   margin-left: 10px;
   font-size: 2em;
 }
