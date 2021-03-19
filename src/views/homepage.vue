@@ -16,14 +16,17 @@ export default {
 }
 </script>
 <style>
+html,body{
+  margin: 0;
+  padding: 0;
+  background-image: url('../assets/azur.jpg');
+  background-attachment: fixed;
+}
 #kg_container {
   height: 97vh;
-  width: 100%;
+  width: 99%;
   overflow: hidden;
-  background: linear-gradient(rgba(189, 200, 205, 0.3), rgba(220, 229, 238, 0.9)) no-repeat;
-  background-size: 100% 100%;
-  position: absolute;
-  /*background-color: white;*/
+  /*overflow: hidden;*/
 
 }
 #kg_container2 {
