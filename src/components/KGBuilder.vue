@@ -1184,7 +1184,7 @@ export default {
         }
       }
       _this
-        .$confirm("是否添加该关系？", {
+        .$confirm("是否修改该关系？", {
           confirmButtonText: "确定",
           cancelButtonText: "取消",
           type: "warning"
