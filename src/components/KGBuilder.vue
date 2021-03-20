@@ -248,7 +248,7 @@ export default {
       let response = {};
       try {
         response = await axios.get("http://localhost:8083/getCoin", {});
-        if(response.node.length === 0)
+        if(response.data.node.length === 0)
           response = await axios.get("/static/kgData.json", {});
       }
       catch (e) {
@@ -941,25 +941,12 @@ export default {
       downloadAnchorNode.click();
       downloadAnchorNode.remove();
     },
-    // filterObj: function(obj, arr) {
-    //   if (typeof (obj) !== "object" || !Array.isArray(arr)) {
-    //     throw new Error("参数格式不正确")
-    //   }
-    //   const result = {}
-    //   Object.keys(obj).filter((key) => arr.includes(key)).forEach((key) => {
-    //     result[key] = obj[key]
-    //   })
-    //   return result
-    // },
     exportSERVER: async function () {
-      console.log("sdfsdf");
-      console.log(this.graph);
       let body = { "node" : [], "relationship" : []};
       for (let currNode of this.graph.nodes) {
-        console.log(currNode);
         body.node.push({"uuid": currNode.uuid, "name": currNode.name, "imgsrc": currNode.imgsrc})
       }
-      for (let currLink of this.graph.nodes) {
+      for (let currLink of this.graph.links) {
         body.relationship.push({"sourceid": currLink.sourceid, "targetid": currLink.targetid, "name": currLink.name, "uuid": currLink.uuid})
       }
       console.log(body);
