@@ -15,6 +15,9 @@
         <a href="javascript:;" @click="exportXML">
           <li><i class="el-icon-document-copy"></i> 保存为XML</li>
         </a>
+        <a href="javascript:;" @click="exportSERVER">
+          <li><i class="el-icon-document-copy"></i> 保存到服务器</li>
+        </a>
       </div>
       <h4>- 调整</h4>
       <div id="adjust">
@@ -179,6 +182,7 @@ export default {
         { name: "删除", value: 1, code: "delete" }
       ],
       selectUuid: 0,
+      uuidEndNum: 0,
       nodeRecordList: []
       //
       // selectrelationid: '',//选择操作的关系id
@@ -240,15 +244,32 @@ export default {
         false
       );
     },
-    initGraph() {
-      var _this = this;
-      axios.get("/static/kgData.json", {}).then(function(response) {
-        var data = response.data;
-        console.log(data);
-        _this.graph.nodes = data.node;
-        _this.graph.links = data.relationship;
-        _this.updateGraph();
-      });
+    async initGraph() {
+      let response = {};
+      try {
+        response = await axios.get("http://localhost:8083/getCoin", {});
+        if(response.node.length === 0)
+          response = await axios.get("/static/kgData.json", {});
+      }
+      catch (e) {
+        response = await axios.get("/static/kgData.json", {});
+      }
+
+      let data = response.data;
+      console.log(data);
+      this.graph.nodes = data.node;
+      this.graph.links = data.relationship;
+
+      for (let node of this.graph.nodes) {
+        if (node.uuid + 1 > this.uuidEndNum)
+          this.uuidEndNum = node.uuid + 1;
+      }
+      for (let link of this.graph.links) {
+        if (link.uuid + 1 > this.uuidEndNum)
+          this.uuidEndNum = link.uuid + 1;
+      }
+
+      this.updateGraph();
     },
     addMaker() {
       var arrowMarker = this.svg
@@ -920,6 +941,43 @@ export default {
       downloadAnchorNode.click();
       downloadAnchorNode.remove();
     },
+    // filterObj: function(obj, arr) {
+    //   if (typeof (obj) !== "object" || !Array.isArray(arr)) {
+    //     throw new Error("参数格式不正确")
+    //   }
+    //   const result = {}
+    //   Object.keys(obj).filter((key) => arr.includes(key)).forEach((key) => {
+    //     result[key] = obj[key]
+    //   })
+    //   return result
+    // },
+    exportSERVER: async function () {
+      console.log("sdfsdf");
+      console.log(this.graph);
+      let body = { "node" : [], "relationship" : []};
+      for (let currNode of this.graph.nodes) {
+        console.log(currNode);
+        body.node.push({"uuid": currNode.uuid, "name": currNode.name, "imgsrc": currNode.imgsrc})
+      }
+      for (let currLink of this.graph.nodes) {
+        body.relationship.push({"sourceid": currLink.sourceid, "targetid": currLink.targetid, "name": currLink.name, "uuid": currLink.uuid})
+      }
+      console.log(body);
+
+      try {
+        await axios.post("http://localhost:8083/updateCoin", body);
+        this.$message({
+          type: "success",
+          message: "保存成功！"
+        });
+      }
+      catch (e) {
+        this.$message({
+          type: "info",
+          message: "保存失败！"
+        });
+      }
+    },
     restartPicture: function() {
       d3.select("svg").remove();
       this.initGraphContainer();
@@ -947,7 +1005,8 @@ export default {
 
           let newNode = {};
           newNode.name = nName;
-          newNode.uuid = _this.graph.nodes.length + 1; //bug 如果已经有过删减节点操作length变短 random一个
+          newNode.uuid = _this.uuidEndNum;
+          _this.uuidEndNum ++;
           console.log(newNode.uuid);
 
           newNode.x = 0;
@@ -1070,7 +1129,8 @@ export default {
           var rName = document.getElementById("relNameIn").value;
           console.log(rName);
           let newLink = {};
-          newLink.uuid = _this.graph.links.length + 1; //bug
+          newLink.uuid = _this.uuidEndNum;
+          _this.uuidEndNum++;
           var sourceName = document.getElementById("from_id").value;
           var targetName = document.getElementById("to_id").value;
           for (let m = 0; m < _this.graph.nodes.length; m++) {
