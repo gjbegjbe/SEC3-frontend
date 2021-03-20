@@ -3,32 +3,37 @@
     {
       "name": "徐志摩",
       "uuid": "1",
-      "imgsrc": "https://pic.baike.soso.com/p/20131206/20131206120146-563665945.jpg"
+      "imgsrc": "https://i.loli.net/2021/03/20/gthrUlP2I9xyn1W.jpg"
     },
     {
       "name": "梁思成",
       "uuid": "2",
-      "imgsrc": "https://tse4-mm.cn.bing.net/th/id/OIP.o_-wg9v55T96h56unv-kWQAAAA?pid=ImgDet&rs=1"
+      "imgsrc": "https://i.loli.net/2021/03/20/64gCxlwuytPJHfN.jpg"
     },
     {
       "name": "金岳霖",
       "uuid": "3",
-      "imgsrc": "https://gss0.baidu.com/70cFfyinKgQFm2e88IuM_a/baike/pic/item/9e3df8dcd100baa1190090bc4910b912c8fc2e8d.jpg"
+      "imgsrc": "https://i.loli.net/2021/03/20/3BtniAxg2sfH9Rm.jpg"
     },
     {
       "name": "林徽因",
       "uuid": "4",
-      "imgsrc": "https://inews.gtimg.com/newsapp_bt/0/7742231328/1000"
+      "imgsrc": "https://i.loli.net/2021/03/20/h2dUPwvcxLOR8ke.jpg"
     },
     {
       "name": "陆小曼",
       "uuid": "5",
-      "imgsrc": "https://pic2.zhimg.com/80/v2-c540a63ec5ae2d2c44f4a1ea2748964e_qhd.jpg"
+      "imgsrc": "https://i.loli.net/2021/03/20/n4zhiHYMOGsbwyg.jpg"
     },
     {
       "name": "《再别康桥》",
       "uuid": "6",
-      "imgsrc": ""
+      "imgsrc": "https://i.loli.net/2021/03/20/ZRoiG1pHjWeSyzr.jpg"
+    },
+    {
+      "name": "梁启超",
+      "uuid": "7",
+      "imgsrc": "https://i.loli.net/2021/03/20/RuMy3s8cQ5nO6A7.jpg"
     }
   ],
   "relationship": [
@@ -39,28 +44,22 @@
       "uuid": "1"
     },
     {
-      "sourceid": "2",
-      "targetid": "3",
+      "sourceid": "3",
+      "targetid": "2",
       "name": "情敌",
       "uuid": "2"
     },
     {
       "sourceid": "3",
-      "targetid": "2",
-      "name": "情敌",
-      "uuid": "3"
-    },
-    {
-      "sourceid": "3",
       "targetid": "4",
       "name": "默默陪伴",
-      "uuid": "4"
+      "uuid": "3"
     },
     {
       "sourceid": "2",
       "targetid": "4",
       "name": "夫妻",
-      "uuid": "5"
+      "uuid": "4"
     },
     {
       "sourceid": "4",
@@ -91,6 +90,24 @@
       "targetid": "1",
       "name": "代表作",
       "uuid": "9"
+    },
+    {
+      "sourceid": "7",
+      "targetid": "1",
+      "name": "老师",
+      "uuid": "10"
+    },
+    {
+      "sourceid": "7",
+      "targetid": "2",
+      "name": "父亲",
+      "uuid": "11"
+    },
+    {
+      "sourceid": "7",
+      "targetid": "4",
+      "name": "公公",
+      "uuid": "12"
     }
   ]
 }
