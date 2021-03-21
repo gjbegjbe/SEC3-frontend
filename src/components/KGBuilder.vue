@@ -929,8 +929,6 @@ export default {
     // 增加节点
     addNode() {
       this.isAddingNode = true;
-      // this.cancelOperationMessage = "取消添加节点";
-      // this.isCancelOperationShow = true;
       d3.select(".grid").style("cursor", "crosshair");
       let _this = this;
       _this
@@ -965,9 +963,6 @@ export default {
         })
         .catch(() => {
           _this.selectrelationid = "";
-          // _this.isEditingLink = false
-          // _this.emptyLinkEntity()
-          // _this.EditLinkDialogVisible = false
           _this.$message({
             type: "info",
             message: "操作已取消"
@@ -996,9 +991,6 @@ export default {
           console.log(_this.graph.links);
           _this.selectrelationid = "";
           _this.deleteNodeDialogVisible = true;
-          // _this.isEditingLink = false
-          // _this.emptyLinkEntity()
-          // _this.EditLinkDialogVisible = false
           _this.$message({
             type: "success",
             message: "删除成功！"
@@ -1006,9 +998,6 @@ export default {
         })
         .catch(() => {
           _this.selectrelationid = "";
-          // _this.isEditingLink = false
-          // _this.emptyLinkEntity()
-          // _this.EditLinkDialogVisible = false
           _this.$message({
             type: "info",
             message: "操作已取消"
@@ -1038,9 +1027,6 @@ export default {
           console.log(_this.graph.links);
           _this.selectrelationid = "";
           _this.deleteNodeDialogVisible = true;
-          // _this.isEditingLink = false
-          // _this.emptyLinkEntity()
-          // _this.EditLinkDialogVisible = false
           _this.$message({
             type: "success",
             message: "修改成功！"
@@ -1048,9 +1034,6 @@ export default {
         })
         .catch(() => {
           _this.selectrelationid = "";
-          // _this.isEditingLink = false
-          // _this.emptyLinkEntity()
-          // _this.EditLinkDialogVisible = false
           _this.$message({
             type: "info",
             message: "操作已取消"
@@ -1145,9 +1128,6 @@ export default {
           _this.updateGraph();
           _this.selectrelationid = "";
           _this.deleteLinkDialogVisible = true;
-          // _this.isEditingLink = false
-          // _this.emptyLinkEntity()
-          // _this.EditLinkDialogVisible = false
           _this.$message({
             type: "success",
             message: "删除成功！"
@@ -1155,9 +1135,6 @@ export default {
         })
         .catch(() => {
           _this.selectrelationid = "";
-          // _this.isEditingLink = false
-          // _this.emptyLinkEntity()
-          // _this.EditLinkDialogVisible = false
           _this.$message({
             type: "info",
             message: "操作已取消"
@@ -1203,9 +1180,6 @@ export default {
           _this.updateGraph();
           _this.selectrelationid = "";
           _this.deleteLinkDialogVisible = true;
-          // _this.isEditingLink = false
-          // _this.emptyLinkEntity()
-          // _this.EditLinkDialogVisible = false
           _this.$message({
             type: "success",
             message: "修改成功！"
@@ -1213,9 +1187,6 @@ export default {
         })
         .catch(() => {
           _this.selectrelationid = "";
-          // _this.isEditingLink = false
-          // _this.emptyLinkEntity()
-          // _this.EditLinkDialogVisible = false
           _this.$message({
             type: "info",
             message: "操作已取消"
