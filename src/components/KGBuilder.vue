@@ -247,7 +247,7 @@ export default {
     async initGraph() {
       let response = {};
       try {
-        response = await axios.get("http://localhost:8083/getCoin", {});
+        response = await axios.get("http://localhost:8081/api/getCoin", {});
         if(response.data.node.length === 0)
           response = await axios.get("/static/kgData.json", {});
       }
@@ -952,7 +952,7 @@ export default {
       console.log(body);
 
       try {
-        await axios.post("http://localhost:8083/updateCoin", body);
+        await axios.post("http://localhost:8081/api/updateCoin", body);
         this.$message({
           type: "success",
           message: "保存成功！"
