@@ -4,119 +4,187 @@
 
     <aside>
       <h2>6PlusCOIN MENU</h2>
-      <h4>- 导出</h4>
-      <div id="download">
-        <a href="javascript:;" @click="exportPNG">
-          <li><i class="el-icon-picture-outline"></i> 保存为图片</li>
-        </a>
-        <a href="javascript:;" @click="exportJSON">
-          <li><i class="el-icon-document"></i> 保存为JSON</li>
-        </a>
-        <a href="javascript:;" @click="exportXML">
-          <li><i class="el-icon-document-copy"></i> 保存为XML</li>
-        </a>
-        <a href="javascript:;" @click="exportSERVER">
-          <li><i class="el-icon-document-copy"></i> 保存到服务器</li>
-        </a>
-      </div>
-      <h4>- 调整</h4>
-      <div id="adjust">
-        <a href="javascript:;" @click="zoomIn">
-          <li><i class="el-icon-zoom-in"></i> 放大</li>
-        </a>
-        <a href="javascript:;" @click="zoomOut">
-          <li><i class="el-icon-zoom-out"></i> 缩小</li>
-        </a>
-        <a href="javascript:;" @click="refresh">
-          <li><i class="el-icon-refresh-right"></i> 还原大小</li>
-        </a>
-        <a href="javascript:;" @click="restartPicture">
-          <li><i class="el-icon-magic-stick"></i> 还原图形</li>
-        </a>
-        <a href="javascript:;" @click="changeFull">
-          <li><i class="el-icon-full-screen"></i> 全屏切换</li>
-        </a>
-      </div>
-      <h4>- 修改</h4>
-      <div id="modify">
-        <div style="margin-bottom: 10px">
-          <span style="font-size: 1.2em">节点名称：</span>
-          <textarea id="nameIn"></textarea>
-        </div>
-        <div style="margin-bottom: 4px;float: left">
-          <span style="font-size: 1.2em">修改名称：</span>
-          <textarea id="nameOut"></textarea>
-        </div>
-        <div>
-          <a href="javascript:;" @click="addNode">
-            <li style="margin-left: 25%;text-shadow:2px 2px 4px #545d5d;">
-              <i class="el-icon-plus"></i> 添加
-            </li>
-          </a>
-          <a href="javascript:;" @click="deleteNode">
-            <li style="text-shadow:2px 2px 4px #545D5D;">
-              <i class="el-icon-minus"></i> 删除
-            </li>
-          </a>
-          <a href="javascript:;" @click="changeNode">
-            <li style="text-shadow:2px 2px 4px #545D5D;">
-              <i class="el-icon-minus"></i> 修改
-            </li>
-          </a>
-        </div>
+      <div class="collapse-item">
+        <input type="checkbox" id="collapse1" name="collapse" class="collapse-toggle"/>
+        <label style="display: flex;" for="collapse1">
+          <div>
+            <h4>
+              <i class =el-icon-arrow-down ></i>
+              <i class =el-icon-arrow-right ></i>
+              导出 EXPORT
+            </h4>
 
-        <div style="margin-bottom: 10px;margin-top: 15px">
-          <span style="font-size: 1.2em"> 关系名称 *：</span>
-          <textarea id="relNameIn"></textarea>
-        </div>
+          </div>
+        </label>
 
-        <div style="margin-bottom: 4px;float: left">
-          <span style="font-size: 1.2em"> 修改名称：</span>
-          <textarea id="relNameOut"></textarea>
-        </div>
+        <div class="content" >
 
-        <div style="margin-bottom: 4px;float: left">
-          <span style="font-size: 1.2em"> FROM：</span>
-          <textarea id="from_id"></textarea>
-        </div>
-
-        <div style="margin-bottom: 4px;float: left">
-          <span style="font-size: 1.2em"> TO：</span>
-          <textarea id="to_id"></textarea>
-        </div>
-
-        <div>
-          <a href="javascript:;" @click="addLink">
-            <li style="margin-left: 25% ;text-shadow:2px 2px 4px #545D5D;">
-              <i class="el-icon-plus"></i> 添加
-            </li>
-          </a>
-          <a href="javascript:;" @click="deleteLink">
-            <li style="text-shadow:2px 2px 4px #545D5D;">
-              <i class="el-icon-minus"></i> 删除
-            </li>
-          </a>
-          <a href="javascript:;" @click="changeLink">
-            <li style="text-shadow:2px 2px 4px #545D5D;">
-              <i class="el-icon-minus"></i> 修改
-            </li>
-          </a>
+          <div id="download" style="padding: 15px">
+            <a href="javascript:;" @click="exportPNG">
+              <li><i class="el-icon-picture-outline"></i> 保存为图片</li>
+            </a>
+            <a href="javascript:;" @click="exportJSON">
+              <li><i class="el-icon-document"></i> 保存为JSON</li>
+            </a>
+            <a href="javascript:;" @click="exportXML">
+              <li><i class="el-icon-document-copy"></i> 保存为XML</li>
+            </a>
+            <a href="javascript:;" @click="exportSERVER">
+              <li><i class="el-icon-document-copy"></i> 保存到服务器</li>
+            </a>
+          </div>
         </div>
       </div>
-      <div class="svg-set-box0">
-        <li
-          style="float: left;margin-left: 35px;margin-top: 10px;font-size: 1.2em"
-        >
-          <i class="el-icon-edit-outline"></i> 文档修改
-        </li>
-        <li>
-          <textarea id="text" @keydown="keydownFn"></textarea>
-        </li>
-        <li>
-          <el-button round @click="change">修改图谱</el-button>
-        </li>
-        <br />
+
+      <div class="collapse-item">
+        <input type="checkbox" id="collapse2" name="collapse" class="collapse-toggle"/>
+        <label style="display: flex;" for="collapse2">
+          <h4>
+            <i class =el-icon-arrow-down ></i>
+            <i class =el-icon-arrow-right ></i>
+            调整 ADJUST
+          </h4>
+        </label>
+        <div class="content">
+          <div id="adjust" style="padding:15px">
+            <a href="javascript:;" @click="zoomIn">
+              <li><i class="el-icon-zoom-in"></i> 放大</li>
+            </a>
+            <a href="javascript:;" @click="zoomOut">
+              <li><i class="el-icon-zoom-out"></i> 缩小</li>
+            </a>
+            <a href="javascript:;" @click="refresh">
+              <li><i class="el-icon-refresh-right"></i> 还原大小</li>
+            </a>
+            <a href="javascript:;" @click="restartPicture">
+              <li><i class="el-icon-magic-stick"></i> 还原图形</li>
+            </a>
+            <a href="javascript:;" @click="changeFull">
+              <li><i class="el-icon-full-screen"></i> 全屏切换</li>
+            </a>
+          </div>
+        </div>
       </div>
+
+      <div class="collapse-item">
+        <input type="checkbox" id="collapse3" name="collapse" class="collapse-toggle"/>
+        <label style="display: flex;" for="collapse3">
+          <h4>
+            <i class =el-icon-arrow-down ></i>
+            <i class =el-icon-arrow-right ></i>
+            编辑节点 NODE EDIT
+          </h4>
+        </label>
+        <div class="content">
+          <div class="modify" style="padding-top: 15px;padding-bottom: 15px">
+            <div style="margin-bottom: 10px">
+              <span style="font-size: 1.2em">节点名称：</span>
+              <textarea id="nameIn"></textarea>
+            </div>
+            <div style="margin-bottom: 4px;float: left">
+              <span style="font-size: 1.2em">修改名称：</span>
+              <textarea id="nameOut"></textarea>
+            </div>
+
+            <div>
+              <a href="javascript:;" @click="addNode">
+                <li style="margin-left:20%; margin-bottom:25px;">
+                  <i class="el-icon-plus"></i> 添加
+                </li>
+              </a>
+              <a href="javascript:;" @click="deleteNode">
+                <li style="">
+                  <i class="el-icon-minus"></i> 删除
+                </li>
+              </a>
+              <a href="javascript:;" @click="changeNode">
+                <li style="">
+                  <i class="el-icon-minus"></i> 修改
+                </li>
+              </a>
+            </div>
+
+
+          </div>
+        </div>
+      </div>
+
+      <div class="collapse-item">
+        <input type="checkbox" id="collapse4" name="collapse" class="collapse-toggle"/>
+        <label style="display: flex;" for="collapse4">
+          <h4>
+            <i class =el-icon-arrow-down ></i>
+            <i class =el-icon-arrow-right ></i>
+            编辑关系 LINK EDIT
+          </h4>
+        </label>
+        <div class="content" >
+          <div class="modify">
+            <div style="margin-bottom: 10px;margin-top: 15px">
+              <span style="font-size: 1.2em"> 关系名称 *：</span>
+              <textarea id="relNameIn"></textarea>
+            </div>
+
+            <div style="margin-bottom: 4px;float: left">
+              <span style="font-size: 1.2em"> 修改名称：</span>
+              <textarea id="relNameOut"></textarea>
+            </div>
+
+            <div style="margin-bottom: 4px;float: left">
+              <span style="font-size: 1.2em"> FROM：</span>
+              <textarea id="from_id"></textarea>
+            </div>
+
+            <div style="margin-bottom: 4px;float: left">
+              <span style="font-size: 1.2em"> TO：</span>
+              <textarea id="to_id"></textarea>
+            </div>
+
+            <div >
+              <a href="javascript:;" @click="addLink">
+                <li style= "margin-left: 20%; margin-bottom:25px;">
+                  <i class="el-icon-plus"></i> 添加
+                </li>
+              </a>
+              <a href="javascript:;" @click="deleteLink">
+                <li style="">
+                  <i class="el-icon-minus"></i> 删除
+                </li>
+              </a>
+              <a href="javascript:;" @click="changeLink">
+                <li style="">
+                  <i class="el-icon-minus"></i> 修改
+                </li>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="collapse-item">
+        <input type="checkbox" id="collapse5" name="collapse" class="collapse-toggle"/>
+        <label style="display: flex;" for="collapse5">
+          <h4>
+            <i class =el-icon-arrow-down ></i>
+            <i class =el-icon-arrow-right ></i>
+            文本编辑 JSON EDIT
+          </h4>
+        </label>
+
+        <div class="content" >
+          <div class="svg-set-box0" style="margin: 10px">
+            <li>
+              <textarea id="text" @keydown="keydownFn"></textarea>
+            </li>
+            <a href="javascript:;" @click="change">
+              <li style="float: left;margin-left: 35px;margin-bottom:20px;font-size: 1.2em;color: white;">
+                <i class="el-icon-edit-outline"></i> 文档修改
+              </li>
+            </a>
+          </div>
+        </div>
+      </div>
+
     </aside>
 
     <div id="wrap">
@@ -1264,15 +1332,48 @@ export default {
   /*为被选中的sidemenu后的wrap设置属性（非紧邻）*/
   padding-left: 320px;
 }
+.collapse-toggle{
+  display: none;
+}
+.content{
+  max-height: 0px;
+  overflow: hidden;
+  transition: 0.7s ease-in-out;
+  background-color: rgba(196, 194, 194, 0.3);
+  width:100%;
+  border-width: 0;
+  box-shadow: inset 0px 5px 8px 0px rgba(18, 29, 29, 0.15),
+    /*上边阴影  */ inset 0px 0px 0px 0px rgba(18, 29, 29, 0.25),
+    /*左边阴影 */ inset 0px 0px 0px 0px rgba(18, 29, 29, 0.25),
+    /*右边阴影  */ inset 0px -5px 5px 0px rgba(18, 29, 29, 0); /*下边阴影  */
+
+}
+.collapse-toggle:checked~.content{
+  max-height: 400px;
+}
+
+.collapse-toggle:checked ~label .el-icon-arrow-right{
+  display: none;
+
+}
+.collapse-toggle:not(:checked) ~label .el-icon-arrow-down{
+  display: none
+}
+.collapse-item{
+  margin-top: 10px;
+  border-radius: 10px
+}
+
+
 
 aside {
-  /*侧边栏,初始位置为-300px，即隐藏效果*/
+  /*侧边栏,初始位置为-320px，即隐藏效果*/
   position: absolute;
   top: 0;
   bottom: 0;
   left: -320px;
   width: 320px;
-  background: #7bc6cc;
+  background: #74cbd2;
   box-shadow: 0px 0px 10px 0px rgba(18, 29, 29, 0.25),
     /*上边阴影  */ -10px 0px 10px 0px rgba(18, 29, 29, 0.25),
     /*左边阴影 */ 10px 0px 10px 0px rgba(18, 29, 29, 0.25),
@@ -1298,6 +1399,8 @@ h4 {
   font-size: 1.4em;
   line-height: 0em;
   text-shadow: 2px 2px 2px #999999;
+  width:95%
+
 }
 
 #download li {
@@ -1307,7 +1410,7 @@ h4 {
   height: 1.6em;
   text-align: left;
   margin-left: 40px;
-  font-size: 1em;
+  font-size: 1.2em;
 }
 
 #adjust li {
@@ -1317,14 +1420,14 @@ h4 {
   height: 1.6em;
   text-align: left;
   margin-left: 40px;
-  font-size: 1em;
+  font-size: 1.2em;
 }
-#modify {
+modify {
   margin-bottom: 10px;
   height: 330px;
 }
 
-#modify li {
+.modify li {
   list-style: none;
   color: white;
   width: 20%;
@@ -1337,14 +1440,14 @@ h4 {
   font-size: 1em;
 }
 
-#modify span {
+.modify span {
   color: white;
   margin-bottom: 7px;
   line-height: 2em;
   margin-left: 50px;
   float: left;
 }
-#modify select {
+.modify select {
   background: rgba(204, 204, 204, 0.5); /*半透明*/
   border: 0;
   border-radius: 4px;
@@ -1355,7 +1458,7 @@ h4 {
   float: left;
   margin-top: 7px;
 }
-#modify input {
+.modify input {
   background: rgba(204, 204, 204, 0.5); /*半透明*/
   border: 0;
   border-radius: 4px;
@@ -1370,8 +1473,8 @@ h4 {
   float: left;
 }
 
-#modify textarea {
-  background: rgba(204, 204, 204, 0.5); /*半透明*/
+.modify textarea {
+  background: rgba(204, 204, 204, 0.35); /*半透明*/
   border: 0;
   border-radius: 4px;
   outline-width: 5px;
@@ -1398,7 +1501,7 @@ a {
 }
 
 /*控制侧边栏进出的按钮（内部文字样式）*/
-label {
+#wrap label {
   /*控制侧边栏进出的按钮*/
   background: white;
   border-radius: 70px;
@@ -1418,8 +1521,7 @@ label {
     /*左边阴影 */ 10px 0px 10px 0px rgba(18, 29, 29, 0.1),
     /*右边阴影  */ 0px 10px 10px 0px rgba(18, 29, 29, 0.1); /*下边阴影  */
 }
-
-label:hover {
+#wrap label:hover {
   background: #daddda;
   fill-opacity: 0.2;
 }
@@ -1428,17 +1530,7 @@ label:hover {
   color: orange;
 }
 
-.svg-set-box0 {
-  width: 300px;
-  /*line-height: 46px;*/
-  /*padding-left: 15px;*/
-  color: #ffffff;
-  /* background: #f7f7f7; */
-  position: absolute;
-  margin-top: 10px;
-  float: left;
-  margin-left: 10px;
-}
+
 .svg-set-box0 textarea {
   left: 45px;
   right: 45px;
@@ -1458,48 +1550,7 @@ label:hover {
   float: bottom;
 }
 
-.svg-set-box {
-  /*width: 75%;*/
-  height: 46px;
-  line-height: 46px;
-  /*padding-left: 15px;*/
-  color: #ffffff;
-  /* background: #f7f7f7; */
-  position: absolute;
-  bottom: 0;
-}
-.ctwh-dibmr {
-  display: inline-block;
-}
-.ss-d {
-  display: inline-block;
-  vertical-align: middle;
-  margin-right: 10px;
-  border-radius: 50%;
-  background: #dedede;
-}
-.sd1 {
-  width: 30px;
-  height: 30px;
-}
-.sd2 {
-  width: 26px;
-  height: 26px;
-}
-.sd3 {
-  width: 20px;
-  height: 20px;
-}
-.sd4 {
-  width: 16px;
-  height: 16px;
-}
-.sd-active {
-  background: #08b7fc !important;
-}
-.toolbar {
-  line-height: 18px;
-}
+
 ul,
 li {
   list-style: none;
