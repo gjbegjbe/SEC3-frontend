@@ -139,7 +139,6 @@
               <span style="font-size: 1.2em"> TO：</span>
               <textarea id="to_id"></textarea>
             </div>
-
             <div >
               <a href="javascript:;" @click="addLink">
                 <li style= "margin-left: 20%; margin-bottom:25px;">
