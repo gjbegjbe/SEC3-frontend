@@ -302,7 +302,7 @@ export default {
               return d.uuid;
             })
         )
-        .force("collide", d3.forceCollide().strength(-30))
+        .force("collide", d3.forceCollide().strength(0.1))
         .force("center", d3.forceCenter(this.width / 2, this.height / 2));
       this.qaGraphLink = this.svg.append("g").attr("class", "line");
       this.qaGraphLinkText = this.svg.append("g").attr("class", "linetext");
