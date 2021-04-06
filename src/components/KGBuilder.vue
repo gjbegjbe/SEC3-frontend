@@ -193,7 +193,7 @@
     </div>
 
     <div id="gid_tc" style="float:left;">
-      <div id="gid"></div>
+      <div id="gid" class="gid"></div>
       <div class="mengceng"></div>
     </div>
   </div>
@@ -251,11 +251,16 @@ export default {
       ],
       selectUuid: 0,
       uuidEndNum: 0,
-      nodeRecordList: []
+      nodeRecordList: [],
+
+      txx: '',
+      tyy: '',
       //
       // selectrelationid: '',//选择操作的关系id
       //
       // deleteLinkDialogVisible:true
+
+      isAddingNode:false
     };
   },
   components: {},
@@ -1042,46 +1047,63 @@ export default {
     // 增加节点
     addNode() {
       this.isAddingNode = true;
-      d3.select(".grid").style("cursor", "crosshair");
+      d3.select(".gid").style("cursor", "crosshair");
       let _this = this;
-      _this
-        .$confirm("是否加入该节点？", {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          type: "warning"
-        })
+      var svg = d3.select("svg");
+      let cursor = document.getElementById("gid").style.cursor;
+      svg.on("click", function() {
+        console.log(event.offsetX);
+        var offsetX=event.offsetX;
+        var offsetY=event.offsetY;
+        if(cursor == 'crosshair' && _this.isAddingNode){
+          _this
+            .$confirm("是否加入该节点？", {
+              confirmButtonText: "确定",
+              cancelButtonText: "取消",
+              type: "warning"
+            })
 
-        .then(() => {
-          var nName = document.getElementById("nameIn").value;
+            .then(() => {
+              // var nName = document.getElementById("nameIn").value;
+              var nName='新节点';
+              console.log(nName);
 
-          console.log(nName);
+              let newNode = {};
+              newNode.name = nName;
+              newNode.uuid = _this.uuidEndNum;
+              _this.uuidEndNum ++;
+              console.log(newNode.uuid);
 
-          let newNode = {};
-          newNode.name = nName;
-          newNode.uuid = _this.uuidEndNum;
-          _this.uuidEndNum ++;
-          console.log(newNode.uuid);
+              newNode.x = 0;
+              newNode.y = 0;
+              newNode.fx = offsetX;
+              console.log('x');
+              console.log(offsetX);
+              newNode.fy = offsetY;
+              _this.graph.nodes.push(newNode);
 
-          newNode.x = 0;
-          newNode.y = 0;
-          newNode.fx = 350;
-          newNode.fy = 350;
-          _this.graph.nodes.push(newNode);
+              _this.updateGraph();
 
-          _this.updateGraph();
+              _this.$message({
+                type: "success",
+                message: "添加成功！"
+              });
+            })
+            .catch(() => {
+              _this.selectrelationid = "";
+              _this.$message({
+                type: "info",
+                message: "操作已取消"
+              });
+            });
+          d3.select(".gid").style("cursor", "");
+          _this.isAddingNode=false;
 
-          _this.$message({
-            type: "success",
-            message: "添加成功！"
-          });
-        })
-        .catch(() => {
-          _this.selectrelationid = "";
-          _this.$message({
-            type: "info",
-            message: "操作已取消"
-          });
-        });
+        }
+
+      })
+      
+
     },
     // 删除节点
     deleteNode() {
