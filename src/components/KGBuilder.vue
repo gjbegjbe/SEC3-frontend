@@ -424,8 +424,13 @@ export default {
         event.stopPropagation();
       });
       nodeEnter.on("dblclick", function(d) {
+
+        d3.select(this).attr("fill",function(){
+          var i = parseInt(Math.random()*5);
+          return _this.colorList[i];
+        });
         console.log("触发双击:" + d);
-        event.preventDefault();
+       // event.preventDefault();
       });
       nodeEnter.on("mouseenter", function() {
         console.log("鼠标移入");
@@ -791,7 +796,7 @@ export default {
       // 更新节点文字
       var graphNodeText = _this.drawNodeText(nodes);
       // 更新按钮组
-      //var graphNodeButtonGroup = _this.drawButtonGroup(nodes);
+      var graphNodeButtonGroup = _this.drawButtonGroup(nodes);
       // 更新连线 links
       var graphLink = _this.drawLink(links);
       // 更新连线文字
@@ -837,7 +842,7 @@ export default {
             return d.y;
           });
         // 更新节点操作按钮组坐标
-        /*graphNodeButtonGroup
+        graphNodeButtonGroup
           .attr("cx", function(d) {
             return d.x;
           })
@@ -848,7 +853,7 @@ export default {
             return "translate(" + d.x + "," + d.y + ") scale(1)";
           });
 
-         */
+
         // 更新文字坐标
         graphNodeText
           .attr("x", function(d) {
@@ -1102,7 +1107,7 @@ export default {
         }
 
       })
-      
+
 
     },
     // 删除节点
