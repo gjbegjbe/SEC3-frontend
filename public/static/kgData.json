@@ -3,37 +3,57 @@
     {
       "name": "徐志摩",
       "uuid": "1",
-      "imgsrc": "https://ftp.bmp.ovh/imgs/2021/03/de94a8ed72bbe28f.jpg"
+      "imgsrc": "https://ftp.bmp.ovh/imgs/2021/03/de94a8ed72bbe28f.jpg",
+      "type": "person"
     },
     {
       "name": "梁思成",
       "uuid": "2",
-      "imgsrc": "https://ftp.bmp.ovh/imgs/2021/03/b5d03b95d606ad92.jpg"
+      "imgsrc": "https://ftp.bmp.ovh/imgs/2021/03/b5d03b95d606ad92.jpg",
+      "type": "person"
     },
     {
       "name": "金岳霖",
       "uuid": "3",
-      "imgsrc": "https://ftp.bmp.ovh/imgs/2021/03/4408d74d7667839c.jpg"
+      "imgsrc": "https://ftp.bmp.ovh/imgs/2021/03/4408d74d7667839c.jpg",
+      "type": "person"
     },
     {
       "name": "林徽因",
       "uuid": "4",
-      "imgsrc": "https://ftp.bmp.ovh/imgs/2021/03/77af88cd0b16b3c5.jpg"
+      "imgsrc": "https://ftp.bmp.ovh/imgs/2021/03/77af88cd0b16b3c5.jpg",
+      "type": "person"
     },
     {
       "name": "陆小曼",
       "uuid": "5",
-      "imgsrc": "https://ftp.bmp.ovh/imgs/2021/03/6c750693ad07c91e.jpg"
+      "imgsrc": "https://ftp.bmp.ovh/imgs/2021/03/6c750693ad07c91e.jpg",
+      "type": "person"
     },
     {
       "name": "《再别康桥》",
       "uuid": "6",
-      "imgsrc": "https://ftp.bmp.ovh/imgs/2021/03/eab776ea80100c77.jpg"
+      "imgsrc": "https://ftp.bmp.ovh/imgs/2021/03/eab776ea80100c77.jpg",
+      "type": "work"
     },
     {
       "name": "梁启超",
       "uuid": "7",
-      "imgsrc": "https://ftp.bmp.ovh/imgs/2021/03/7cfdb35f29b7d801.jpg"
+      "imgsrc": "https://ftp.bmp.ovh/imgs/2021/03/7cfdb35f29b7d801.jpg",
+      "type": "person"
+    },
+    {
+      "name": "清华大学",
+      "uuid": "8",
+      "imgsrc": "",
+      "type": "location"
+
+    },
+    {
+      "name": "蔡元培",
+      "uuid": "9",
+      "imgsrc": "",
+      "type": "person"
     }
   ],
   "relationship": [
@@ -108,6 +128,18 @@
       "targetid": "4",
       "name": "公公",
       "uuid": "12"
+    },
+    {
+      "sourceid": "9",
+      "targetid": "8",
+      "name": "校长",
+      "uuid": "13"
+    },
+    {
+      "sourceid": "4",
+      "targetid": "8",
+      "name": "校友",
+      "uuid": "14"
     }
   ]
 }

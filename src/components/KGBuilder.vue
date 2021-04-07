@@ -197,7 +197,9 @@
       <div class="mengceng"></div>
     </div>
   </div>
+
 </template>
+
 <script>
 import axios from "axios";
 import * as d3 from "d3";
@@ -260,7 +262,8 @@ export default {
       //
       // deleteLinkDialogVisible:true
 
-      isAddingNode:false
+      isAddingNode:false,
+      shape:5//1：图片圆圈模式，2-8，各种形状，3暂时还在调试
     };
   },
   components: {},
@@ -409,7 +412,10 @@ export default {
         return d.uuid;
       });
       node.exit().remove();
-      var nodeEnter = node.enter().append("circle");
+      var nodeEnter = node.enter()
+          .append("circle")
+          .style("stroke-width",0);
+
       var i=2;
       /*nodeEnter.on("click", function(d) {
         console.log("触发单击");
@@ -424,7 +430,7 @@ export default {
         }
         event.stopPropagation();
       });*/
-      nodeEnter.on("dblclick", function(d) {
+      nodeEnter.on("dblclick", function() {
         if(i<5){
           i++;
         }else{
@@ -432,7 +438,7 @@ export default {
         }
         console.log(i)
         d3.select(this).attr("fill",_this.colorList[i]);
-        console.log("触发双击:" + d);
+        console.log(this);
        // event.preventDefault();
       });
       nodeEnter.on("mouseenter", function() {
@@ -441,7 +447,7 @@ export default {
       });
       nodeEnter.on("mouseleave", function() {
         console.log("鼠标移出");
-        d3.select(this).style("stroke-width", 2);
+        d3.select(this).style("stroke-width", 0);
         //todo其他节点和连线一并显示
         d3.select(".node").style("fill-opacity", 1);
         d3.select(".nodetext").style("fill-opacity", 1);
@@ -513,9 +519,9 @@ export default {
         if (d.color) {
           return d.color;
         }
-        return "#c6c6c6";
+        return "#ffffff";
       });
-      node.style("stroke-opacity", 0.6);
+      node.style("stroke-opacity", 0.4);
       node.attr("r", function(d) {
         if (d.r) {
           return d.r;
@@ -524,10 +530,11 @@ export default {
       });
       node.attr("fill", function(d, i) {
         //创建圆形图像
-        if (d.imgsrc) {
+        var defs = d3.selectAll("svg >defs");
+        if (_this.shape===2) {
           var img_w = 77,
             img_h = 80;
-          var defs = d3.selectAll("svg >defs");
+
           var catpattern = defs
             .append("pattern")
             .attr("id", "catpattern" + i)
@@ -540,8 +547,107 @@ export default {
             .attr("width", img_w)
             .attr("height", img_h)
             .attr("xlink:href", d.imgsrc);
+            console.log(d.r);
           return "url(#catpattern" + i + ")";
-        } else {
+
+        }else if (_this.shape===1){
+          var rect_w = 30,
+              rect_h =30;
+          var rectpattern = defs
+              .append("pattern")
+              .attr('id',"recttest")
+              .attr("height",1)
+              .attr("width",1);
+
+          rectpattern
+              .append("rect")
+              .attr("x", -(rect_w / 2 - d.r))
+              .attr("y", -(rect_h / 2 - d.r))
+              .attr("width", rect_w)
+              .attr("height", rect_h)
+              .attr("fill",_this.colorList[2]);
+          return "url(#recttest)";
+        }else if(_this.shape===3){
+          console.log(d3.selectAll('svg >defs'))
+          return "url(#person)"
+        }
+        else if (_this.shape===4){
+          var ec_x = 50,
+            ec_y =30;
+          var ecpattern = defs
+              .append("pattern")
+              .attr('id',"ectest")
+              .attr("height",1)
+              .attr("width",1);
+
+          ecpattern
+              .append("rect")
+              .attr("x", -(ec_x / 2 - d.r))
+              .attr("y", -(ec_y / 2 - d.r))
+              .attr("width", ec_x)
+              .attr("height", ec_y)
+              .attr("rx",10)
+              .attr("fill",_this.colorList[2])
+        return "url(#ectest)";
+      }
+        else if (_this.shape===5){
+
+          var tri_down_pattern = defs
+              .append("pattern")
+              .attr('id',"tri_down_test")
+              .attr("height",1)
+              .attr("width",1);
+
+          tri_down_pattern
+              .append("polygon")
+              .attr("points", "30,55 10,20 50,20")
+              .attr("fill",_this.colorList[2])
+          return "url(#tri_down_test)";
+        }
+        else if (_this.shape===6){
+
+          var tri_up_pattern = defs
+              .append("pattern")
+              .attr('id',"tri_up_test")
+              .attr("height",1)
+              .attr("width",1);
+
+          tri_up_pattern
+              .append("polygon")
+              .attr("points", "30,10 10,45 50,45")
+              .attr("fill",_this.colorList[2])
+          return "url(#tri_up_test)";
+        }
+        else if (_this.shape===7){
+
+          var five_p_star_pattern = defs
+              .append("pattern")
+              .attr('id',"five_p_star_test")
+              .attr("height",1)
+              .attr("width",1);
+
+          five_p_star_pattern
+              .append("polygon")
+              .attr("points", "30,10 19,46 48,24 12,24 42,46")
+              .attr("fill",_this.colorList[2])
+          return "url(#five_p_star_test)";
+        }
+        else if (_this.shape===8){
+
+          var diamond_pattern = defs
+              .append("pattern")
+              .attr('id',"diamond_test")
+              .attr("height",1)
+              .attr("width",1);
+
+          diamond_pattern
+              .append("polygon")
+              .attr("points", "30,10 50,30 30,50 10,30")
+              .attr("fill",_this.colorList[2])
+          return "url(#diamond_test)";
+        }
+        else {
+
           if (d.cur === "1") {
             return _this.colorList[0];
           } else {
