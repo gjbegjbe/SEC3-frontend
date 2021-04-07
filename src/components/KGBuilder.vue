@@ -232,7 +232,7 @@ export default {
         "#ff8373",
         "#f9c62c",
         "#7f7fd5",
-        "#7f7fd5",
+        "#7dd5ff",
         "#70d3bd",
         "#ea91b0"
       ],
@@ -410,7 +410,8 @@ export default {
       });
       node.exit().remove();
       var nodeEnter = node.enter().append("circle");
-      nodeEnter.on("click", function(d) {
+      var i=2;
+      /*nodeEnter.on("click", function(d) {
         console.log("触发单击");
         _this.selectUuid = d.uuid;
         var out_buttongroup_id = ".out_buttongroup_" + d.uuid;
@@ -422,13 +423,15 @@ export default {
           d3.select(out_buttongroup_id).classed("notshow", true);
         }
         event.stopPropagation();
-      });
+      });*/
       nodeEnter.on("dblclick", function(d) {
-
-        d3.select(this).attr("fill",function(){
-          var i = parseInt(Math.random()*5);
-          return _this.colorList[i];
-        });
+        if(i<5){
+          i++;
+        }else{
+          i=0;
+        }
+        console.log(i)
+        d3.select(this).attr("fill",_this.colorList[i]);
         console.log("触发双击:" + d);
        // event.preventDefault();
       });
@@ -510,7 +513,7 @@ export default {
         if (d.color) {
           return d.color;
         }
-        return "#cccccc";
+        return "#c6c6c6";
       });
       node.style("stroke-opacity", 0.6);
       node.attr("r", function(d) {
@@ -708,7 +711,7 @@ export default {
             });
           var arc = d3
             .arc()
-            .innerRadius(m.r + 4)
+            .innerRadius(m.r + 8)
             .outerRadius(m.r + 28)
             .padAngle(0.04)
             .padRadius(100)
@@ -720,8 +723,10 @@ export default {
             })
             .attr("fill", "#86a8e7")
             .style("opacity", 0.6)
-            .attr("stroke", "#6CB7ED")
-            .attr("stroke-width", 0);
+            .attr("stroke","#50658a")
+            .attr("stroke-width", 2.5)
+            .attr("stroke-opacity",0.3)
+
           buttonGroupEnter
             .append("text")
             .attr("transform", function(d) {
