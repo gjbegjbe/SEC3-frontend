@@ -1,18 +1,20 @@
 <template>
   <div>
     <div>
-      <el-dialog title="临时新增" :visible.sync="formVisible" >
+      <el-dialog title="修改" :visible.sync="editNodeFormVisible">
 
-        <el-form :model="addForm" label-width="80px" :rules="addFormRules" ref="addForm">
-
-          <el-form-item label="主题" prop="ReimbursementTitle">
-
-            <el-input v-model="expense"></el-input>
-
+        <el-form>
+          <el-form-item label="id" >
+            <el-input :disabled="true" v-model="editNodeUuid" class="withoutColor"></el-input>
           </el-form-item>
-          <p>{{this.test}}</p>
-
+          <el-form-item label="name" >
+            <el-input :disabled="false" v-model="editNodeName" class="withoutColor"></el-input>
+          </el-form-item>
         </el-form>
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="cancelNodeEdit">取消</el-button>
+          <el-button type="primary" @click="saveNodeEdit">保存修改</el-button>
+        </div>
 
       </el-dialog>
     </div>
@@ -26,18 +28,18 @@
     <div id="aside">
       <h2>6PlusCOIN MENU</h2>
       <div class="collapse-item">
-        <input type="checkbox" id="collapse1" class="collapse-toggle"/>
+        <input type="checkbox" id="collapse1" class="collapse-toggle" />
         <label style="display: flex;" for="collapse1">
           <div>
             <h4>
-              <i class =el-icon-arrow-right style="transition: ease-in-out"></i>
+              <i class="el-icon-arrow-right" style="transition: ease-in-out"></i>
               导出 EXPORT
             </h4>
 
           </div>
         </label>
 
-        <div class="content" >
+        <div class="content">
 
           <div class="collapse-card" id="download">
             <a href="javascript:;" @click="exportPNG">
@@ -57,10 +59,10 @@
       </div>
 
       <div class="collapse-item">
-        <input type="checkbox" id="collapse2" class="collapse-toggle"/>
+        <input type="checkbox" id="collapse2" class="collapse-toggle" />
         <label style="display: flex;" for="collapse2">
           <h4>
-            <i class =el-icon-arrow-right ></i>
+            <i class="el-icon-arrow-right"></i>
             调整 ADJUST
           </h4>
         </label>
@@ -86,10 +88,10 @@
       </div>
 
       <div class="collapse-item">
-        <input type="checkbox" id="collapse3" class="collapse-toggle"/>
+        <input type="checkbox" id="collapse3" class="collapse-toggle" />
         <label style="display: flex;" for="collapse3">
           <h4>
-            <i class =el-icon-arrow-right ></i>
+            <i class="el-icon-arrow-right"></i>
             编辑节点 NODE EDIT
           </h4>
         </label>
@@ -127,14 +129,14 @@
       </div>
 
       <div class="collapse-item">
-        <input type="checkbox" id="collapse4" class="collapse-toggle"/>
+        <input type="checkbox" id="collapse4" class="collapse-toggle" />
         <label style="display: flex;" for="collapse4">
           <h4>
-            <i class =el-icon-arrow-right ></i>
+            <i class="el-icon-arrow-right"></i>
             编辑关系 LINK EDIT
           </h4>
         </label>
-        <div class="content" >
+        <div class="content">
           <div class="collapse-card" id="modify2">
 
             <div style="margin-bottom: 10px;margin-top: 15px">
@@ -158,7 +160,7 @@
 
             <div>
               <a href="javascript:;" @click="addLink">
-                <li style= "margin-left: 20%; margin-bottom:25px;">
+                <li style="margin-left: 20%; margin-bottom:25px;">
                   <i class="el-icon-plus"></i> 添加
                 </li>
               </a>
@@ -175,18 +177,18 @@
             </div>
           </div>
 
-          </div>
         </div>
+      </div>
       <div class="collapse-item">
-        <input type="checkbox" id="collapse5" class="collapse-toggle"/>
+        <input type="checkbox" id="collapse5" class="collapse-toggle" />
         <label style="display: flex;" for="collapse5">
           <h4>
-            <i class =el-icon-arrow-right ></i>
+            <i class="el-icon-arrow-right"></i>
             文本编辑 JSON EDIT
           </h4>
         </label>
 
-        <div class="content" >
+        <div class="content">
 
           <div class="svg-set-box0">
             <a>
@@ -202,8 +204,7 @@
           </div>
         </div>
       </div>
-      </div>
-
+    </div>
 
 
     <div id="gid_tc" style="float:left;">
@@ -269,17 +270,19 @@ export default {
       uuidEndNum: 0,
       nodeRecordList: [],
 
-      txx: '',
-      tyy: '',
+      txx: "",
+      tyy: "",
       //
       // selectrelationid: '',//选择操作的关系id
       //
       // deleteLinkDialogVisible:true
 
-      isAddingNode:false,
-      shape:5,//1：图片圆圈模式，2-8，各种形状，3暂时还在调试
+      isAddingNode: false,
+      shape: 5,//1：图片圆圈模式，2-8，各种形状，3暂时还在调试
 
-      formVisible:true,//临时新增
+      editNodeFormVisible: false,//编辑节点窗口是否显示
+      editNodeUuid: '',//正在编辑的节点id
+      editNodeName: '',//正在编辑的节点名称
 
     };
   },
@@ -289,7 +292,8 @@ export default {
     this.addMaker();
     this.initGraph();
   },
-  created() {},
+  created() {
+  },
   watch: {},
   methods: {
     initGraphContainer() {
@@ -341,10 +345,9 @@ export default {
       let response = {};
       try {
         response = await axios.get("http://localhost:8081/api/getCoin", {});
-        if(response.data.node.length === 0)
+        if (response.data.node.length === 0)
           response = await axios.get("/static/kgData.json", {});
-      }
-      catch (e) {
+      } catch (e) {
         response = await axios.get("/static/kgData.json", {});
       }
 
@@ -430,10 +433,10 @@ export default {
       });
       node.exit().remove();
       var nodeEnter = node.enter()
-          .append("circle")
-          .style("stroke-width",0);
+        .append("circle")
+        .style("stroke-width", 0);
 
-      var i=2;
+      var i = 2;
       nodeEnter.on("click", function(d) {
         console.log("触发单击");
         _this.selectUuid = d.uuid;
@@ -448,15 +451,15 @@ export default {
         event.stopPropagation();
       });
       nodeEnter.on("dblclick", function() {
-        if(i<5){
+        if (i < 5) {
           i++;
-        }else{
-          i=0;
+        } else {
+          i = 0;
         }
-        console.log(i)
-        d3.select(this).attr("fill",_this.colorList[i]);
+        console.log(i);
+        d3.select(this).attr("fill", _this.colorList[i]);
         console.log(this);
-       // event.preventDefault();
+        // event.preventDefault();
       });
       nodeEnter.on("mouseenter", function() {
         console.log("鼠标移入");
@@ -548,7 +551,7 @@ export default {
       node.attr("fill", function(d, i) {
         //创建圆形图像
         var defs = d3.selectAll("svg >defs");
-        if (_this.shape===2) {
+        if (_this.shape === 2) {
           var img_w = 77,
             img_h = 80;
 
@@ -564,106 +567,100 @@ export default {
             .attr("width", img_w)
             .attr("height", img_h)
             .attr("xlink:href", d.imgsrc);
-            console.log(d.r);
+          console.log(d.r);
           return "url(#catpattern" + i + ")";
 
-        }else if (_this.shape===1){
+        } else if (_this.shape === 1) {
           var rect_w = 30,
-              rect_h =30;
+            rect_h = 30;
           var rectpattern = defs
-              .append("pattern")
-              .attr('id',"recttest")
-              .attr("height",1)
-              .attr("width",1);
+            .append("pattern")
+            .attr("id", "recttest")
+            .attr("height", 1)
+            .attr("width", 1);
 
           rectpattern
-              .append("rect")
-              .attr("x", -(rect_w / 2 - d.r))
-              .attr("y", -(rect_h / 2 - d.r))
-              .attr("width", rect_w)
-              .attr("height", rect_h)
-              .attr("fill",_this.colorList[2]);
+            .append("rect")
+            .attr("x", -(rect_w / 2 - d.r))
+            .attr("y", -(rect_h / 2 - d.r))
+            .attr("width", rect_w)
+            .attr("height", rect_h)
+            .attr("fill", _this.colorList[2]);
           return "url(#recttest)";
-        }else if(_this.shape===3){
-          console.log(d3.selectAll('svg >defs'))
-          return "url(#person)"
-        }
-        else if (_this.shape===4){
+        } else if (_this.shape === 3) {
+          console.log(d3.selectAll("svg >defs"));
+          return "url(#person)";
+        } else if (_this.shape === 4) {
           var ec_x = 50,
-            ec_y =30;
+            ec_y = 30;
           var ecpattern = defs
-              .append("pattern")
-              .attr('id',"ectest")
-              .attr("height",1)
-              .attr("width",1);
+            .append("pattern")
+            .attr("id", "ectest")
+            .attr("height", 1)
+            .attr("width", 1);
 
           ecpattern
-              .append("rect")
-              .attr("x", -(ec_x / 2 - d.r))
-              .attr("y", -(ec_y / 2 - d.r))
-              .attr("width", ec_x)
-              .attr("height", ec_y)
-              .attr("rx",10)
-              .attr("fill",_this.colorList[2])
-        return "url(#ectest)";
-      }
-        else if (_this.shape===5){
+            .append("rect")
+            .attr("x", -(ec_x / 2 - d.r))
+            .attr("y", -(ec_y / 2 - d.r))
+            .attr("width", ec_x)
+            .attr("height", ec_y)
+            .attr("rx", 10)
+            .attr("fill", _this.colorList[2]);
+          return "url(#ectest)";
+        } else if (_this.shape === 5) {
 
           var tri_down_pattern = defs
-              .append("pattern")
-              .attr('id',"tri_down_test")
-              .attr("height",1)
-              .attr("width",1);
+            .append("pattern")
+            .attr("id", "tri_down_test")
+            .attr("height", 1)
+            .attr("width", 1);
 
           tri_down_pattern
-              .append("polygon")
-              .attr("points", "30,55 10,20 50,20")
-              .attr("fill",_this.colorList[2])
+            .append("polygon")
+            .attr("points", "30,55 10,20 50,20")
+            .attr("fill", _this.colorList[2]);
           return "url(#tri_down_test)";
-        }
-        else if (_this.shape===6){
+        } else if (_this.shape === 6) {
 
           var tri_up_pattern = defs
-              .append("pattern")
-              .attr('id',"tri_up_test")
-              .attr("height",1)
-              .attr("width",1);
+            .append("pattern")
+            .attr("id", "tri_up_test")
+            .attr("height", 1)
+            .attr("width", 1);
 
           tri_up_pattern
-              .append("polygon")
-              .attr("points", "30,10 10,45 50,45")
-              .attr("fill",_this.colorList[2])
+            .append("polygon")
+            .attr("points", "30,10 10,45 50,45")
+            .attr("fill", _this.colorList[2]);
           return "url(#tri_up_test)";
-        }
-        else if (_this.shape===7){
+        } else if (_this.shape === 7) {
 
           var five_p_star_pattern = defs
-              .append("pattern")
-              .attr('id',"five_p_star_test")
-              .attr("height",1)
-              .attr("width",1);
+            .append("pattern")
+            .attr("id", "five_p_star_test")
+            .attr("height", 1)
+            .attr("width", 1);
 
           five_p_star_pattern
-              .append("polygon")
-              .attr("points", "30,10 19,46 48,24 12,24 42,46")
-              .attr("fill",_this.colorList[2])
+            .append("polygon")
+            .attr("points", "30,10 19,46 48,24 12,24 42,46")
+            .attr("fill", _this.colorList[2]);
           return "url(#five_p_star_test)";
-        }
-        else if (_this.shape===8){
+        } else if (_this.shape === 8) {
 
           var diamond_pattern = defs
-              .append("pattern")
-              .attr('id',"diamond_test")
-              .attr("height",1)
-              .attr("width",1);
+            .append("pattern")
+            .attr("id", "diamond_test")
+            .attr("height", 1)
+            .attr("width", 1);
 
           diamond_pattern
-              .append("polygon")
-              .attr("points", "30,10 50,30 30,50 10,30")
-              .attr("fill",_this.colorList[2])
+            .append("polygon")
+            .attr("points", "30,10 50,30 30,50 10,30")
+            .attr("fill", _this.colorList[2]);
           return "url(#diamond_test)";
-        }
-        else {
+        } else {
 
           if (d.cur === "1") {
             return _this.colorList[0];
@@ -846,9 +843,9 @@ export default {
             })
             .attr("fill", "#86a8e7")
             .style("opacity", 0.6)
-            .attr("stroke","#50658a")
+            .attr("stroke", "#50658a")
             .attr("stroke-width", 2.5)
-            .attr("stroke-opacity",0.3)
+            .attr("stroke-opacity", 0.3);
 
           buttonGroupEnter
             .append("text")
@@ -877,15 +874,23 @@ export default {
             d.data.name + ":" + d.data.code + ":uuid:" + _this.selectUuid
           );
           switch (d.data.code) {
-            case 'append':
+            case "append":
               break;
-            case 'edit':
+            case "edit":
+              _this.editNodeFormVisible = true;
+              _this.editNodeUuid=_this.selectUuid;
+              for (let i = 0; i < _this.graph.nodes.length; i++) {
+                if (_this.graph.nodes[i].uuid === _this.editNodeUuid) {
+                  _this.editNodeName=_this.graph.nodes[i].name;
+                }
+              };
+
               break;
-            case'more':
+            case"more":
               break;
-            case 'link':
+            case "link":
               break;
-            case 'delete':
+            case "delete":
               _this
                 .$confirm("该操作暂时不可撤销", "将要删除该节点，是否继续？", {
                   confirmButtonText: "确定",
@@ -893,7 +898,7 @@ export default {
                   type: "warning"
                 })
                 .then(() => {
-                  var selectDeleteUuid=_this.selectUuid;
+                  var selectDeleteUuid = _this.selectUuid;
                   console.log(selectDeleteUuid);
                   for (let i = 0; i < _this.graph.nodes.length; i++) {
                     if (_this.graph.nodes[i].uuid === selectDeleteUuid) {
@@ -916,9 +921,10 @@ export default {
                 });
               break;
 
-          };
+          }
+          ;
 
-          console.log(_this.formVisible);
+          console.log(_this.editNodeFormVisible);
         });
       });
     },
@@ -977,6 +983,7 @@ export default {
         .alphaTarget(0)
         .alphaDecay(0.05)
         .on("tick", ticked);
+
       function ticked() {
         // 更新连线坐标
         graphLink
@@ -1034,6 +1041,7 @@ export default {
             return d.y;
           });
       }
+
       _this.simulation.force("link").links(links);
       _this.simulation.force(
         "center",
@@ -1134,9 +1142,12 @@ export default {
         document.webkitExitFullscreen();
       }
     },
-    btnCollapseNode() {},
-    btnOpenNode() {},
-    close() {},
+    btnCollapseNode() {
+    },
+    btnOpenNode() {
+    },
+    close() {
+    },
 
     exportPNG: function() {
       var serializer = new XMLSerializer();
@@ -1145,7 +1156,7 @@ export default {
       newsvg.selectAll(".nodebutton").remove();
 
       var source =
-        '<?xml version="1.0" standalone="no"?>\r\n' +
+        "<?xml version=\"1.0\" standalone=\"no\"?>\r\n" +
         serializer.serializeToString(newsvg.node());
       var image = new Image();
       image.src =
@@ -1190,13 +1201,18 @@ export default {
       downloadAnchorNode.click();
       downloadAnchorNode.remove();
     },
-    exportSERVER: async function () {
-      let body = { "node" : [], "relationship" : []};
+    exportSERVER: async function() {
+      let body = { "node": [], "relationship": [] };
       for (let currNode of this.graph.nodes) {
-        body.node.push({"uuid": currNode.uuid, "name": currNode.name, "imgsrc": currNode.imgsrc})
+        body.node.push({ "uuid": currNode.uuid, "name": currNode.name, "imgsrc": currNode.imgsrc });
       }
       for (let currLink of this.graph.links) {
-        body.relationship.push({"sourceid": currLink.sourceid, "targetid": currLink.targetid, "name": currLink.name, "uuid": currLink.uuid})
+        body.relationship.push({
+          "sourceid": currLink.sourceid,
+          "targetid": currLink.targetid,
+          "name": currLink.name,
+          "uuid": currLink.uuid
+        });
       }
       console.log(body);
 
@@ -1206,8 +1222,7 @@ export default {
           type: "success",
           message: "保存成功！"
         });
-      }
-      catch (e) {
+      } catch (e) {
         this.$message({
           type: "info",
           message: "保存失败！"
@@ -1229,9 +1244,9 @@ export default {
       let cursor = document.getElementById("gid").style.cursor;
       svg.on("click", function() {
         console.log(event.offsetX);
-        var offsetX=event.offsetX;
-        var offsetY=event.offsetY;
-        if(cursor == 'crosshair' && _this.isAddingNode){
+        var offsetX = event.offsetX;
+        var offsetY = event.offsetY;
+        if (cursor == "crosshair" && _this.isAddingNode) {
           _this
             .$confirm("是否加入该节点？", {
               confirmButtonText: "确定",
@@ -1241,19 +1256,19 @@ export default {
 
             .then(() => {
               // var nName = document.getElementById("nameIn").value;
-              var nName='新节点';
+              var nName = "新节点";
               console.log(nName);
 
               let newNode = {};
               newNode.name = nName;
               newNode.uuid = _this.uuidEndNum;
-              _this.uuidEndNum ++;
+              _this.uuidEndNum++;
               console.log(newNode.uuid);
 
               newNode.x = 0;
               newNode.y = 0;
               newNode.fx = offsetX;
-              console.log('x');
+              console.log("x");
               console.log(offsetX);
               newNode.fy = offsetY;
               _this.graph.nodes.push(newNode);
@@ -1273,11 +1288,11 @@ export default {
               });
             });
           d3.select(".gid").style("cursor", "");
-          _this.isAddingNode=false;
+          _this.isAddingNode = false;
 
         }
 
-      })
+      });
 
 
     },
@@ -1513,6 +1528,26 @@ export default {
       _this.updateGraph();
     },
 
+    cancelNodeEdit(){
+      var _this=this;
+      _this.editNodeFormVisible=false;
+      _this.editNodeUuid='';
+      _this.editNodeName='';
+    },
+
+    saveNodeEdit(){
+      var _this=this;
+      _this.editNodeFormVisible=false;
+      for (let i = 0; i < _this.graph.nodes.length; i++) {
+        if (_this.graph.nodes[i].uuid === _this.editNodeUuid) {
+          _this.graph.nodes[i].name = _this.editNodeName;
+        }
+      };
+      _this.drawNodeText(_this.graph.nodes);
+      _this.editNodeUuid='';
+      _this.editNodeName='';
+    }
+
 
   }
 };
@@ -1533,15 +1568,16 @@ export default {
   padding-left: 320px;
 }
 
-.collapse-toggle{
+.collapse-toggle {
   display: none;
 }
-.content{
+
+.content {
   max-height: 0px;
   overflow: hidden;
   transition: 0.7s ease-in-out;
   background-color: rgba(196, 194, 194, 0.3);
-  width:100%;
+  width: 100%;
   border-width: 0;
   box-shadow: inset 0px 5px 8px 0px rgba(18, 29, 29, 0.15),
     /*上边阴影  */ inset 0px 0px 0px 0px rgba(18, 29, 29, 0.25),
@@ -1549,25 +1585,26 @@ export default {
     /*右边阴影  */ inset 0px -5px 5px 0px rgba(18, 29, 29, 0); /*下边阴影  */
 
 }
-.collapse-toggle:checked~.content{
+
+.collapse-toggle:checked ~ .content {
   max-height: 400px;
 }
 
-.collapse-toggle:checked ~label .el-icon-arrow-right{
+.collapse-toggle:checked ~ label .el-icon-arrow-right {
   transform: rotate(90deg);
 }
 
-.collapse-toggle:not(:checked) ~label .el-icon-arrow-right{
+.collapse-toggle:not(:checked) ~ label .el-icon-arrow-right {
 }
 
-.collapse-card{
+.collapse-card {
   padding: 15px;
 }
-.collapse-item{
+
+.collapse-item {
   margin-top: 10px;
   border-radius: 10px
 }
-
 
 
 #aside {
@@ -1603,7 +1640,7 @@ h4 {
   font-size: 1.4em;
   line-height: 0em;
   text-shadow: 2px 2px 2px #999999;
-  width:95%
+  width: 95%
 
 }
 
@@ -1660,6 +1697,7 @@ h4 {
   float: left;
   margin-top: 7px;
 }
+
 .collapse-card input {
   background: rgba(204, 204, 204, 0.5); /*半透明*/
   border: 0;
@@ -1723,6 +1761,7 @@ a {
     /*左边阴影 */ 10px 0px 10px 0px rgba(18, 29, 29, 0.1),
     /*右边阴影  */ 0px 10px 10px 0px rgba(18, 29, 29, 0.1); /*下边阴影  */
 }
+
 #wrap label:hover {
   background: #daddda;
   fill-opacity: 0.2;
@@ -1757,6 +1796,7 @@ ul,
 li {
   list-style: none;
 }
+
 .toolbar li {
   float: left;
   width: 120px;
@@ -1766,9 +1806,11 @@ li {
   text-decoration: none;
   color: #606266;
 }
+
 .notshow {
   display: none;
 }
+
 .nodetext {
   pointer-events: all;
   cursor: pointer;
@@ -1776,6 +1818,7 @@ li {
   stroke-dashoffset: 10;
   transition: all ease 0.1s;
 }
+
 .nodetext:hover {
   stroke-dashoffset: 0;
   stroke-dasharray: 100;
