@@ -508,7 +508,7 @@ export default {
         d3.selectAll(".linkline").style("stroke-opacity", 0.1);
         //显示相关的连线
         _this.qaGraphLink
-          .selectAll(".linkine")
+          .selectAll(".linkline")
           .style("stroke-opacity", function(c) {
             if (c.lk.targetid === d.uuid) {
               console.log(c);
@@ -516,14 +516,22 @@ export default {
             }
           });
         //透明所有连线文字
-        d3.selectAll(".linktext").style("fill-opacity", 0.1);
+        _this.qaGraphLinkText
+            .selectAll(".linktext")
+            .style("fill-opacity",0.1)
+            console.log("we did s1!")
+
         //显示相关的连线文字
         _this.qaGraphLinkText
           .selectAll(".linktext")
           .style("fill-opacity", function(c) {
             if (c.lk.targetid === d.uuid) {
+              console.log("we are in 2");
+              console.log(c);
+              console.log(d.uuid)
               return 1.0;
             }
+            return 0.1;
           });
       });
       nodeEnter.call(
@@ -765,7 +773,7 @@ export default {
         .enter()
         .append("text")
         .attr("class", "linktext")
-        .attr("fontfamily", "微软雅黑")
+        .attr("font-family", "微软雅黑")
         .style("fill", "#888888")
         .style("font-size", "10px")
         .style("textAnchor","middle")
@@ -789,9 +797,8 @@ export default {
     },
     drawButtonGroup(nodes) {
       var _this = this;
-      d3.selectAll(".nodebutton >g").remove();
       var nodebutton = _this.nodebuttonGroup
-        .selectAll(".nodebutton")
+        .selectAll("nodebutton")
         .data(nodes, function(d) {
           return d.uuid;
         });
@@ -815,6 +822,7 @@ export default {
           return "#out_circle_" + d.r;
         }) //  指定 use 引用的内容
         .attr("class", function(d) {
+          console.log("!!!"+d.uuid);
           return "buttongroup out_buttongroup_" + d.uuid;
         })
         .classed("notshow", true);
@@ -828,11 +836,11 @@ export default {
       );
       return nodebutton;
     },
-    drawToolButton() {
+    drawToolButton(nodes) {
       var _this = this;
       //先删除所有为节点自定义的按钮组
       d3.selectAll("svg >defs").remove();
-      var nodes = _this.graph.nodes;
+
       var pie = d3
         .pie()
         .value(function(d) {
@@ -878,7 +886,12 @@ export default {
             .style("opacity", 0.6)
             .attr("stroke", "#50658a")
             .attr("stroke-width", 2.5)
-            .attr("stroke-opacity", 0.3);
+            .attr("stroke-opacity", 0.3)
+            .attr("id",function(d,i){
+              console.log("!"+d.uuid);
+              return "buttonarc"+i+".";
+            });
+
 
           buttonGroupEnter
             .append("text")
@@ -893,7 +906,16 @@ export default {
               return "#ffffff";
             })
             .style("fill-opacity", 1)
-            .attr("font-size", 10);
+            .attr("font-size", 10)
+            .append("textPath")
+            .attr("xlink:href",function(d,i) {return '#buttonarc'+i+"."+_this.selectUuid});
+          buttonGroupEnter.call(
+              d3
+                  .drag()
+                  .on("start", _this.dragStarted)
+                  .on("drag", _this.dragged)
+                  .on("end", _this.dragEnded)
+          )
         }
       });
     },
@@ -1059,6 +1081,7 @@ export default {
           .attr("transform", function(d) {
             return "translate(" + d.x + "," + d.y + ") scale(1)";
           });
+          //console.log(graphNodeButtonGroup);
 
 
         // 更新文字坐标
