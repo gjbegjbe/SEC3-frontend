@@ -1,8 +1,25 @@
 <template>
   <div>
+    <div>
+      <el-dialog title="临时新增" :visible.sync="formVisible" @close='closeDialog' >
+
+        <el-form :model="addForm" label-width="80px" :rules="addFormRules" ref="addForm">
+
+          <el-form-item label="主题" prop="ReimbursementTitle">
+
+            <el-input v-model="expense"></el-input>
+
+          </el-form-item>
+          <p>{{this.test}}</p>
+
+        </el-form>
+
+      </el-dialog>
+    </div>
+
     <input type="checkbox" id="sidemenu" />
 
-    <aside>
+    <div id="aside">
       <h2>6PlusCOIN MENU</h2>
       <div class="collapse-item">
         <input type="checkbox" id="collapse1" name="collapse" class="collapse-toggle"/>
@@ -173,9 +190,11 @@
 
         <div class="content" >
           <div class="svg-set-box0" style="margin: 10px">
-            <li>
-              <textarea id="text" @keydown="keydownFn"></textarea>
-            </li>
+            <a>
+              <li>
+                <textarea id="text"></textarea>
+              </li>
+            </a>
             <a href="javascript:;" @click="change">
               <li style="float: left;margin-left: 35px;margin-bottom:20px;font-size: 1.2em;color: white;">
                 <i class="el-icon-edit-outline"></i> 文档修改
@@ -185,7 +204,7 @@
         </div>
       </div>
 
-    </aside>
+    </div>
 
     <div id="wrap">
       <label id="sideMenuControl" for="sidemenu">≡</label>
@@ -263,7 +282,10 @@ export default {
       // deleteLinkDialogVisible:true
 
       isAddingNode:false,
-      shape:5//1：图片圆圈模式，2-8，各种形状，3暂时还在调试
+      shape:5,//1：图片圆圈模式，2-8，各种形状，3暂时还在调试
+
+      formVisible:true,//临时新增
+
     };
   },
   components: {},
@@ -1451,7 +1473,9 @@ export default {
       var _this = this;
       _this.graph = JSON.parse(document.getElementById("text").value);
       _this.updateGraph();
-    }
+    },
+
+
   }
 };
 </script>
@@ -1460,7 +1484,7 @@ export default {
   display: none;
 }
 
-#sidemenu:checked + aside {
+#sidemenu:checked ~ #aside {
   /*为被选中的sidemenu后的aside设置属性（紧邻）*/
   left: 0;
   /*点击按钮即选中checked后,侧边栏位置变为贴着左边,配合ease-out使用,有渐变滑出的效果*/
@@ -1504,7 +1528,7 @@ export default {
 
 
 
-aside {
+#aside {
   /*侧边栏,初始位置为-320px，即隐藏效果*/
   position: absolute;
   top: 0;
