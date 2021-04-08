@@ -413,7 +413,8 @@ export default {
         .append("path")
         .attr("d", arrowPath)
         .attr("class","arrowmarker")
-        .attr("fill", "#56c38a");
+        .attr("fill", "#56c38a")
+
     },
     openNode() {
       var _this = this;
@@ -504,8 +505,9 @@ export default {
         //todo其他节点和连线一并显示
         d3.select(".node").style("fill-opacity", 1);
         d3.select(".nodetext").style("fill-opacity", 1);
-        d3.selectAll(".linkline").style("stroke-opacity", 1);
+        d3.selectAll(".linkline").style("stroke-opacity", 1).style("stroke-width",1);
         d3.selectAll(".linktext").style("fill-opacity", 1);
+        d3.selectAll(".arrowmarker").style("fill-opacity",1)
       });
       nodeEnter.on("mouseover", function(d) {
         //todo鼠标放上去只显示相关节点，其他节点和连线隐藏
@@ -538,29 +540,38 @@ export default {
           });
         //透明所有连线
         d3.selectAll(".linkline").style("stroke-opacity", 0.1);
+        d3.selectAll(".arrowmarker").style("fill-opacity",0.5);
+        console.log(d3.selectAll(".arrowmarker"));
         //显示相关的连线
         _this.qaGraphLink
           .selectAll(".linkline")
           .style("stroke-opacity", function(c) {
             if (c.lk.targetid === d.uuid || c.lk.sourceid === d.uuid) {
-              console.log(c);
+              //console.log(c);
               return 1.0;
             }
-          });
+          })
+          .style("stroke-width",function(c){
+            if (c.lk.targetid === d.uuid || c.lk.sourceid === d.uuid) {
+              //console.log(c);
+              return 1.5;
+            }
+          })
+
         //透明所有连线文字
         _this.qaGraphLinkText
             .selectAll(".linktext")
             .style("fill-opacity",0.1)
-            console.log("we did s1!")
+            //console.log("we did s1!")
 
         //显示相关的连线文字
         _this.qaGraphLinkText
           .selectAll(".linktext")
           .style("fill-opacity", function(c) {
             if (c.lk.targetid === d.uuid || c.lk.sourceid === d.uuid) {
-              console.log("we are in 2");
-              console.log(c);
-              console.log(d.uuid)
+             // console.log("we are in 2");
+             // console.log(c);
+             // console.log(d.uuid)
               return 1.0;
             }
             return 0.1;
@@ -779,7 +790,10 @@ export default {
         .attr("stroke", function() {
           return _this.colorList[2];
         })
-        .attr("marker-end", "url(#arrow)"); // 箭头
+        .attr("marker-end", "url(#arrow)")
+
+
+
       linkEnter.on("mouseenter",function(){
         console.log((this))
       }) ;
@@ -834,6 +848,7 @@ export default {
       var nodebutton = _this.nodebuttonGroup
         .selectAll("nodebutton")
         .data(nodes, function(d) {
+          console.log("we do it for"+d.uuid);
           return d.uuid;
         });
       nodebutton.exit().remove();
@@ -856,7 +871,7 @@ export default {
           return "#out_circle_" + d.r;
         }) //  指定 use 引用的内容
         .attr("class", function(d) {
-          console.log("!!!"+d.uuid);
+          //console.log("!!!"+d.uuid);
           return "buttongroup out_buttongroup_" + d.uuid;
         })
         .classed("notshow", true);
@@ -922,7 +937,7 @@ export default {
             .attr("stroke-width", 2.5)
             .attr("stroke-opacity", 0.3)
             .attr("id",function(d,i){
-              console.log("!"+d.uuid);
+              //console.log("!"+d.uuid);
               return "buttonarc"+i+".";
             });
 
@@ -988,7 +1003,7 @@ export default {
                 })
                 .then(() => {
                   var selectDeleteUuid = _this.selectUuid;
-                  console.log(selectDeleteUuid);
+                  //console.log(selectDeleteUuid);
                   for (let i = 0; i < _this.graph.nodes.length; i++) {
                     if (_this.graph.nodes[i].uuid === selectDeleteUuid) {
                       _this.graph.nodes.splice(i, 1);
@@ -1113,7 +1128,10 @@ export default {
             return d.y;
           })
           .attr("transform", function(d) {
-            return "translate(" + d.x + "," + d.y + ") scale(1)";
+            var x0 = d.x;
+            var y0 = d.y;
+           //console.log(d.uuid+":"+x0+"+"+y0);
+            return "translate(" + x0 + "," + y0 + ") scale(1)";
           });
           //console.log(graphNodeButtonGroup);
 
