@@ -452,6 +452,7 @@ export default {
         event.stopPropagation();
       });
       nodeEnter.on("dblclick", function() {
+
         if (i < 5) {
           i++;
         } else {
@@ -610,18 +611,20 @@ export default {
             .attr("fill", _this.colorList[2]);
           return "url(#ectest)";
         } else if (_this.shape === 5) {
+          console.log('id');
+          console.log(d.color);
 
           var tri_down_pattern = defs
             .append("pattern")
-            .attr("id", "tri_down_test")
+            .attr("id", "tri_down_pattern"+i)
             .attr("height", 1)
             .attr("width", 1);
 
           tri_down_pattern
             .append("polygon")
             .attr("points", "30,55 10,20 50,20")
-            .attr("fill", _this.colorList[2]);
-          return "url(#tri_down_test)";
+            .attr("fill", d.color);
+          return "url(#tri_down_pattern"+i+")";
         } else if (_this.shape === 6) {
 
           var tri_up_pattern = defs
