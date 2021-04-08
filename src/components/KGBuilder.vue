@@ -437,7 +437,7 @@ export default {
         .append("circle")
         .style("stroke-width", 0);
 
-      var i = 2;
+
       nodeEnter.on("click", function(d) {
         console.log("触发单击");
         _this.selectUuid = d.uuid;
@@ -451,17 +451,18 @@ export default {
         }
         event.stopPropagation();
       });
-      nodeEnter.on("dblclick", function() {
+      nodeEnter.on("dblclick", function(d) {
 
-        if (i < 5) {
-          i++;
+        if (d.color < 6) {
+          d.color++;
         } else {
-          i = 0;
+          d.color = 1;
         }
-        console.log(i);
-        d3.select(this).attr("fill", _this.colorList[i]);
+        console.log(d.color);
+
         console.log(this);
         // event.preventDefault();
+        _this.updateGraph();
       });
       nodeEnter.on("mouseenter", function() {
         console.log("鼠标移入");
@@ -547,7 +548,7 @@ export default {
       });
       node.style("stroke", function(d) {
         if (d.color) {
-          return d.color;
+          return _this.colorList[d.color-1];
         }
         return "#ffffff";
       });
@@ -595,7 +596,7 @@ export default {
             .attr("y", -(rect_h / 2 - d.r))
             .attr("width", rect_w)
             .attr("height", rect_h)
-            .attr("fill", _this.colorList[2]);
+            .attr("fill", _this.colorList[d.color-1]);
           return "url(#recttest)";
         } else if (_this.shape === 3) {
           console.log(d3.selectAll("svg >defs"));
@@ -616,7 +617,7 @@ export default {
             .attr("width", ec_x)
             .attr("height", ec_y)
             .attr("rx", 10)
-            .attr("fill", _this.colorList[2]);
+            .attr("fill",_this.colorList[d.color-1]);
           return "url(#ectest)";
         } else if (_this.shape === 5) {
           console.log('id');
@@ -631,7 +632,7 @@ export default {
           tri_down_pattern
             .append("polygon")
             .attr("points", "30,55 10,20 50,20")
-            .attr("fill", d.color);
+            .attr("fill", _this.colorList[d.color-1]);
           return "url(#tri_down_pattern"+i+")";
         } else if (_this.shape === 6) {
 
@@ -644,7 +645,7 @@ export default {
           tri_up_pattern
             .append("polygon")
             .attr("points", "30,10 10,45 50,45")
-            .attr("fill", _this.colorList[2]);
+            .attr("fill",_this.colorList[d.color-1]);
           return "url(#tri_up_test)";
         } else if (_this.shape === 7) {
 
@@ -657,7 +658,7 @@ export default {
           five_p_star_pattern
             .append("polygon")
             .attr("points", "30,10 19,46 48,24 12,24 42,46")
-            .attr("fill", _this.colorList[2]);
+            .attr("fill", _this.colorList[d.color-1]);
           return "url(#five_p_star_test)";
         } else if (_this.shape === 8) {
 
@@ -670,7 +671,7 @@ export default {
           diamond_pattern
             .append("polygon")
             .attr("points", "30,10 50,30 30,50 10,30")
-            .attr("fill", _this.colorList[2]);
+            .attr("fill",_this.colorList[d.color-1]);
           return "url(#diamond_test)";
         } else {
 
