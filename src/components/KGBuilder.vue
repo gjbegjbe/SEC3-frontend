@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>
-      <el-dialog title="临时新增" :visible.sync="formVisible" @close='closeDialog' >
+      <el-dialog title="临时新增" :visible.sync="formVisible" >
 
         <el-form :model="addForm" label-width="80px" :rules="addFormRules" ref="addForm">
 
@@ -439,7 +439,7 @@ export default {
           .style("stroke-width",0);
 
       var i=2;
-      /*nodeEnter.on("click", function(d) {
+      nodeEnter.on("click", function(d) {
         console.log("触发单击");
         _this.selectUuid = d.uuid;
         var out_buttongroup_id = ".out_buttongroup_" + d.uuid;
@@ -451,7 +451,7 @@ export default {
           d3.select(out_buttongroup_id).classed("notshow", true);
         }
         event.stopPropagation();
-      });*/
+      });
       nodeEnter.on("dblclick", function() {
         if(i<5){
           i++;
@@ -872,7 +872,7 @@ export default {
         }
       });
     },
-    bindEventButtonGroup() {
+    bindEventButtonGroup() {//给按钮绑定事件
       var _this = this;
       //按钮组事件绑定
       _this.toolbarData.forEach(function(m) {
@@ -881,6 +881,49 @@ export default {
           console.log(
             d.data.name + ":" + d.data.code + ":uuid:" + _this.selectUuid
           );
+          switch (d.data.code) {
+            case 'append':
+              break;
+            case 'edit':
+              break;
+            case'more':
+              break;
+            case 'link':
+              break;
+            case 'delete':
+              _this
+                .$confirm("该操作暂时不可撤销", "将要删除该节点，是否继续？", {
+                  confirmButtonText: "确定",
+                  cancelButtonText: "取消",
+                  type: "warning"
+                })
+                .then(() => {
+                  var selectDeleteUuid=_this.selectUuid;
+                  console.log(selectDeleteUuid);
+                  for (let i = 0; i < _this.graph.nodes.length; i++) {
+                    if (_this.graph.nodes[i].uuid === selectDeleteUuid) {
+                      _this.graph.nodes.splice(i, 1);
+                      break;
+                    }
+                  }
+                  _this.updateGraph();
+                  _this.$message({
+                    type: "success",
+                    message: "删除成功！"
+                  });
+                })
+                .catch(() => {
+                  _this.selectrelationid = "";
+                  _this.$message({
+                    type: "info",
+                    message: "操作已取消"
+                  });
+                });
+              break;
+
+          };
+
+          console.log(_this.formVisible);
         });
       });
     },
