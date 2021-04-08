@@ -78,7 +78,7 @@
               <li><i class="el-icon-refresh-right"></i> 还原大小</li>
             </a>
             <a href="javascript:;" @click="restartPicture">
-              <li><i class="el-icon-magic-refresh"></i> 还原图形</li>
+              <li><i class="el-icon-refresh"></i> 还原图形</li>
             </a>
             <a href="javascript:;" @click="changeFull">
               <li><i class="el-icon-full-screen"></i> 全屏切换</li>
