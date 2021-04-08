@@ -328,8 +328,8 @@ export default {
         )
         .force("collide", d3.forceCollide().strength(0.1))
         .force("center", d3.forceCenter(this.width / 2, this.height / 2));
-      this.qaGraphLink = this.svg.append("g").attr("class", "line");
-      this.qaGraphLinkText = this.svg.append("g").attr("class", "linetext");
+      this.qaGraphLink = this.svg.append("g").attr("class", "linkline");
+      this.qaGraphLinkText = this.svg.append("g").attr("class", "linktext");
       this.qaGraphNode = this.svg.append("g").attr("class", "node");
       this.qaGraphNodeText = this.svg.append("g").attr("class", "nodetext");
       this.nodebuttonGroup = this.svg.append("g").attr("class", "nodebutton");
@@ -382,6 +382,7 @@ export default {
       arrowMarker
         .append("path")
         .attr("d", arrowPath)
+        .attr("class","arrowmarker")
         .attr("fill", "#56c38a");
     },
     openNode() {
@@ -471,12 +472,13 @@ export default {
         //todo其他节点和连线一并显示
         d3.select(".node").style("fill-opacity", 1);
         d3.select(".nodetext").style("fill-opacity", 1);
-        d3.selectAll(".line").style("stroke-opacity", 1);
-        d3.selectAll(".linetext").style("fill-opacity", 1);
+        d3.selectAll(".linkline").style("stroke-opacity", 1);
+        d3.selectAll(".linktext").style("fill-opacity", 1);
       });
       nodeEnter.on("mouseover", function(d) {
         //todo鼠标放上去只显示相关节点，其他节点和连线隐藏
         d3.selectAll(".node").style("fill-opacity", 0.1);
+        d3.selectAll("arrowmarker").style("fill-opacity",0.1)
         var relvantNodeIds = [];
         var relvantNodes = _this.graph.links.filter(function(n) {
           return n.sourceid == d.uuid || n.targetid == d.uuid;
@@ -504,10 +506,10 @@ export default {
             }
           });
         //透明所有连线
-        d3.selectAll(".line").style("stroke-opacity", 0.1);
+        d3.selectAll(".linkline").style("stroke-opacity", 0.1);
         //显示相关的连线
         _this.qaGraphLink
-          .selectAll("line")
+          .selectAll(".linkine")
           .style("stroke-opacity", function(c) {
             if (c.lk.targetid === d.uuid) {
               console.log(c);
@@ -515,10 +517,10 @@ export default {
             }
           });
         //透明所有连线文字
-        d3.selectAll(".linetext").style("fill-opacity", 0.1);
+        d3.selectAll(".linktext").style("fill-opacity", 0.1);
         //显示相关的连线文字
         _this.qaGraphLinkText
-          .selectAll(".linetext")
+          .selectAll(".linktext")
           .style("fill-opacity", function(c) {
             if (c.lk.targetid === d.uuid) {
               return 1.0;
@@ -721,24 +723,31 @@ export default {
       return nodetext;
     },
     drawLink(links) {
+      console.log(links)
       var _this = this;
-      var link = this.qaGraphLink.selectAll("line").data(links, function(d) {
+      var link = this.qaGraphLink.selectAll("linkline").data(links, function(d) {
         return d.uuid;
       });
       link.exit().remove();
+
       var linkEnter = link
         .enter()
-        .append("line")
-        .attr("class", "link")
+        .append("path")
+        .attr("class", "linkline")
         .attr("stroke-width", 1)
         .attr("stroke", function() {
           return _this.colorList[2];
         })
         .attr("marker-end", "url(#arrow)"); // 箭头
+      linkEnter.on("mouseenter",function(){
+        console.log((this))
+      }) ;
+
       link = linkEnter.merge(link);
       return link;
     },
     drawLinkText(links) {
+
       var _this = this;
       var linktext = _this.qaGraphLinkText
         .selectAll("text")
@@ -749,10 +758,14 @@ export default {
       var linktextEnter = linktext
         .enter()
         .append("text")
-        .attr("class", "linetext")
-        .attr("fontfamily", "方正雅黑")
+        .attr("class", "linktext")
+        .attr("fontfamily", "微软雅黑")
         .style("fill", "#888888")
         .style("font-size", "10px")
+        .style("textAnchor","middle")
+        .append("textPath")
+        .attr("startOffset","50%")
+        .attr('xlink:href',function(d,i) {return '#linkline'+i})
         .text(function(d) {
           return d.lk.name;
         });
@@ -998,7 +1011,15 @@ export default {
           })
           .attr("y2", function(d) {
             return d.target.y;
+          })
+          .attr("d",function(d){
+            return 'M' + d.source.x + ' '+ d.source.y + 'L' + d.target.x + ' ' + d.target.y;
+             }
+          )
+          .attr("id",function(d,i){
+            return "linkline"+i;
           });
+
         // 刷新连接线上的文字位置
         graphLinkText
           .attr("x", function(d) {
@@ -1082,8 +1103,8 @@ export default {
     zoomed() {
       d3.selectAll(".node").attr("transform", d3.event.transform);
       d3.selectAll(".nodetext text").attr("transform", d3.event.transform);
-      d3.selectAll(".line").attr("transform", d3.event.transform);
-      d3.selectAll(".linetext text").attr("transform", d3.event.transform);
+      d3.selectAll(".linkline").attr("transform", d3.event.transform);
+      d3.selectAll(".linktext text").attr("transform", d3.event.transform);
       d3.selectAll(".nodebutton").attr("transform", d3.event.transform);
       //_this.svg.selectAll("g").attr("transform", d3.event.transform);
     },
