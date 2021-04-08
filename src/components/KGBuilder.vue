@@ -1314,6 +1314,7 @@ export default {
               let newNode = {};
               newNode.name = nName;
               newNode.uuid = _this.uuidEndNum;
+              newNode.color=3;
               _this.uuidEndNum++;
               console.log(newNode.uuid);
 
