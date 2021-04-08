@@ -329,7 +329,7 @@ export default {
         .force("collide", d3.forceCollide().strength(0.1))
         .force("center", d3.forceCenter(this.width / 2, this.height / 2));
       this.qaGraphLink = this.svg.append("g").attr("class", "linkline");
-      this.qaGraphLinkText = this.svg.append("g").attr("class", "linktext");
+      this.qaGraphLinkText = this.svg.append("g").attr("class", "linetext");
       this.qaGraphNode = this.svg.append("g").attr("class", "node");
       this.qaGraphNodeText = this.svg.append("g").attr("class", "nodetext");
       this.nodebuttonGroup = this.svg.append("g").attr("class", "nodebutton");
@@ -478,7 +478,6 @@ export default {
       nodeEnter.on("mouseover", function(d) {
         //todo鼠标放上去只显示相关节点，其他节点和连线隐藏
         d3.selectAll(".node").style("fill-opacity", 0.1);
-        d3.selectAll("arrowmarker").style("fill-opacity",0.1)
         var relvantNodeIds = [];
         var relvantNodes = _this.graph.links.filter(function(n) {
           return n.sourceid == d.uuid || n.targetid == d.uuid;
@@ -725,7 +724,7 @@ export default {
     drawLink(links) {
       console.log(links)
       var _this = this;
-      var link = this.qaGraphLink.selectAll("linkline").data(links, function(d) {
+      var link = this.qaGraphLink.selectAll(".linkline").data(links, function(d) {
         return d.uuid;
       });
       link.exit().remove();
@@ -742,6 +741,13 @@ export default {
       linkEnter.on("mouseenter",function(){
         console.log((this))
       }) ;
+      linkEnter.call(
+          d3
+              .drag()
+              .on("start", _this.dragStarted)
+              .on("drag", _this.dragged)
+              .on("end", _this.dragEnded)
+      );
 
       link = linkEnter.merge(link);
       return link;
@@ -750,7 +756,7 @@ export default {
 
       var _this = this;
       var linktext = _this.qaGraphLinkText
-        .selectAll("text")
+        .selectAll(".linktext")
         .data(links, function(d) {
           return d.uuid;
         });
@@ -772,6 +778,13 @@ export default {
       linktext = linktextEnter.merge(linktext).text(function(d) {
         return d.lk.name;
       });
+      linktextEnter.call(
+          d3
+              .drag()
+              .on("start", _this.dragStarted)
+              .on("drag", _this.dragged)
+              .on("end", _this.dragEnded)
+      )
       return linktext;
     },
     drawButtonGroup(nodes) {
@@ -806,6 +819,13 @@ export default {
         })
         .classed("notshow", true);
       nodebutton = nodebuttonEnter.merge(nodebutton);
+      nodebuttonEnter.call(
+          d3
+              .drag()
+              .on("start", _this.dragStarted)
+              .on("drag", _this.dragged)
+              .on("end", _this.dragEnded)
+      );
       return nodebutton;
     },
     drawToolButton() {
@@ -1000,18 +1020,6 @@ export default {
       function ticked() {
         // 更新连线坐标
         graphLink
-          .attr("x1", function(d) {
-            return d.source.x;
-          })
-          .attr("y1", function(d) {
-            return d.source.y;
-          })
-          .attr("x2", function(d) {
-            return d.target.x;
-          })
-          .attr("y2", function(d) {
-            return d.target.y;
-          })
           .attr("d",function(d){
             return 'M' + d.source.x + ' '+ d.source.y + 'L' + d.target.x + ' ' + d.target.y;
              }
@@ -1101,11 +1109,7 @@ export default {
       d.fy = d3.event.y;
     },
     zoomed() {
-      d3.selectAll(".node").attr("transform", d3.event.transform);
-      d3.selectAll(".nodetext text").attr("transform", d3.event.transform);
-      d3.selectAll(".linkline").attr("transform", d3.event.transform);
-      d3.selectAll(".linktext text").attr("transform", d3.event.transform);
-      d3.selectAll(".nodebutton").attr("transform", d3.event.transform);
+      d3.selectAll("g").attr("transform", d3.event.transform);
       //_this.svg.selectAll("g").attr("transform", d3.event.transform);
     },
     zoomClick(direction) {
