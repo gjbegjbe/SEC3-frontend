@@ -18,16 +18,19 @@
     </div>
 
     <input type="checkbox" id="sidemenu" />
+    <div id="wrap">
+      <label id="sideMenuControl" for="sidemenu">≡</label>
+      <!--for 属性规定 label 与哪个表单元素绑定，即将这个控制侧边栏进出的按钮与checkbox绑定-->
+    </div>
 
     <div id="aside">
       <h2>6PlusCOIN MENU</h2>
       <div class="collapse-item">
-        <input type="checkbox" id="collapse1" name="collapse" class="collapse-toggle"/>
+        <input type="checkbox" id="collapse1" class="collapse-toggle"/>
         <label style="display: flex;" for="collapse1">
           <div>
             <h4>
-              <i class =el-icon-arrow-down ></i>
-              <i class =el-icon-arrow-right ></i>
+              <i class =el-icon-arrow-right style="transition: ease-in-out"></i>
               导出 EXPORT
             </h4>
 
@@ -36,7 +39,7 @@
 
         <div class="content" >
 
-          <div id="download" style="padding: 15px">
+          <div class="collapse-card" id="download">
             <a href="javascript:;" @click="exportPNG">
               <li><i class="el-icon-picture-outline"></i> 保存为图片</li>
             </a>
@@ -54,16 +57,15 @@
       </div>
 
       <div class="collapse-item">
-        <input type="checkbox" id="collapse2" name="collapse" class="collapse-toggle"/>
+        <input type="checkbox" id="collapse2" class="collapse-toggle"/>
         <label style="display: flex;" for="collapse2">
           <h4>
-            <i class =el-icon-arrow-down ></i>
             <i class =el-icon-arrow-right ></i>
             调整 ADJUST
           </h4>
         </label>
         <div class="content">
-          <div id="adjust" style="padding:15px">
+          <div id="adjust" class="collapse-card">
             <a href="javascript:;" @click="zoomIn">
               <li><i class="el-icon-zoom-in"></i> 放大</li>
             </a>
@@ -84,16 +86,15 @@
       </div>
 
       <div class="collapse-item">
-        <input type="checkbox" id="collapse3" name="collapse" class="collapse-toggle"/>
+        <input type="checkbox" id="collapse3" class="collapse-toggle"/>
         <label style="display: flex;" for="collapse3">
           <h4>
-            <i class =el-icon-arrow-down ></i>
             <i class =el-icon-arrow-right ></i>
             编辑节点 NODE EDIT
           </h4>
         </label>
         <div class="content">
-          <div class="modify" style="padding-top: 15px;padding-bottom: 15px">
+          <div id="modify1" class="collapse-card">
             <div style="margin-bottom: 10px">
               <span style="font-size: 1.2em">节点名称：</span>
               <textarea id="nameIn"></textarea>
@@ -121,22 +122,21 @@
               </a>
             </div>
 
-
           </div>
         </div>
       </div>
 
       <div class="collapse-item">
-        <input type="checkbox" id="collapse4" name="collapse" class="collapse-toggle"/>
+        <input type="checkbox" id="collapse4" class="collapse-toggle"/>
         <label style="display: flex;" for="collapse4">
           <h4>
-            <i class =el-icon-arrow-down ></i>
             <i class =el-icon-arrow-right ></i>
             编辑关系 LINK EDIT
           </h4>
         </label>
         <div class="content" >
-          <div class="modify">
+          <div class="collapse-card" id="modify2">
+
             <div style="margin-bottom: 10px;margin-top: 15px">
               <span style="font-size: 1.2em"> 关系名称 *：</span>
               <textarea id="relNameIn"></textarea>
@@ -146,7 +146,6 @@
               <span style="font-size: 1.2em"> 修改名称：</span>
               <textarea id="relNameOut"></textarea>
             </div>
-
             <div style="margin-bottom: 4px;float: left">
               <span style="font-size: 1.2em"> FROM：</span>
               <textarea id="from_id"></textarea>
@@ -157,7 +156,7 @@
               <textarea id="to_id"></textarea>
             </div>
 
-            <div >
+            <div>
               <a href="javascript:;" @click="addLink">
                 <li style= "margin-left: 20%; margin-bottom:25px;">
                   <i class="el-icon-plus"></i> 添加
@@ -175,21 +174,21 @@
               </a>
             </div>
           </div>
-        </div>
-      </div>
 
+          </div>
+        </div>
       <div class="collapse-item">
-        <input type="checkbox" id="collapse5" name="collapse" class="collapse-toggle"/>
+        <input type="checkbox" id="collapse5" class="collapse-toggle"/>
         <label style="display: flex;" for="collapse5">
           <h4>
-            <i class =el-icon-arrow-down ></i>
             <i class =el-icon-arrow-right ></i>
             文本编辑 JSON EDIT
           </h4>
         </label>
 
         <div class="content" >
-          <div class="svg-set-box0" style="margin: 10px">
+
+          <div class="svg-set-box0">
             <a>
               <li>
                 <textarea id="text"></textarea>
@@ -203,13 +202,9 @@
           </div>
         </div>
       </div>
+      </div>
 
-    </div>
 
-    <div id="wrap">
-      <label id="sideMenuControl" for="sidemenu">≡</label>
-      <!--for 属性规定 label 与哪个表单元素绑定，即将这个控制侧边栏进出的按钮与checkbox绑定-->
-    </div>
 
     <div id="gid_tc" style="float:left;">
       <div id="gid" class="gid"></div>
@@ -1494,6 +1489,7 @@ export default {
   /*为被选中的sidemenu后的wrap设置属性（非紧邻）*/
   padding-left: 320px;
 }
+
 .collapse-toggle{
   display: none;
 }
@@ -1515,11 +1511,14 @@ export default {
 }
 
 .collapse-toggle:checked ~label .el-icon-arrow-right{
-  display: none;
-
+  transform: rotate(90deg);
 }
-.collapse-toggle:not(:checked) ~label .el-icon-arrow-down{
-  display: none
+
+.collapse-toggle:not(:checked) ~label .el-icon-arrow-right{
+}
+
+.collapse-card{
+  padding: 15px;
 }
 .collapse-item{
   margin-top: 10px;
@@ -1584,12 +1583,9 @@ h4 {
   margin-left: 40px;
   font-size: 1.2em;
 }
-modify {
-  margin-bottom: 10px;
-  height: 330px;
-}
 
-.modify li {
+
+.collapse-card li {
   list-style: none;
   color: white;
   width: 20%;
@@ -1602,14 +1598,14 @@ modify {
   font-size: 1em;
 }
 
-.modify span {
+.collapse-card span {
   color: white;
   margin-bottom: 7px;
   line-height: 2em;
   margin-left: 50px;
   float: left;
 }
-.modify select {
+.collapse-card select {
   background: rgba(204, 204, 204, 0.5); /*半透明*/
   border: 0;
   border-radius: 4px;
@@ -1620,7 +1616,7 @@ modify {
   float: left;
   margin-top: 7px;
 }
-.modify input {
+.collapse-card input {
   background: rgba(204, 204, 204, 0.5); /*半透明*/
   border: 0;
   border-radius: 4px;
@@ -1635,7 +1631,7 @@ modify {
   float: left;
 }
 
-.modify textarea {
+.collapse-card textarea {
   background: rgba(204, 204, 204, 0.35); /*半透明*/
   border: 0;
   border-radius: 4px;
@@ -1649,7 +1645,7 @@ modify {
   margin-top: 8px;
   font-size: 1.1em;
   float: left;
-  font-family: "方正雅黑";
+  font-family: "微软雅黑";
   color: white;
 }
 
@@ -1708,7 +1704,7 @@ a {
   border-radius: 20px;
   padding: 15px;
   margin-bottom: 20px;
-  margin-top: 10px;
+  margin-top: 20px;
   float: bottom;
 }
 
