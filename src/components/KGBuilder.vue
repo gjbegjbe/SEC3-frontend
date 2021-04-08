@@ -52,7 +52,7 @@
               <li><i class="el-icon-document-copy"></i> 保存为XML</li>
             </a>
             <a href="javascript:;" @click="exportSERVER">
-              <li><i class="el-icon-document-copy"></i> 保存到服务器</li>
+              <li><i class="el-icon-office-building"></i> 保存到服务器</li>
             </a>
           </div>
         </div>
@@ -78,11 +78,41 @@
               <li><i class="el-icon-refresh-right"></i> 还原大小</li>
             </a>
             <a href="javascript:;" @click="restartPicture">
-              <li><i class="el-icon-magic-stick"></i> 还原图形</li>
+              <li><i class="el-icon-magic-refresh"></i> 还原图形</li>
             </a>
             <a href="javascript:;" @click="changeFull">
               <li><i class="el-icon-full-screen"></i> 全屏切换</li>
             </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="collapse-item">
+        <input type="checkbox" id="collapse6" class="collapse-toggle" />
+        <label style="display: flex;" for="collapse6">
+          <h4>
+            <i class="el-icon-arrow-right"></i>
+            节点搜索 SEARCH
+          </h4>
+        </label>
+
+        <div class="content">
+          <div id="search" class="collapse-card">
+            <div style="margin-bottom: 4px;float: left">
+              <span style="font-size: 1.2em"> 节点名称：</span>
+              <textarea id="nodeSearch"></textarea>
+            </div>
+
+            <div>
+              <a href="javascript:;" @click="searchNode">
+                <li style="margin-left:20%; margin-bottom:25px;">
+                  <i class="el-icon-search"></i> 搜索
+                </li>
+              </a>
+              <a href="javascript:;" @click="restartPicture">
+                <li style=""><i class="el-icon-refresh"></i> 还原</li>
+              </a>
+            </div>
           </div>
         </div>
       </div>
@@ -109,17 +139,17 @@
             <div>
               <a href="javascript:;" @click="addNode">
                 <li style="margin-left:20%; margin-bottom:25px;">
-                  <i class="el-icon-plus"></i> 添加
+                  <i class="el-icon-circle-plus-outline"></i> 添加
                 </li>
               </a>
               <a href="javascript:;" @click="deleteNode">
                 <li style="">
-                  <i class="el-icon-minus"></i> 删除
+                  <i class="el-icon-remove-outline"></i> 删除
                 </li>
               </a>
               <a href="javascript:;" @click="changeNode">
                 <li style="">
-                  <i class="el-icon-minus"></i> 修改
+                  <i class="el-icon-edit"></i> 修改
                 </li>
               </a>
             </div>
@@ -161,17 +191,17 @@
             <div>
               <a href="javascript:;" @click="addLink">
                 <li style="margin-left: 20%; margin-bottom:25px;">
-                  <i class="el-icon-plus"></i> 添加
+                  <i class="el-icon-circle-plus-outline"></i> 添加
                 </li>
               </a>
               <a href="javascript:;" @click="deleteLink">
                 <li style="">
-                  <i class="el-icon-minus"></i> 删除
+                  <i class="el-icon-remove-outline"></i> 删除
                 </li>
               </a>
               <a href="javascript:;" @click="changeLink">
                 <li style="">
-                  <i class="el-icon-minus"></i> 修改
+                  <i class="el-icon-edit"></i> 修改
                 </li>
               </a>
             </div>
@@ -512,7 +542,7 @@ export default {
         _this.qaGraphLink
           .selectAll(".linkline")
           .style("stroke-opacity", function(c) {
-            if (c.lk.targetid === d.uuid) {
+            if (c.lk.targetid === d.uuid || c.lk.sourceid === d.uuid) {
               console.log(c);
               return 1.0;
             }
@@ -527,7 +557,7 @@ export default {
         _this.qaGraphLinkText
           .selectAll(".linktext")
           .style("fill-opacity", function(c) {
-            if (c.lk.targetid === d.uuid) {
+            if (c.lk.targetid === d.uuid || c.lk.sourceid === d.uuid) {
               console.log("we are in 2");
               console.log(c);
               console.log(d.uuid)
@@ -1599,6 +1629,11 @@ export default {
       _this.drawNodeText(_this.graph.nodes);
       _this.editNodeUuid='';
       _this.editNodeName='';
+    },
+
+    searchNode() {
+
+
     }
 
 
@@ -1721,7 +1756,7 @@ h4 {
 .collapse-card li {
   list-style: none;
   color: white;
-  width: 20%;
+  width: 25%;
   height: 1em;
   float: left;
   text-decoration-color: white;
@@ -1735,7 +1770,7 @@ h4 {
   color: white;
   margin-bottom: 7px;
   line-height: 2em;
-  margin-left: 50px;
+  margin-left: 40px;
   float: left;
 }
 
