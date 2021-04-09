@@ -10,6 +10,10 @@
           <el-form-item label="name" >
             <el-input :disabled="false" v-model="editNodeName" class="withoutColor"></el-input>
           </el-form-item>
+          <el-form-item label="color">
+            <el-input :disabled="true" v-model="editNodeColor" class="lineColor"></el-input>
+            <el-color-picker v-model="editNodeColor"></el-color-picker>
+          </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
           <el-button @click="cancelNodeEdit">取消</el-button>
@@ -313,6 +317,8 @@ export default {
       editNodeFormVisible: false,//编辑节点窗口是否显示
       editNodeUuid: '',//正在编辑的节点id
       editNodeName: '',//正在编辑的节点名称
+      editNodeColor: '',//正在编辑的节点颜色
+
 
     };
   },
@@ -589,7 +595,8 @@ export default {
       });
       node.style("stroke", function(d) {
         if (d.color) {
-          return _this.colorList[d.color-1];
+          // return _this.colorList[d.color-1];
+          return d.color;
         }
         return "#ffffff";
       });
@@ -673,7 +680,7 @@ export default {
           tri_down_pattern
             .append("polygon")
             .attr("points", "30,55 10,20 50,20")
-            .attr("fill", _this.colorList[d.color-1]);
+            .attr("fill", d.color);
           return "url(#tri_down_pattern"+i+")";
         } else if (_this.shape === 6) {
 
@@ -686,7 +693,7 @@ export default {
           tri_up_pattern
             .append("polygon")
             .attr("points", "30,10 10,45 50,45")
-            .attr("fill",_this.colorList[d.color-1]);
+            .attr("fill",d.color);
           return "url(#tri_up_test)";
         } else if (_this.shape === 7) {
 
@@ -699,7 +706,7 @@ export default {
           five_p_star_pattern
             .append("polygon")
             .attr("points", "30,10 19,46 48,24 12,24 42,46")
-            .attr("fill", _this.colorList[d.color-1]);
+            .attr("fill", d.color);
           return "url(#five_p_star_test)";
         } else if (_this.shape === 8) {
 
@@ -712,7 +719,7 @@ export default {
           diamond_pattern
             .append("polygon")
             .attr("points", "30,10 50,30 30,50 10,30")
-            .attr("fill",_this.colorList[d.color-1]);
+            .attr("fill",d.color);
           return "url(#diamond_test)";
         } else {
 
@@ -986,6 +993,7 @@ export default {
               for (let i = 0; i < _this.graph.nodes.length; i++) {
                 if (_this.graph.nodes[i].uuid === _this.editNodeUuid) {
                   _this.editNodeName=_this.graph.nodes[i].name;
+                  _this.editNodeColor=_this.graph.nodes[i].color;
                 }
               };
 
@@ -1634,6 +1642,7 @@ export default {
       _this.editNodeFormVisible=false;
       _this.editNodeUuid='';
       _this.editNodeName='';
+      _this.editNodeColor='';
     },
 
     saveNodeEdit(){
@@ -1642,9 +1651,10 @@ export default {
       for (let i = 0; i < _this.graph.nodes.length; i++) {
         if (_this.graph.nodes[i].uuid === _this.editNodeUuid) {
           _this.graph.nodes[i].name = _this.editNodeName;
+          _this.graph.nodes[i].color=_this.editNodeColor;
         }
       };
-      _this.drawNodeText(_this.graph.nodes);
+      _this.updateGraph();
       _this.editNodeUuid='';
       _this.editNodeName='';
     },
