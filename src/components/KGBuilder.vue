@@ -1,23 +1,23 @@
 <template>
   <div>
     <div>
-      <el-dialog title="修改" :visible.sync="editNodeFormVisible">
+      <el-dialog title="修改节点" :visible.sync="editNodeFormVisible">
         <el-form>
-          <el-form-item label="id">
+          <el-form-item label="节点ID">
             <el-input
               :disabled="true"
               v-model="editNodeUuid"
               class="withoutColor"
             ></el-input>
           </el-form-item>
-          <el-form-item label="name">
+          <el-form-item label="节点名称">
             <el-input
               :disabled="false"
               v-model="editNodeName"
               class="withoutColor"
             ></el-input>
           </el-form-item>
-          <el-form-item label="color">
+          <el-form-item label="节点颜色">
             <el-input
               :disabled="true"
               v-model="editNodeColor"
@@ -25,7 +25,7 @@
             ></el-input>
             <el-color-picker v-model="editNodeColor"></el-color-picker>
           </el-form-item>
-          <el-form-item label="color">
+          <el-form-item label="节点形状">
             <el-select v-model="editNodeShape" placeholder="请选择">
               <el-option
                 v-for="item in shapes"
