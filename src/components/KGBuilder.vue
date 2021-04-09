@@ -25,6 +25,17 @@
             ></el-input>
             <el-color-picker v-model="editNodeColor"></el-color-picker>
           </el-form-item>
+          <el-form-item label="color">
+            <el-select v-model="editNodeShape" placeholder="请选择">
+              <el-option
+                v-for="item in shapes"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              >
+              </el-option>
+            </el-select>
+          </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
           <el-button @click="cancelNodeEdit">取消</el-button>
@@ -285,13 +296,13 @@ export default {
         nodes: [],
         links: []
       },
-      selected:{
+      selected: {
         nodes: [],
         links: [],
         linksIn: [],
         linksOut: [],
         sourceNodes: [],
-        targetNodes: [],
+        targetNodes: []
       },
       defaultR: 30,
       colorList: [
@@ -325,7 +336,7 @@ export default {
       // selectrelationid: '',//选择操作的关系id
       //
       // deleteLinkDialogVisible:true
-      isToolButtonShow:false,
+      isToolButtonShow: false,
 
       isAddingNode: false,
       shape: 5, //2 圆形图片 1 正方形 3 待实现 4 圆角矩形 5 倒三角 6 正三角 7 五角星 8 菱形
@@ -333,7 +344,47 @@ export default {
       editNodeFormVisible: false, //编辑节点窗口是否显示
       editNodeUuid: "", //正在编辑的节点id
       editNodeName: "", //正在编辑的节点名称
-      editNodeColor: "" //正在编辑的节点颜色
+      editNodeColor: "", //正在编辑的节点颜色
+      editNodeShape: "", //正在编辑的节点形状
+
+      shapes: [
+        {
+          value: "piccircle",
+          label: "带图片圆形"
+        },
+        {
+          value: "square",
+          label: "正方形"
+        },
+        {
+          value: "diamond",
+          label: "菱形"
+        },
+        {
+          value: "star",
+          label: "五角星"
+        },
+        {
+          value: "triangle",
+          label: "三角形"
+        },
+        {
+          value: "downtriangle",
+          label: "倒三角形"
+        },
+        {
+          value: "roundrectangle",
+          label: "圆角矩形"
+        },
+        {
+          value: "square",
+          label: "正方形"
+        },
+        {
+          value: "circle",
+          label: "圆形"
+        },
+      ]
     };
   },
   components: {},
@@ -485,14 +536,16 @@ export default {
         .append("circle")
         .style("stroke-width", 0);
 
-
       nodeEnter.on("click", function(d) {
         console.log("触发单击");
         _this.selectUuid = d.uuid;
         var out_buttongroup_id = ".out_buttongroup_" + d.uuid;
         var selectItem = d3.select(out_buttongroup_id)._groups[0][0];
-        if (selectItem.classList.contains("notshow") && !(_this.isToolButtonShow)) {
-          _this.isToolButtonShow=true;
+        if (
+          selectItem.classList.contains("notshow") &&
+          !_this.isToolButtonShow
+        ) {
+          _this.isToolButtonShow = true;
           _this.svg.selectAll(".buttongroup").classed("notshow", true);
           d3.select(out_buttongroup_id)
             .classed("notshow", false)
@@ -501,11 +554,10 @@ export default {
               return "translate(" + d.x + "," + d.y + ") scale(1)";
             });
         } else {
-          _this.isToolButtonShow=false;
+          _this.isToolButtonShow = false;
           d3.select(out_buttongroup_id).classed("notshow", true);
         }
         event.stopPropagation();
-
       });
       nodeEnter.on("mouseenter", function() {
         console.log("鼠标移入");
@@ -590,7 +642,6 @@ export default {
           });
       });
       nodeEnter.call(
-
         d3
           .drag()
           .on("start", _this.dragStarted)
@@ -974,7 +1025,6 @@ export default {
             .attr("xlink:href", function(d, i) {
               return "#buttonarc" + i + "." + _this.selectUuid;
             });
-
         }
       });
     },
@@ -998,6 +1048,7 @@ export default {
                 if (_this.graph.nodes[i].uuid === _this.editNodeUuid) {
                   _this.editNodeName = _this.graph.nodes[i].name;
                   _this.editNodeColor = _this.graph.nodes[i].color;
+                  _this.editNodeShape = _this.graph.nodes[i].shape;
                 }
               }
               break;
@@ -1654,6 +1705,7 @@ export default {
       _this.editNodeUuid = "";
       _this.editNodeName = "";
       _this.editNodeColor = "";
+      _this.editNodeShape = "";
     },
 
     saveNodeEdit() {
@@ -1663,11 +1715,14 @@ export default {
         if (_this.graph.nodes[i].uuid === _this.editNodeUuid) {
           _this.graph.nodes[i].name = _this.editNodeName;
           _this.graph.nodes[i].color = _this.editNodeColor;
+          _this.graph.nodes[i].shape = _this.editNodeShape;
         }
       }
       _this.updateGraph();
       _this.editNodeUuid = "";
       _this.editNodeName = "";
+      _this.editNodeColor = "";
+      _this.editNodeShape = "";
     },
 
     search() {
@@ -1687,12 +1742,14 @@ export default {
       //优先节点名搜索
       if (nName !== "") {
         // 以下检索出目标节点
-        for (let i = 0; i < _this.graph.nodes.length; i++) { //所有满足名称模糊要求的节点搜索
+        for (let i = 0; i < _this.graph.nodes.length; i++) {
+          //所有满足名称模糊要求的节点搜索
           if (_this.graph.nodes[i].name === nName) {
             this.selected.nodes.push(_this.graph.nodes[i]);
           }
         }
-        if (nType !== "") { //带类型要求的节点搜索
+        if (nType !== "") {
+          //带类型要求的节点搜索
           for (let j = 0; j < _this.selected.nodes.length; j++) {
             if (_this.selected.nodes[j].type !== nType) {
               this.selected.nodes.splice(j, 1);
@@ -1701,16 +1758,24 @@ export default {
         }
 
         // 以下检索出相关关系及关联节点
-        for (let m = 0; m < _this.selected.nodes.length; m++) { //将与检索出节点有关的关系列出
-          for (let n = 0; n < _this.graph.links.length; n++){
-            if (_this.selected.nodes[m].uuid === _this.graph.links[n].sourceid){ //由目标节点指出的关系
+        for (let m = 0; m < _this.selected.nodes.length; m++) {
+          //将与检索出节点有关的关系列出
+          for (let n = 0; n < _this.graph.links.length; n++) {
+            if (
+              _this.selected.nodes[m].uuid === _this.graph.links[n].sourceid
+            ) {
+              //由目标节点指出的关系
               this.selected.linksOut.push(_this.graph.links[n]);
-            } else if(_this.selected.nodes[m].uuid === _this.graph.links[n].targetid){ //向目标节点指入的关系
+            } else if (
+              _this.selected.nodes[m].uuid === _this.graph.links[n].targetid
+            ) {
+              //向目标节点指入的关系
               this.selected.linksIn.push(_this.graph.links[n]);
             }
           }
         }
-        if (lName !== "") { //按关系名筛选
+        if (lName !== "") {
+          //按关系名筛选
           for (let k = 0; k < _this.selected.linksIn.length; k++) {
             if (_this.selected.linksIn[k].name !== lName) {
               this.selected.linksIn.splice(k, 1);
@@ -1724,14 +1789,21 @@ export default {
             }
           }
         }
-        for (let i = 0; i < _this.graph.nodes.length; i++){ //将与检索出节点有关的节点列出
-          for (let p = 0; p < _this.selected.linksIn.length; p++) { //相关源节点
-            if (_this.graph.nodes[i].uuid === _this.selected.linksIn[p].sourceid) {
+        for (let i = 0; i < _this.graph.nodes.length; i++) {
+          //将与检索出节点有关的节点列出
+          for (let p = 0; p < _this.selected.linksIn.length; p++) {
+            //相关源节点
+            if (
+              _this.graph.nodes[i].uuid === _this.selected.linksIn[p].sourceid
+            ) {
               this.selected.sourceNodes.push(_this.graph.nodes[i]);
             }
           }
-          for (let q = 0; q < _this.selected.linksOut.length; q++) { //相关目标节点
-            if (_this.graph.nodes[i].uuid === _this.selected.linksOut[q].targetid) {
+          for (let q = 0; q < _this.selected.linksOut.length; q++) {
+            //相关目标节点
+            if (
+              _this.graph.nodes[i].uuid === _this.selected.linksOut[q].targetid
+            ) {
               this.selected.targetNodes.push(_this.graph.nodes[i]);
             }
           }
@@ -1739,25 +1811,34 @@ export default {
       }
 
       //无节点名的情况下优先节点类型搜索
-      else if(nType !== ""){
+      else if (nType !== "") {
         // 以下检索出目标节点
-        for (let i = 0; i < _this.graph.nodes.length; i++) { //所有满足类型要求的节点搜索
+        for (let i = 0; i < _this.graph.nodes.length; i++) {
+          //所有满足类型要求的节点搜索
           if (_this.graph.nodes[i].type === nType) {
             this.selected.nodes.push(_this.graph.nodes[i]);
           }
         }
 
         // 以下检索出相关关系及关联节点
-        for (let m = 0; m < _this.selected.nodes.length; m++) { //将与检索出节点有关的关系列出
-          for (let n = 0; n < _this.graph.links.length; n++){
-            if (_this.selected.nodes[m].uuid === _this.graph.links[n].sourceid){ //由目标节点指出的关系
+        for (let m = 0; m < _this.selected.nodes.length; m++) {
+          //将与检索出节点有关的关系列出
+          for (let n = 0; n < _this.graph.links.length; n++) {
+            if (
+              _this.selected.nodes[m].uuid === _this.graph.links[n].sourceid
+            ) {
+              //由目标节点指出的关系
               this.selected.linksOut.push(_this.graph.links[n]);
-            } else if(_this.selected.nodes[m].uuid === _this.graph.links[n].targetid){ //向目标节点指入的关系
+            } else if (
+              _this.selected.nodes[m].uuid === _this.graph.links[n].targetid
+            ) {
+              //向目标节点指入的关系
               this.selected.linksIn.push(_this.graph.links[n]);
             }
           }
         }
-        if (lName !== "") { //按关系名筛选
+        if (lName !== "") {
+          //按关系名筛选
           for (let k = 0; k < _this.selected.linksIn.length; k++) {
             if (_this.selected.linksIn[k].name !== lName) {
               this.selected.linksIn.splice(k, 1);
@@ -1771,14 +1852,21 @@ export default {
             }
           }
         }
-        for (let i = 0; i < _this.graph.nodes.length; i++) { //将与检索出节点有关的节点列出
-          for (let p = 0; p < _this.selected.linksIn.length; p++) { //相关源节点
-            if (_this.graph.nodes[i].uuid === _this.selected.linksIn[p].sourceid) {
+        for (let i = 0; i < _this.graph.nodes.length; i++) {
+          //将与检索出节点有关的节点列出
+          for (let p = 0; p < _this.selected.linksIn.length; p++) {
+            //相关源节点
+            if (
+              _this.graph.nodes[i].uuid === _this.selected.linksIn[p].sourceid
+            ) {
               this.selected.sourceNodes.push(_this.graph.nodes[i]);
             }
           }
-          for (let q = 0; q < _this.selected.linksOut.length; q++) { //相关目标节点
-            if (_this.graph.nodes[i].uuid === _this.selected.linksOut[q].targetid) {
+          for (let q = 0; q < _this.selected.linksOut.length; q++) {
+            //相关目标节点
+            if (
+              _this.graph.nodes[i].uuid === _this.selected.linksOut[q].targetid
+            ) {
               this.selected.targetNodes.push(_this.graph.nodes[i]);
             }
           }
@@ -1786,16 +1874,20 @@ export default {
       }
 
       //关系搜索
-      else if (lName !== ""){
+      else if (lName !== "") {
         // 以下检索出目标关系及关系双方节点
-        for (let i = 0; i < _this.graph.links.length; i++) { //所有满足名称要求的关系搜索
+        for (let i = 0; i < _this.graph.links.length; i++) {
+          //所有满足名称要求的关系搜索
           if (_this.graph.links[i].name === lName) {
             this.selected.links.push(_this.graph.links[i]);
-            for (let j = 0; j < _this.graph.nodes.length; j++) { //将检索出关系的源节点在对应位置列出
-              if (_this.graph.nodes[j].uuid === _this.graph.links[i].sourceid){
+            for (let j = 0; j < _this.graph.nodes.length; j++) {
+              //将检索出关系的源节点在对应位置列出
+              if (_this.graph.nodes[j].uuid === _this.graph.links[i].sourceid) {
                 this.selected.sourceNodes.push(_this.graph.nodes[j]);
-              }
-              else if (_this.graph.nodes[j].uuid === _this.graph.links[i].targetid){ //将检索出关系的目标节点在对应位置列出
+              } else if (
+                _this.graph.nodes[j].uuid === _this.graph.links[i].targetid
+              ) {
+                //将检索出关系的目标节点在对应位置列出
                 this.selected.targetNodes.push(_this.graph.nodes[j]);
               }
             }
@@ -1805,8 +1897,6 @@ export default {
 
       console.log(_this.selected);
     }
-
-
   }
 };
 </script>
