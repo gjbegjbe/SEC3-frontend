@@ -25,6 +25,17 @@
             ></el-input>
             <el-color-picker v-model="editNodeColor"></el-color-picker>
           </el-form-item>
+          <el-form-item label="color">
+            <el-select v-model="editNodeShape" placeholder="请选择">
+              <el-option
+                v-for="item in shapes"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              >
+              </el-option>
+            </el-select>
+          </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
           <el-button @click="cancelNodeEdit">取消</el-button>
@@ -285,13 +296,13 @@ export default {
         nodes: [],
         links: []
       },
-      selected:{
+      selected: {
         nodes: [],
         links: [],
         linksIn: [],
         linksOut: [],
         sourceNodes: [],
-        targetNodes: [],
+        targetNodes: []
       },
       defaultR: 30,
       colorList: [
@@ -325,7 +336,7 @@ export default {
       // selectrelationid: '',//选择操作的关系id
       //
       // deleteLinkDialogVisible:true
-      isToolButtonShow:false,
+      isToolButtonShow: false,
 
       isAddingNode: false,
       shape: 5, //2 圆形图片 1 正方形 3 待实现 4 圆角矩形 5 倒三角 6 正三角 7 五角星 8 菱形
@@ -333,7 +344,47 @@ export default {
       editNodeFormVisible: false, //编辑节点窗口是否显示
       editNodeUuid: "", //正在编辑的节点id
       editNodeName: "", //正在编辑的节点名称
-      editNodeColor: "" //正在编辑的节点颜色
+      editNodeColor: "", //正在编辑的节点颜色
+      editNodeShape: "", //正在编辑的节点形状
+
+      shapes: [
+        {
+          value: "piccircle",
+          label: "带图片圆形"
+        },
+        {
+          value: "square",
+          label: "正方形"
+        },
+        {
+          value: "diamond",
+          label: "菱形"
+        },
+        {
+          value: "star",
+          label: "五角星"
+        },
+        {
+          value: "triangle",
+          label: "三角形"
+        },
+        {
+          value: "downtriangle",
+          label: "倒三角形"
+        },
+        {
+          value: "roundrectangle",
+          label: "圆角矩形"
+        },
+        {
+          value: "square",
+          label: "正方形"
+        },
+        {
+          value: "circle",
+          label: "圆形"
+        },
+      ]
     };
   },
   components: {},
@@ -377,11 +428,11 @@ export default {
         )
         .force("collide", d3.forceCollide().strength(0.1))
         .force("center", d3.forceCenter(this.width / 2, this.height / 2));
-      this.qaGraphLink = this.svg.append("g").attr("class", "linkline");
-      this.qaGraphLinkText = this.svg.append("g").attr("class", "linetext");
-      this.qaGraphNode = this.svg.append("g").attr("class", "node");
-      this.qaGraphNodeText = this.svg.append("g").attr("class", "nodetext");
-      this.nodebuttonGroup = this.svg.append("g").attr("class", "nodebutton");
+      this.qaGraphLink = this.svg.append("g").attr("class", "linkline").attr("id","g1");
+      this.qaGraphLinkText = this.svg.append("g").attr("class", "linktext").attr("id","g2");
+      this.qaGraphNode = this.svg.append("g").attr("class", "node").attr("id","g3");
+      this.qaGraphNodeText = this.svg.append("g").attr("class", "nodetext").attr("id","g4");
+      this.nodebuttonGroup = this.svg.append("g").attr("class", "nodebutton").attr("id","g5");
       this.svg.on(
         "click",
         function() {
@@ -485,14 +536,16 @@ export default {
         .append("circle")
         .style("stroke-width", 0);
 
-
       nodeEnter.on("click", function(d) {
         console.log("触发单击");
         _this.selectUuid = d.uuid;
         var out_buttongroup_id = ".out_buttongroup_" + d.uuid;
         var selectItem = d3.select(out_buttongroup_id)._groups[0][0];
-        if (selectItem.classList.contains("notshow") && !(_this.isToolButtonShow)) {
-          _this.isToolButtonShow=true;
+        if (
+          selectItem.classList.contains("notshow") &&
+          !_this.isToolButtonShow
+        ) {
+          _this.isToolButtonShow = true;
           _this.svg.selectAll(".buttongroup").classed("notshow", true);
           d3.select(out_buttongroup_id)
             .classed("notshow", false)
@@ -501,11 +554,10 @@ export default {
               return "translate(" + d.x + "," + d.y + ") scale(1)";
             });
         } else {
-          _this.isToolButtonShow=false;
+          _this.isToolButtonShow = false;
           d3.select(out_buttongroup_id).classed("notshow", true);
         }
         event.stopPropagation();
-
       });
       nodeEnter.on("mouseenter", function() {
         console.log("鼠标移入");
@@ -555,7 +607,7 @@ export default {
         //透明所有连线
         d3.selectAll(".linkline").style("stroke-opacity", 0.1);
         d3.selectAll(".arrowmarker").style("fill-opacity", 0.5);
-        console.log(d3.selectAll(".arrowmarker"));
+        //console.log(d3.selectAll(".arrowmarker"));
         //显示相关的连线
         _this.qaGraphLink
           .selectAll(".linkline")
@@ -590,7 +642,6 @@ export default {
           });
       });
       nodeEnter.call(
-
         d3
           .drag()
           .on("start", _this.dragStarted)
@@ -635,7 +686,7 @@ export default {
               .attr("width", img_w)
               .attr("height", img_h)
               .attr("xlink:href", d.imgsrc);
-            console.log(d.r);
+            //console.log(d.r);
             return "url(#catpattern" + i + ")";
 
           case "square":
@@ -793,7 +844,7 @@ export default {
       return nodetext;
     },
     drawLink(links) {
-      console.log(links);
+    //  console.log(links);
       var _this = this;
       var link = this.qaGraphLink
         .selectAll(".linkline")
@@ -805,7 +856,9 @@ export default {
       var linkEnter = link
         .enter()
         .append("path")
-        .attr("class", "linkline")
+        .attr("class","linkline")
+        .attr("id", function(d,i){
+          return "linkline"+i;})
         .attr("stroke-width", 1)
         .attr("stroke", function() {
           return _this.colorList[2];
@@ -843,6 +896,7 @@ export default {
         .style("font-size", "10px")
         .style("textAnchor", "middle")
         .append("textPath")
+        .attr("class","linktext")
         .attr("startOffset", "50%")
         .attr("xlink:href", function(d, i) {
           return "#linkline" + i;
@@ -867,7 +921,7 @@ export default {
       var nodebutton = _this.nodebuttonGroup
         .selectAll("nodebutton")
         .data(nodes, function(d) {
-          console.log("we do it for" + d.uuid);
+       //   console.log("we do it for" + d.uuid);
           return d.uuid;
         });
       nodebutton.exit().remove();
@@ -972,7 +1026,6 @@ export default {
             .attr("xlink:href", function(d, i) {
               return "#buttonarc" + i + "." + _this.selectUuid;
             });
-
         }
       });
     },
@@ -996,6 +1049,7 @@ export default {
                 if (_this.graph.nodes[i].uuid === _this.editNodeUuid) {
                   _this.editNodeName = _this.graph.nodes[i].name;
                   _this.editNodeColor = _this.graph.nodes[i].color;
+                  _this.editNodeShape = _this.graph.nodes[i].shape;
                 }
               }
               break;
@@ -1178,7 +1232,7 @@ export default {
       );
     },
     dragStarted(d) {
-      console.log("i m dragged!");
+     // console.log("i m dragged!");
       this.svg.selectAll(".buttongroup").classed("notshow", true);
       if (!d3.event.active) this.simulation.alphaTarget(0.8).restart();
       d.fx = d.x;
@@ -1189,14 +1243,23 @@ export default {
       d.fy = d3.event.y;
     },
     dragEnded(d) {
-      console.log("i m dragged over!");
+    //  console.log("i m dragged over!");
       if (!d3.event.active) this.simulation.alphaTarget(0);
       d.fx = d3.event.x;
       d.fy = d3.event.y;
     },
     zoomed() {
-      d3.selectAll("g").attr("transform", d3.event.transform);
-      //_this.svg.selectAll("g").attr("transform", d3.event.transform);
+      //
+      //console.log(d3.selectAll('g'))
+
+      d3.select("#g1").attr("transform", d3.event.transform);
+      d3.select("#g2").attr("transform", d3.event.transform);
+      d3.select("#g3").attr("transform", d3.event.transform);
+      d3.select("#g4").attr("transform", d3.event.transform);
+      d3.select("#g5").attr("transform", d3.event.transform);
+      //d3.selectAll(".nodebutton").attr("transform", d3.event.transform);*/
+
+      //d3.selectAll("g").attr("transform", d3.event.transform);
     },
     zoomClick(direction) {
       var self = this;
@@ -1231,7 +1294,7 @@ export default {
       }
 
       console.log(this.isFullscreen);
-      console.log("111");
+    //  console.log("111");
     },
     fullScreen(element) {
       if (element.requestFullscreen) {
@@ -1643,6 +1706,7 @@ export default {
       _this.editNodeUuid = "";
       _this.editNodeName = "";
       _this.editNodeColor = "";
+      _this.editNodeShape = "";
     },
 
     saveNodeEdit() {
@@ -1652,11 +1716,14 @@ export default {
         if (_this.graph.nodes[i].uuid === _this.editNodeUuid) {
           _this.graph.nodes[i].name = _this.editNodeName;
           _this.graph.nodes[i].color = _this.editNodeColor;
+          _this.graph.nodes[i].shape = _this.editNodeShape;
         }
       }
       _this.updateGraph();
       _this.editNodeUuid = "";
       _this.editNodeName = "";
+      _this.editNodeColor = "";
+      _this.editNodeShape = "";
     },
 
     async search() {
@@ -1775,7 +1842,7 @@ export default {
       }
 
       //关系搜索
-      else if (lName !== "") {
+      else if (lName !== ""){
         // 以下检索出目标关系及关系双方节点
         for (let i = 0; i < _this.graph.links.length; i++) { //所有满足名称要求的关系搜索
           if (_this.graph.links[i].name === lName) {
