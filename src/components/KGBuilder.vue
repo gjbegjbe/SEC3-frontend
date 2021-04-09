@@ -1783,6 +1783,22 @@ export default {
       }
 
       //关系搜索
+      else if (lName !== ""){
+        // 以下检索出目标关系及关系双方节点
+        for (let i = 0; i < _this.graph.links.length; i++) { //所有满足名称要求的关系搜索
+          if (_this.graph.links[i].name === lName) {
+            this.selected.links.push(_this.graph.links[i]);
+            for (let j = 0; j < _this.graph.nodes.length; j++) { //将检索出关系的源节点在对应位置列出
+              if (_this.graph.nodes[j].uuid === _this.graph.links[i].sourceid){
+                this.selected.sourceNodes.push(_this.graph.nodes[j]);
+              }
+              else if (_this.graph.nodes[j].uuid === _this.graph.links[i].targetid){ //将检索出关系的目标节点在对应位置列出
+                this.selected.targetNodes.push(_this.graph.nodes[j]);
+              }
+            }
+          }
+        }
+      }
 
       console.log(_this.selected);
     }
