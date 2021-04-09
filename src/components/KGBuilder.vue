@@ -485,6 +485,7 @@ export default {
         .append("circle")
         .style("stroke-width", 0);
 
+
       nodeEnter.on("click", function(d) {
         console.log("触发单击");
         _this.selectUuid = d.uuid;
@@ -505,18 +506,6 @@ export default {
         }
         event.stopPropagation();
 
-      });
-      nodeEnter.on("dblclick", function(d) {
-        if (d.color < 6) {
-          d.color++;
-        } else {
-          d.color = 1;
-        }
-        console.log(d.color);
-
-        console.log(this);
-        // event.preventDefault();
-        _this.updateGraph();
       });
       nodeEnter.on("mouseenter", function() {
         console.log("鼠标移入");
