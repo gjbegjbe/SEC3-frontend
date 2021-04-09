@@ -482,11 +482,23 @@ export default {
         var selectItem = d3.select(out_buttongroup_id)._groups[0][0];
         if (selectItem.classList.contains("notshow")) {
           _this.svg.selectAll(".buttongroup").classed("notshow", true);
-          d3.select(out_buttongroup_id).classed("notshow", false);
+          d3.select(out_buttongroup_id).classed("notshow", false)
+            .attr("transform",function (d){
+              //console.log("we are trans")
+              return "translate(" + d.x + "," + d.y + ") scale(1)";
+        });
         } else {
           d3.select(out_buttongroup_id).classed("notshow", true);
         }
         event.stopPropagation();
+        _this.append("g")
+            .selectAll("rect")
+            .append("rect")
+            .attr("width",30)
+            .attr("height",30)
+            .style("fill","black")
+            .attr("x",300)
+            .attr("y",300)
       });
       nodeEnter.on("dblclick", function(d) {
 
@@ -1135,12 +1147,7 @@ export default {
           .attr("cy", function(d) {
             return d.y;
           })
-          .attr("transform", function(d) {
-            var x0 = d.x;
-            var y0 = d.y;
-           //console.log(d.uuid+":"+x0+"+"+y0);
-            return "translate(" + x0 + "," + y0 + ") scale(1)";
-          });
+
           //console.log(graphNodeButtonGroup);
 
 
