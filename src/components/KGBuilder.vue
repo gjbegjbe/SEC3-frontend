@@ -429,7 +429,7 @@ export default {
         .force("collide", d3.forceCollide().strength(0.1))
         .force("center", d3.forceCenter(this.width / 2, this.height / 2));
       this.qaGraphLink = this.svg.append("g").attr("class", "linkline").attr("id","g1");
-      this.qaGraphLinkText = this.svg.append("g").attr("class", "linetext").attr("id","g2");
+      this.qaGraphLinkText = this.svg.append("g").attr("class", "linktext").attr("id","g2");
       this.qaGraphNode = this.svg.append("g").attr("class", "node").attr("id","g3");
       this.qaGraphNodeText = this.svg.append("g").attr("class", "nodetext").attr("id","g4");
       this.nodebuttonGroup = this.svg.append("g").attr("class", "nodebutton").attr("id","g5");
@@ -607,7 +607,7 @@ export default {
         //透明所有连线
         d3.selectAll(".linkline").style("stroke-opacity", 0.1);
         d3.selectAll(".arrowmarker").style("fill-opacity", 0.5);
-        console.log(d3.selectAll(".arrowmarker"));
+        //console.log(d3.selectAll(".arrowmarker"));
         //显示相关的连线
         _this.qaGraphLink
           .selectAll(".linkline")
@@ -686,7 +686,7 @@ export default {
               .attr("width", img_w)
               .attr("height", img_h)
               .attr("xlink:href", d.imgsrc);
-            console.log(d.r);
+            //console.log(d.r);
             return "url(#catpattern" + i + ")";
 
           case "square":
@@ -844,7 +844,7 @@ export default {
       return nodetext;
     },
     drawLink(links) {
-      console.log(links);
+    //  console.log(links);
       var _this = this;
       var link = this.qaGraphLink
         .selectAll(".linkline")
@@ -856,6 +856,7 @@ export default {
       var linkEnter = link
         .enter()
         .append("path")
+        .attr("class","linkline")
         .attr("id", function(d,i){
           return "linkline"+i;})
         .attr("stroke-width", 1)
@@ -920,7 +921,7 @@ export default {
       var nodebutton = _this.nodebuttonGroup
         .selectAll("nodebutton")
         .data(nodes, function(d) {
-          console.log("we do it for" + d.uuid);
+       //   console.log("we do it for" + d.uuid);
           return d.uuid;
         });
       nodebutton.exit().remove();
@@ -1231,7 +1232,7 @@ export default {
       );
     },
     dragStarted(d) {
-      console.log("i m dragged!");
+     // console.log("i m dragged!");
       this.svg.selectAll(".buttongroup").classed("notshow", true);
       if (!d3.event.active) this.simulation.alphaTarget(0.8).restart();
       d.fx = d.x;
@@ -1242,14 +1243,14 @@ export default {
       d.fy = d3.event.y;
     },
     dragEnded(d) {
-      console.log("i m dragged over!");
+    //  console.log("i m dragged over!");
       if (!d3.event.active) this.simulation.alphaTarget(0);
       d.fx = d3.event.x;
       d.fy = d3.event.y;
     },
     zoomed() {
       //
-      console.log(d3.selectAll('g'))
+      //console.log(d3.selectAll('g'))
 
       d3.select("#g1").attr("transform", d3.event.transform);
       d3.select("#g2").attr("transform", d3.event.transform);
@@ -1293,7 +1294,7 @@ export default {
       }
 
       console.log(this.isFullscreen);
-      console.log("111");
+    //  console.log("111");
     },
     fullScreen(element) {
       if (element.requestFullscreen) {
