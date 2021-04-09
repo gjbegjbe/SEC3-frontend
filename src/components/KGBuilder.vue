@@ -887,13 +887,7 @@ export default {
         })
         .classed("notshow", true);
       nodebutton = nodebuttonEnter.merge(nodebutton);
-      nodebuttonEnter.call(
-        d3
-          .drag()
-          .on("start", _this.dragStarted)
-          .on("drag", _this.dragged)
-          .on("end", _this.dragEnded)
-      );
+
       return nodebutton;
     },
     drawToolButton(nodes) {
