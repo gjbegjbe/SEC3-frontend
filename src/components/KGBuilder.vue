@@ -113,7 +113,7 @@
 
         <div class="content">
           <div id="search" class="collapse-card">
-            <div style="margin-bottom: 10px;margin-top: 15px">
+            <div style="margin-bottom: 10px">
               <span style="font-size: 1.2em"> 节点名称：</span>
               <textarea id="nodeSearch"></textarea>
             </div>
@@ -186,7 +186,7 @@
         </label>
         <div class="content">
           <div class="collapse-card" id="modify2">
-            <div style="margin-bottom: 10px;margin-top: 15px">
+            <div style="margin-bottom: 10px">
               <span style="font-size: 1.2em"> 关系名称 *：</span>
               <textarea id="relNameIn"></textarea>
             </div>
