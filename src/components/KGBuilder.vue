@@ -1729,6 +1729,26 @@ export default {
     async search() {
       let _this = this;
       // clear
+      for (let i = 0; i < _this.graph.nodes.length; i++) {
+        for (let j = 0; j < _this.selected.sourceNodes.length; j++) { //上级节点
+          if (_this.graph.nodes[i].uuid === _this.selected.sourceNodes[j].uuid) {
+            this.graph.nodes[i].shape = "triangle";
+            this.graph.nodes[i].imgsrc = "";
+          }
+        }
+        for (let j = 0; j < _this.selected.targetNodes.length; j++) { //下级节点
+          if (_this.graph.nodes[i].uuid === _this.selected.targetNodes[j].uuid) {
+            this.graph.nodes[i].shape = "downtriangle";
+            this.graph.nodes[i].imgsrc = "";
+          }
+        }
+        for (let j = 0; j < _this.selected.nodes.length; j++) {
+          if (_this.graph.nodes[i].uuid === _this.selected.nodes[j].uuid) { //目标节点
+            this.graph.nodes[i].shape = "star";
+            this.graph.nodes[i].imgsrc = "";
+          }
+        }
+      }
       this.selected.nodes.splice(0, _this.selected.nodes.length);
       this.selected.linksIn.splice(0, _this.selected.linksIn.length);
       this.selected.linksOut.splice(0, _this.selected.linksOut.length);
