@@ -325,6 +325,7 @@ export default {
       // selectrelationid: '',//选择操作的关系id
       //
       // deleteLinkDialogVisible:true
+      isToolButtonShow:false,
 
       isAddingNode: false,
       shape: 5, //2 圆形图片 1 正方形 3 待实现 4 圆角矩形 5 倒三角 6 正三角 7 五角星 8 菱形
@@ -489,7 +490,8 @@ export default {
         _this.selectUuid = d.uuid;
         var out_buttongroup_id = ".out_buttongroup_" + d.uuid;
         var selectItem = d3.select(out_buttongroup_id)._groups[0][0];
-        if (selectItem.classList.contains("notshow")) {
+        if (selectItem.classList.contains("notshow") && !(_this.isToolButtonShow)) {
+          _this.isToolButtonShow=true;
           _this.svg.selectAll(".buttongroup").classed("notshow", true);
           d3.select(out_buttongroup_id)
             .classed("notshow", false)
@@ -498,6 +500,7 @@ export default {
               return "translate(" + d.x + "," + d.y + ") scale(1)";
             });
         } else {
+          _this.isToolButtonShow=false;
           d3.select(out_buttongroup_id).classed("notshow", true);
         }
         event.stopPropagation();
