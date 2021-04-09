@@ -2,16 +2,27 @@
   <div>
     <div>
       <el-dialog title="修改" :visible.sync="editNodeFormVisible">
-
         <el-form>
-          <el-form-item label="id" >
-            <el-input :disabled="true" v-model="editNodeUuid" class="withoutColor"></el-input>
+          <el-form-item label="id">
+            <el-input
+              :disabled="true"
+              v-model="editNodeUuid"
+              class="withoutColor"
+            ></el-input>
           </el-form-item>
-          <el-form-item label="name" >
-            <el-input :disabled="false" v-model="editNodeName" class="withoutColor"></el-input>
+          <el-form-item label="name">
+            <el-input
+              :disabled="false"
+              v-model="editNodeName"
+              class="withoutColor"
+            ></el-input>
           </el-form-item>
           <el-form-item label="color">
-            <el-input :disabled="true" v-model="editNodeColor" class="lineColor"></el-input>
+            <el-input
+              :disabled="true"
+              v-model="editNodeColor"
+              class="lineColor"
+            ></el-input>
             <el-color-picker v-model="editNodeColor"></el-color-picker>
           </el-form-item>
         </el-form>
@@ -19,7 +30,6 @@
           <el-button @click="cancelNodeEdit">取消</el-button>
           <el-button type="primary" @click="saveNodeEdit">保存修改</el-button>
         </div>
-
       </el-dialog>
     </div>
 
@@ -36,15 +46,16 @@
         <label style="display: flex;" for="collapse1">
           <div>
             <h4>
-              <i class="el-icon-arrow-right" style="transition: ease-in-out"></i>
+              <i
+                class="el-icon-arrow-right"
+                style="transition: ease-in-out"
+              ></i>
               导出 EXPORT
             </h4>
-
           </div>
         </label>
 
         <div class="content">
-
           <div class="collapse-card" id="download">
             <a href="javascript:;" @click="exportPNG">
               <li><i class="el-icon-picture-outline"></i> 保存为图片</li>
@@ -147,17 +158,12 @@
                 </li>
               </a>
               <a href="javascript:;" @click="deleteNode">
-                <li style="">
-                  <i class="el-icon-remove-outline"></i> 删除
-                </li>
+                <li style=""><i class="el-icon-remove-outline"></i> 删除</li>
               </a>
               <a href="javascript:;" @click="changeNode">
-                <li style="">
-                  <i class="el-icon-edit"></i> 修改
-                </li>
+                <li style=""><i class="el-icon-edit"></i> 修改</li>
               </a>
             </div>
-
           </div>
         </div>
       </div>
@@ -172,7 +178,6 @@
         </label>
         <div class="content">
           <div class="collapse-card" id="modify2">
-
             <div style="margin-bottom: 10px;margin-top: 15px">
               <span style="font-size: 1.2em"> 关系名称 *：</span>
               <textarea id="relNameIn"></textarea>
@@ -199,18 +204,13 @@
                 </li>
               </a>
               <a href="javascript:;" @click="deleteLink">
-                <li style="">
-                  <i class="el-icon-remove-outline"></i> 删除
-                </li>
+                <li style=""><i class="el-icon-remove-outline"></i> 删除</li>
               </a>
               <a href="javascript:;" @click="changeLink">
-                <li style="">
-                  <i class="el-icon-edit"></i> 修改
-                </li>
+                <li style=""><i class="el-icon-edit"></i> 修改</li>
               </a>
             </div>
           </div>
-
         </div>
       </div>
       <div class="collapse-item">
@@ -223,7 +223,6 @@
         </label>
 
         <div class="content">
-
           <div class="svg-set-box0">
             <a>
               <li>
@@ -231,7 +230,9 @@
               </li>
             </a>
             <a href="javascript:;" @click="change">
-              <li style="float: left;margin-left: 35px;margin-bottom:20px;font-size: 1.2em;color: white;">
+              <li
+                style="float: left;margin-left: 35px;margin-bottom:20px;font-size: 1.2em;color: white;"
+              >
                 <i class="el-icon-edit-outline"></i> 文档修改
               </li>
             </a>
@@ -240,13 +241,11 @@
       </div>
     </div>
 
-
     <div id="gid_tc" style="float:left;">
       <div id="gid" class="gid"></div>
       <div class="mengceng"></div>
     </div>
   </div>
-
 </template>
 
 <script>
@@ -312,14 +311,12 @@ export default {
       // deleteLinkDialogVisible:true
 
       isAddingNode: false,
-      shape: 5,//2 圆形图片 1 正方形 3 待实现 4 圆角矩形 5 倒三角 6 正三角 7 五角星 8 菱形
+      shape: 5, //2 圆形图片 1 正方形 3 待实现 4 圆角矩形 5 倒三角 6 正三角 7 五角星 8 菱形
 
-      editNodeFormVisible: false,//编辑节点窗口是否显示
-      editNodeUuid: '',//正在编辑的节点id
-      editNodeName: '',//正在编辑的节点名称
-      editNodeColor: '',//正在编辑的节点颜色
-
-
+      editNodeFormVisible: false, //编辑节点窗口是否显示
+      editNodeUuid: "", //正在编辑的节点id
+      editNodeName: "", //正在编辑的节点名称
+      editNodeColor: "" //正在编辑的节点颜色
     };
   },
   components: {},
@@ -328,8 +325,7 @@ export default {
     this.addMaker();
     this.initGraph();
   },
-  created() {
-  },
+  created() {},
   watch: {},
   methods: {
     initGraphContainer() {
@@ -393,12 +389,10 @@ export default {
       this.graph.links = data.relationship;
 
       for (let node of this.graph.nodes) {
-        if (node.uuid + 1 > this.uuidEndNum)
-          this.uuidEndNum = node.uuid + 1;
+        if (node.uuid + 1 > this.uuidEndNum) this.uuidEndNum = node.uuid + 1;
       }
       for (let link of this.graph.links) {
-        if (link.uuid + 1 > this.uuidEndNum)
-          this.uuidEndNum = link.uuid + 1;
+        if (link.uuid + 1 > this.uuidEndNum) this.uuidEndNum = link.uuid + 1;
       }
 
       this.updateGraph();
@@ -418,9 +412,8 @@ export default {
       arrowMarker
         .append("path")
         .attr("d", arrowPath)
-        .attr("class","arrowmarker")
-        .attr("fill", "#56c38a")
-
+        .attr("class", "arrowmarker")
+        .attr("fill", "#56c38a");
     },
     openNode() {
       var _this = this;
@@ -470,10 +463,10 @@ export default {
         return d.uuid;
       });
       node.exit().remove();
-      var nodeEnter = node.enter()
+      var nodeEnter = node
+        .enter()
         .append("circle")
         .style("stroke-width", 0);
-
 
       nodeEnter.on("click", function(d) {
         console.log("触发单击");
@@ -482,26 +475,27 @@ export default {
         var selectItem = d3.select(out_buttongroup_id)._groups[0][0];
         if (selectItem.classList.contains("notshow")) {
           _this.svg.selectAll(".buttongroup").classed("notshow", true);
-          d3.select(out_buttongroup_id).classed("notshow", false)
-            .attr("transform",function (d){
+          d3.select(out_buttongroup_id)
+            .classed("notshow", false)
+            .attr("transform", function(d) {
               //console.log("we are trans")
               return "translate(" + d.x + "," + d.y + ") scale(1)";
-        });
+            });
         } else {
           d3.select(out_buttongroup_id).classed("notshow", true);
         }
         event.stopPropagation();
-        _this.append("g")
-            .selectAll("rect")
-            .append("rect")
-            .attr("width",30)
-            .attr("height",30)
-            .style("fill","black")
-            .attr("x",300)
-            .attr("y",300)
+        _this
+          .append("g")
+          .selectAll("rect")
+          .append("rect")
+          .attr("width", 30)
+          .attr("height", 30)
+          .style("fill", "black")
+          .attr("x", 300)
+          .attr("y", 300);
       });
       nodeEnter.on("dblclick", function(d) {
-
         if (d.color < 6) {
           d.color++;
         } else {
@@ -523,9 +517,11 @@ export default {
         //todo其他节点和连线一并显示
         d3.select(".node").style("fill-opacity", 1);
         d3.select(".nodetext").style("fill-opacity", 1);
-        d3.selectAll(".linkline").style("stroke-opacity", 1).style("stroke-width",1);
+        d3.selectAll(".linkline")
+          .style("stroke-opacity", 1)
+          .style("stroke-width", 1);
         d3.selectAll(".linktext").style("fill-opacity", 1);
-        d3.selectAll(".arrowmarker").style("fill-opacity",1)
+        d3.selectAll(".arrowmarker").style("fill-opacity", 1);
       });
       nodeEnter.on("mouseover", function(d) {
         //todo鼠标放上去只显示相关节点，其他节点和连线隐藏
@@ -558,7 +554,7 @@ export default {
           });
         //透明所有连线
         d3.selectAll(".linkline").style("stroke-opacity", 0.1);
-        d3.selectAll(".arrowmarker").style("fill-opacity",0.5);
+        d3.selectAll(".arrowmarker").style("fill-opacity", 0.5);
         console.log(d3.selectAll(".arrowmarker"));
         //显示相关的连线
         _this.qaGraphLink
@@ -569,27 +565,25 @@ export default {
               return 1.0;
             }
           })
-          .style("stroke-width",function(c){
+          .style("stroke-width", function(c) {
             if (c.lk.targetid === d.uuid || c.lk.sourceid === d.uuid) {
               //console.log(c);
               return 1.5;
             }
-          })
+          });
 
         //透明所有连线文字
-        _this.qaGraphLinkText
-            .selectAll(".linktext")
-            .style("fill-opacity",0.1)
-            //console.log("we did s1!")
+        _this.qaGraphLinkText.selectAll(".linktext").style("fill-opacity", 0.1);
+        //console.log("we did s1!")
 
         //显示相关的连线文字
         _this.qaGraphLinkText
           .selectAll(".linktext")
           .style("fill-opacity", function(c) {
             if (c.lk.targetid === d.uuid || c.lk.sourceid === d.uuid) {
-             // console.log("we are in 2");
-             // console.log(c);
-             // console.log(d.uuid)
+              // console.log("we are in 2");
+              // console.log(c);
+              // console.log(d.uuid)
               return 1.0;
             }
             return 0.1;
@@ -622,124 +616,128 @@ export default {
       node.attr("fill", function(d, i) {
         //创建圆形图像
         var defs = d3.selectAll("svg >defs");
-        if (_this.shape === 2) {//圆形填充图片
-          var img_w = 77,
-            img_h = 80;
+        switch (d.shape) {
+          case "piccircle":
+            //圆形填充图片
+            var img_w = 77,
+              img_h = 80;
 
-          var catpattern = defs
-            .append("pattern")
-            .attr("id", "catpattern" + i)
-            .attr("height", 1)
-            .attr("width", 1);
-          catpattern
-            .append("image")
-            .attr("x", -(img_w / 2 - d.r))
-            .attr("y", -(img_h / 2 - d.r))
-            .attr("width", img_w)
-            .attr("height", img_h)
-            .attr("xlink:href", d.imgsrc);
-          console.log(d.r);
-          return "url(#catpattern" + i + ")";
+            var catpattern = defs
+              .append("pattern")
+              .attr("id", "catpattern" + i)
+              .attr("height", 1)
+              .attr("width", 1);
+            catpattern
+              .append("image")
+              .attr("x", -(img_w / 2 - d.r))
+              .attr("y", -(img_h / 2 - d.r))
+              .attr("width", img_w)
+              .attr("height", img_h)
+              .attr("xlink:href", d.imgsrc);
+            console.log(d.r);
+            return "url(#catpattern" + i + ")";
+            
+          case "square":
+            //正方形
+            var rect_w = 30,
+              rect_h = 30;
+            var rectpattern = defs
+              .append("pattern")
+              .attr("id", "recttest" + i)
+              .attr("height", 1)
+              .attr("width", 1);
 
-        } else if (_this.shape === 1) {//正方形
-          var rect_w = 30,
-            rect_h = 30;
-          var rectpattern = defs
-            .append("pattern")
-            .attr("id", "recttest"+i)
-            .attr("height", 1)
-            .attr("width", 1);
+            rectpattern
+              .append("rect")
+              .attr("x", -(rect_w / 2 - d.r))
+              .attr("y", -(rect_h / 2 - d.r))
+              .attr("width", rect_w)
+              .attr("height", rect_h)
+              .attr("fill", d.color);
+            return "url(#recttest" + i + ")";
 
-          rectpattern
-            .append("rect")
-            .attr("x", -(rect_w / 2 - d.r))
-            .attr("y", -(rect_h / 2 - d.r))
-            .attr("width", rect_w)
-            .attr("height", rect_h)
-            .attr("fill", d.color);
-          return "url(#recttest"+i+")";
-        } else if (_this.shape === 3) {//待实现
-          console.log(d3.selectAll("svg >defs"));
-          return "url(#person"+i+")";
-        } else if (_this.shape === 4) {//圆角矩形
-          var ec_x = 50,
-            ec_y = 30;
-          var ecpattern = defs
-            .append("pattern")
-            .attr("id", "ectest"+i)
-            .attr("height", 1)
-            .attr("width", 1);
+          case "roundrectangle":
+            //圆角矩形
+            var ec_x = 50,
+              ec_y = 30;
+            var ecpattern = defs
+              .append("pattern")
+              .attr("id", "ectest" + i)
+              .attr("height", 1)
+              .attr("width", 1);
 
-          ecpattern
-            .append("rect")
-            .attr("x", -(ec_x / 2 - d.r))
-            .attr("y", -(ec_y / 2 - d.r))
-            .attr("width", ec_x)
-            .attr("height", ec_y)
-            .attr("rx", 10)
-            .attr("fill",d.color);
-          return "url(#ectest"+i+")";
-        } else if (_this.shape === 5) {//倒三角
-          console.log('id');
-          console.log(d.color);
+            ecpattern
+              .append("rect")
+              .attr("x", -(ec_x / 2 - d.r))
+              .attr("y", -(ec_y / 2 - d.r))
+              .attr("width", ec_x)
+              .attr("height", ec_y)
+              .attr("rx", 10)
+              .attr("fill", d.color);
+            return "url(#ectest" + i + ")";
 
-          var tri_down_pattern = defs
-            .append("pattern")
-            .attr("id", "tri_down_pattern"+i)
-            .attr("height", 1)
-            .attr("width", 1);
+          case "downtriangle":
+            //倒三角
+            var tri_down_pattern = defs
+              .append("pattern")
+              .attr("id", "tri_down_pattern" + i)
+              .attr("height", 1)
+              .attr("width", 1);
 
-          tri_down_pattern
-            .append("polygon")
-            .attr("points", "30,55 10,20 50,20")
-            .attr("fill", d.color);
-          return "url(#tri_down_pattern"+i+")";
-        } else if (_this.shape === 6) {//正三角
+            tri_down_pattern
+              .append("polygon")
+              .attr("points", "30,55 10,20 50,20")
+              .attr("fill", d.color);
+            return "url(#tri_down_pattern" + i + ")";
 
-          var tri_up_pattern = defs
-            .append("pattern")
-            .attr("id", "tri_up_test"+i)
-            .attr("height", 1)
-            .attr("width", 1);
+          case "triangle":
+            var tri_up_pattern = defs
+              .append("pattern")
+              .attr("id", "tri_up_test" + i)
+              .attr("height", 1)
+              .attr("width", 1);
 
-          tri_up_pattern
-            .append("polygon")
-            .attr("points", "30,10 10,45 50,45")
-            .attr("fill",d.color);
-          return "url(#tri_up_test"+i+")";
-        } else if (_this.shape === 7) {//五角星
+            tri_up_pattern
+              .append("polygon")
+              .attr("points", "30,10 10,45 50,45")
+              .attr("fill", d.color);
+            return "url(#tri_up_test" + i + ")";
 
-          var five_p_star_pattern = defs
-            .append("pattern")
-            .attr("id", "five_p_star_test"+i)
-            .attr("height", 1)
-            .attr("width", 1);
+          case "star":
+            //五角星
 
-          five_p_star_pattern
-            .append("polygon")
-            .attr("points", "30,10 19,46 48,24 12,24 42,46")
-            .attr("fill", d.color);
-          return "url(#five_p_star_test"+i+")";
-        } else if (_this.shape === 8) {//菱形
+            var five_p_star_pattern = defs
+              .append("pattern")
+              .attr("id", "five_p_star_test" + i)
+              .attr("height", 1)
+              .attr("width", 1);
 
-          var diamond_pattern = defs
-            .append("pattern")
-            .attr("id", "diamond_test"+i)
-            .attr("height", 1)
-            .attr("width", 1);
+            five_p_star_pattern
+              .append("polygon")
+              .attr("points", "30,10 19,46 48,24 12,24 42,46")
+              .attr("fill", d.color);
+            return "url(#five_p_star_test" + i + ")";
 
-          diamond_pattern
-            .append("polygon")
-            .attr("points", "30,10 50,30 30,50 10,30")
-            .attr("fill",d.color);
-          return "url(#diamond_test"+i+")";
-        } else {
+          case "diamond":
+            //菱形
+            var diamond_pattern = defs
+              .append("pattern")
+              .attr("id", "diamond_test" + i)
+              .attr("height", 1)
+              .attr("width", 1);
 
-          if (d.cur === "1") {
-            return _this.colorList[0];
-          } else {
-            return _this.colorList[2];
-          }
+            diamond_pattern
+              .append("polygon")
+              .attr("points", "30,10 50,30 30,50 10,30")
+              .attr("fill", d.color);
+            return "url(#diamond_test" + i + ")";
+
+          default:
+            if (d.cur === "1") {
+              return _this.colorList[0];
+            } else {
+              return _this.colorList[2];
+            }
         }
       });
       node
@@ -794,11 +792,13 @@ export default {
       return nodetext;
     },
     drawLink(links) {
-      console.log(links)
+      console.log(links);
       var _this = this;
-      var link = this.qaGraphLink.selectAll(".linkline").data(links, function(d) {
-        return d.uuid;
-      });
+      var link = this.qaGraphLink
+        .selectAll(".linkline")
+        .data(links, function(d) {
+          return d.uuid;
+        });
       link.exit().remove();
 
       var linkEnter = link
@@ -809,26 +809,23 @@ export default {
         .attr("stroke", function() {
           return _this.colorList[2];
         })
-        .attr("marker-end", "url(#arrow)")
+        .attr("marker-end", "url(#arrow)");
 
-
-
-      linkEnter.on("mouseenter",function(){
-        console.log((this))
-      }) ;
+      linkEnter.on("mouseenter", function() {
+        console.log(this);
+      });
       linkEnter.call(
-          d3
-              .drag()
-              .on("start", _this.dragStarted)
-              .on("drag", _this.dragged)
-              .on("end", _this.dragEnded)
+        d3
+          .drag()
+          .on("start", _this.dragStarted)
+          .on("drag", _this.dragged)
+          .on("end", _this.dragEnded)
       );
 
       link = linkEnter.merge(link);
       return link;
     },
     drawLinkText(links) {
-
       var _this = this;
       var linktext = _this.qaGraphLinkText
         .selectAll(".linktext")
@@ -843,10 +840,12 @@ export default {
         .attr("font-family", "微软雅黑")
         .style("fill", "#888888")
         .style("font-size", "10px")
-        .style("textAnchor","middle")
+        .style("textAnchor", "middle")
         .append("textPath")
-        .attr("startOffset","50%")
-        .attr('xlink:href',function(d,i) {return '#linkline'+i})
+        .attr("startOffset", "50%")
+        .attr("xlink:href", function(d, i) {
+          return "#linkline" + i;
+        })
         .text(function(d) {
           return d.lk.name;
         });
@@ -854,12 +853,12 @@ export default {
         return d.lk.name;
       });
       linktextEnter.call(
-          d3
-              .drag()
-              .on("start", _this.dragStarted)
-              .on("drag", _this.dragged)
-              .on("end", _this.dragEnded)
-      )
+        d3
+          .drag()
+          .on("start", _this.dragStarted)
+          .on("drag", _this.dragged)
+          .on("end", _this.dragEnded)
+      );
       return linktext;
     },
     drawButtonGroup(nodes) {
@@ -867,7 +866,7 @@ export default {
       var nodebutton = _this.nodebuttonGroup
         .selectAll("nodebutton")
         .data(nodes, function(d) {
-          console.log("we do it for"+d.uuid);
+          console.log("we do it for" + d.uuid);
           return d.uuid;
         });
       nodebutton.exit().remove();
@@ -896,11 +895,11 @@ export default {
         .classed("notshow", true);
       nodebutton = nodebuttonEnter.merge(nodebutton);
       nodebuttonEnter.call(
-          d3
-              .drag()
-              .on("start", _this.dragStarted)
-              .on("drag", _this.dragged)
-              .on("end", _this.dragEnded)
+        d3
+          .drag()
+          .on("start", _this.dragStarted)
+          .on("drag", _this.dragged)
+          .on("end", _this.dragEnded)
       );
       return nodebutton;
     },
@@ -955,11 +954,10 @@ export default {
             .attr("stroke", "#50658a")
             .attr("stroke-width", 2.5)
             .attr("stroke-opacity", 0.3)
-            .attr("id",function(d,i){
+            .attr("id", function(d, i) {
               //console.log("!"+d.uuid);
-              return "buttonarc"+i+".";
+              return "buttonarc" + i + ".";
             });
-
 
           buttonGroupEnter
             .append("text")
@@ -976,18 +974,21 @@ export default {
             .style("fill-opacity", 1)
             .attr("font-size", 10)
             .append("textPath")
-            .attr("xlink:href",function(d,i) {return '#buttonarc'+i+"."+_this.selectUuid});
+            .attr("xlink:href", function(d, i) {
+              return "#buttonarc" + i + "." + _this.selectUuid;
+            });
           buttonGroupEnter.call(
-              d3
-                  .drag()
-                  .on("start", _this.dragStarted)
-                  .on("drag", _this.dragged)
-                  .on("end", _this.dragEnded)
-          )
+            d3
+              .drag()
+              .on("start", _this.dragStarted)
+              .on("drag", _this.dragged)
+              .on("end", _this.dragEnded)
+          );
         }
       });
     },
-    bindEventButtonGroup() {//给按钮绑定事件
+    bindEventButtonGroup() {
+      //给按钮绑定事件
       var _this = this;
       //按钮组事件绑定
       _this.toolbarData.forEach(function(m) {
@@ -1001,16 +1002,15 @@ export default {
               break;
             case "edit":
               _this.editNodeFormVisible = true;
-              _this.editNodeUuid=_this.selectUuid;
+              _this.editNodeUuid = _this.selectUuid;
               for (let i = 0; i < _this.graph.nodes.length; i++) {
                 if (_this.graph.nodes[i].uuid === _this.editNodeUuid) {
-                  _this.editNodeName=_this.graph.nodes[i].name;
-                  _this.editNodeColor=_this.graph.nodes[i].color;
+                  _this.editNodeName = _this.graph.nodes[i].name;
+                  _this.editNodeColor = _this.graph.nodes[i].color;
                 }
-              };
-
+              }
               break;
-            case"more":
+            case "more":
               break;
             case "link":
               break;
@@ -1044,10 +1044,7 @@ export default {
                   });
                 });
               break;
-
           }
-          ;
-
           console.log(_this.editNodeFormVisible);
         });
       });
@@ -1111,12 +1108,20 @@ export default {
       function ticked() {
         // 更新连线坐标
         graphLink
-          .attr("d",function(d){
-            return 'M' + d.source.x + ' '+ d.source.y + 'L' + d.target.x + ' ' + d.target.y;
-             }
-          )
-          .attr("id",function(d,i){
-            return "linkline"+i;
+          .attr("d", function(d) {
+            return (
+              "M" +
+              d.source.x +
+              " " +
+              d.source.y +
+              "L" +
+              d.target.x +
+              " " +
+              d.target.y
+            );
+          })
+          .attr("id", function(d, i) {
+            return "linkline" + i;
           });
 
         // 刷新连接线上的文字位置
@@ -1146,10 +1151,9 @@ export default {
           })
           .attr("cy", function(d) {
             return d.y;
-          })
+          });
 
-          //console.log(graphNodeButtonGroup);
-
+        //console.log(graphNodeButtonGroup);
 
         // 更新文字坐标
         graphNodeText
@@ -1257,12 +1261,9 @@ export default {
         document.webkitExitFullscreen();
       }
     },
-    btnCollapseNode() {
-    },
-    btnOpenNode() {
-    },
-    close() {
-    },
+    btnCollapseNode() {},
+    btnOpenNode() {},
+    close() {},
 
     exportPNG: function() {
       var serializer = new XMLSerializer();
@@ -1271,7 +1272,7 @@ export default {
       newsvg.selectAll(".nodebutton").remove();
 
       var source =
-        "<?xml version=\"1.0\" standalone=\"no\"?>\r\n" +
+        '<?xml version="1.0" standalone="no"?>\r\n' +
         serializer.serializeToString(newsvg.node());
       var image = new Image();
       image.src =
@@ -1317,16 +1318,20 @@ export default {
       downloadAnchorNode.remove();
     },
     exportSERVER: async function() {
-      let body = { "node": [], "relationship": [] };
+      let body = { node: [], relationship: [] };
       for (let currNode of this.graph.nodes) {
-        body.node.push({ "uuid": currNode.uuid, "name": currNode.name, "imgsrc": currNode.imgsrc });
+        body.node.push({
+          uuid: currNode.uuid,
+          name: currNode.name,
+          imgsrc: currNode.imgsrc
+        });
       }
       for (let currLink of this.graph.links) {
         body.relationship.push({
-          "sourceid": currLink.sourceid,
-          "targetid": currLink.targetid,
-          "name": currLink.name,
-          "uuid": currLink.uuid
+          sourceid: currLink.sourceid,
+          targetid: currLink.targetid,
+          name: currLink.name,
+          uuid: currLink.uuid
         });
       }
       console.log(body);
@@ -1377,7 +1382,7 @@ export default {
               let newNode = {};
               newNode.name = nName;
               newNode.uuid = _this.uuidEndNum;
-              newNode.color=3;
+              newNode.color = 3;
               _this.uuidEndNum++;
               console.log(newNode.uuid);
 
@@ -1405,12 +1410,8 @@ export default {
             });
           d3.select(".gid").style("cursor", "");
           _this.isAddingNode = false;
-
         }
-
       });
-
-
     },
     // 删除节点
     deleteNode() {
@@ -1644,34 +1645,29 @@ export default {
       _this.updateGraph();
     },
 
-    cancelNodeEdit(){
-      var _this=this;
-      _this.editNodeFormVisible=false;
-      _this.editNodeUuid='';
-      _this.editNodeName='';
-      _this.editNodeColor='';
+    cancelNodeEdit() {
+      var _this = this;
+      _this.editNodeFormVisible = false;
+      _this.editNodeUuid = "";
+      _this.editNodeName = "";
+      _this.editNodeColor = "";
     },
 
-    saveNodeEdit(){
-      var _this=this;
-      _this.editNodeFormVisible=false;
+    saveNodeEdit() {
+      var _this = this;
+      _this.editNodeFormVisible = false;
       for (let i = 0; i < _this.graph.nodes.length; i++) {
         if (_this.graph.nodes[i].uuid === _this.editNodeUuid) {
           _this.graph.nodes[i].name = _this.editNodeName;
-          _this.graph.nodes[i].color=_this.editNodeColor;
+          _this.graph.nodes[i].color = _this.editNodeColor;
         }
-      };
+      }
       _this.updateGraph();
-      _this.editNodeUuid='';
-      _this.editNodeName='';
+      _this.editNodeUuid = "";
+      _this.editNodeName = "";
     },
 
-    searchNode() {
-
-
-    }
-
-
+    searchNode() {}
   }
 };
 </script>
@@ -1706,7 +1702,6 @@ export default {
     /*上边阴影  */ inset 0px 0px 0px 0px rgba(18, 29, 29, 0.25),
     /*左边阴影 */ inset 0px 0px 0px 0px rgba(18, 29, 29, 0.25),
     /*右边阴影  */ inset 0px -5px 5px 0px rgba(18, 29, 29, 0); /*下边阴影  */
-
 }
 
 .collapse-toggle:checked ~ .content {
@@ -1726,9 +1721,8 @@ export default {
 
 .collapse-item {
   margin-top: 10px;
-  border-radius: 10px
+  border-radius: 10px;
 }
-
 
 #aside {
   /*侧边栏,初始位置为-320px，即隐藏效果*/
@@ -1763,8 +1757,7 @@ h4 {
   font-size: 1.4em;
   line-height: 0em;
   text-shadow: 2px 2px 2px #999999;
-  width: 95%
-
+  width: 95%;
 }
 
 #download li {
@@ -1786,7 +1779,6 @@ h4 {
   margin-left: 40px;
   font-size: 1.2em;
 }
-
 
 .collapse-card li {
   list-style: none;
@@ -1894,7 +1886,6 @@ a {
   color: orange;
 }
 
-
 .svg-set-box0 textarea {
   left: 45px;
   right: 45px;
@@ -1913,7 +1904,6 @@ a {
   margin-top: 20px;
   float: bottom;
 }
-
 
 ul,
 li {
