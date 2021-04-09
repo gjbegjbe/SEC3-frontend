@@ -377,11 +377,11 @@ export default {
         )
         .force("collide", d3.forceCollide().strength(0.1))
         .force("center", d3.forceCenter(this.width / 2, this.height / 2));
-      this.qaGraphLink = this.svg.append("g").attr("class", "linkline");
-      this.qaGraphLinkText = this.svg.append("g").attr("class", "linetext");
-      this.qaGraphNode = this.svg.append("g").attr("class", "node");
-      this.qaGraphNodeText = this.svg.append("g").attr("class", "nodetext");
-      this.nodebuttonGroup = this.svg.append("g").attr("class", "nodebutton");
+      this.qaGraphLink = this.svg.append("g").attr("class", "linkline").attr("id","g1");
+      this.qaGraphLinkText = this.svg.append("g").attr("class", "linetext").attr("id","g2");
+      this.qaGraphNode = this.svg.append("g").attr("class", "node").attr("id","g3");
+      this.qaGraphNodeText = this.svg.append("g").attr("class", "nodetext").attr("id","g4");
+      this.nodebuttonGroup = this.svg.append("g").attr("class", "nodebutton").attr("id","g5");
       this.svg.on(
         "click",
         function() {
@@ -805,7 +805,8 @@ export default {
       var linkEnter = link
         .enter()
         .append("path")
-        .attr("class", "linkline")
+        .attr("id", function(d,i){
+          return "linkline"+i;})
         .attr("stroke-width", 1)
         .attr("stroke", function() {
           return _this.colorList[2];
@@ -843,6 +844,7 @@ export default {
         .style("font-size", "10px")
         .style("textAnchor", "middle")
         .append("textPath")
+        .attr("class","linktext")
         .attr("startOffset", "50%")
         .attr("xlink:href", function(d, i) {
           return "#linkline" + i;
@@ -1195,8 +1197,17 @@ export default {
       d.fy = d3.event.y;
     },
     zoomed() {
-      d3.selectAll("g").attr("transform", d3.event.transform);
-      //_this.svg.selectAll("g").attr("transform", d3.event.transform);
+      //
+      console.log(d3.selectAll('g'))
+
+      d3.select("#g1").attr("transform", d3.event.transform);
+      d3.select("#g2").attr("transform", d3.event.transform);
+      d3.select("#g3").attr("transform", d3.event.transform);
+      d3.select("#g4").attr("transform", d3.event.transform);
+      d3.select("#g5").attr("transform", d3.event.transform);
+      //d3.selectAll(".nodebutton").attr("transform", d3.event.transform);*/
+
+      //d3.selectAll("g").attr("transform", d3.event.transform);
     },
     zoomClick(direction) {
       var self = this;
