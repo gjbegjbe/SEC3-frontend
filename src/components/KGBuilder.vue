@@ -312,7 +312,7 @@ export default {
       // deleteLinkDialogVisible:true
 
       isAddingNode: false,
-      shape: 5,//1：图片圆圈模式，2-8，各种形状，3暂时还在调试
+      shape: 5,//2 圆形图片 1 正方形 3 待实现 4 圆角矩形 5 倒三角 6 正三角 7 五角星 8 菱形
 
       editNodeFormVisible: false,//编辑节点窗口是否显示
       editNodeUuid: '',//正在编辑的节点id
@@ -622,7 +622,7 @@ export default {
       node.attr("fill", function(d, i) {
         //创建圆形图像
         var defs = d3.selectAll("svg >defs");
-        if (_this.shape === 2) {
+        if (_this.shape === 2) {//圆形填充图片
           var img_w = 77,
             img_h = 80;
 
@@ -641,12 +641,12 @@ export default {
           console.log(d.r);
           return "url(#catpattern" + i + ")";
 
-        } else if (_this.shape === 1) {
+        } else if (_this.shape === 1) {//正方形
           var rect_w = 30,
             rect_h = 30;
           var rectpattern = defs
             .append("pattern")
-            .attr("id", "recttest")
+            .attr("id", "recttest"+i)
             .attr("height", 1)
             .attr("width", 1);
 
@@ -656,17 +656,17 @@ export default {
             .attr("y", -(rect_h / 2 - d.r))
             .attr("width", rect_w)
             .attr("height", rect_h)
-            .attr("fill", _this.colorList[d.color-1]);
-          return "url(#recttest)";
-        } else if (_this.shape === 3) {
+            .attr("fill", d.color);
+          return "url(#recttest"+i+")";
+        } else if (_this.shape === 3) {//待实现
           console.log(d3.selectAll("svg >defs"));
-          return "url(#person)";
-        } else if (_this.shape === 4) {
+          return "url(#person"+i+")";
+        } else if (_this.shape === 4) {//圆角矩形
           var ec_x = 50,
             ec_y = 30;
           var ecpattern = defs
             .append("pattern")
-            .attr("id", "ectest")
+            .attr("id", "ectest"+i)
             .attr("height", 1)
             .attr("width", 1);
 
@@ -677,9 +677,9 @@ export default {
             .attr("width", ec_x)
             .attr("height", ec_y)
             .attr("rx", 10)
-            .attr("fill",_this.colorList[d.color-1]);
-          return "url(#ectest)";
-        } else if (_this.shape === 5) {
+            .attr("fill",d.color);
+          return "url(#ectest"+i+")";
+        } else if (_this.shape === 5) {//倒三角
           console.log('id');
           console.log(d.color);
 
@@ -694,11 +694,11 @@ export default {
             .attr("points", "30,55 10,20 50,20")
             .attr("fill", d.color);
           return "url(#tri_down_pattern"+i+")";
-        } else if (_this.shape === 6) {
+        } else if (_this.shape === 6) {//正三角
 
           var tri_up_pattern = defs
             .append("pattern")
-            .attr("id", "tri_up_test")
+            .attr("id", "tri_up_test"+i)
             .attr("height", 1)
             .attr("width", 1);
 
@@ -706,12 +706,12 @@ export default {
             .append("polygon")
             .attr("points", "30,10 10,45 50,45")
             .attr("fill",d.color);
-          return "url(#tri_up_test)";
-        } else if (_this.shape === 7) {
+          return "url(#tri_up_test"+i+")";
+        } else if (_this.shape === 7) {//五角星
 
           var five_p_star_pattern = defs
             .append("pattern")
-            .attr("id", "five_p_star_test")
+            .attr("id", "five_p_star_test"+i)
             .attr("height", 1)
             .attr("width", 1);
 
@@ -719,12 +719,12 @@ export default {
             .append("polygon")
             .attr("points", "30,10 19,46 48,24 12,24 42,46")
             .attr("fill", d.color);
-          return "url(#five_p_star_test)";
-        } else if (_this.shape === 8) {
+          return "url(#five_p_star_test"+i+")";
+        } else if (_this.shape === 8) {//菱形
 
           var diamond_pattern = defs
             .append("pattern")
-            .attr("id", "diamond_test")
+            .attr("id", "diamond_test"+i)
             .attr("height", 1)
             .attr("width", 1);
 
@@ -732,7 +732,7 @@ export default {
             .append("polygon")
             .attr("points", "30,10 50,30 30,50 10,30")
             .attr("fill",d.color);
-          return "url(#diamond_test)";
+          return "url(#diamond_test"+i+")";
         } else {
 
           if (d.cur === "1") {
