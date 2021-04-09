@@ -485,15 +485,7 @@ export default {
           d3.select(out_buttongroup_id).classed("notshow", true);
         }
         event.stopPropagation();
-        _this
-          .append("g")
-          .selectAll("rect")
-          .append("rect")
-          .attr("width", 30)
-          .attr("height", 30)
-          .style("fill", "black")
-          .attr("x", 300)
-          .attr("y", 300);
+
       });
       nodeEnter.on("dblclick", function(d) {
         if (d.color < 6) {
@@ -590,6 +582,7 @@ export default {
           });
       });
       nodeEnter.call(
+
         d3
           .drag()
           .on("start", _this.dragStarted)
@@ -977,13 +970,7 @@ export default {
             .attr("xlink:href", function(d, i) {
               return "#buttonarc" + i + "." + _this.selectUuid;
             });
-          buttonGroupEnter.call(
-            d3
-              .drag()
-              .on("start", _this.dragStarted)
-              .on("drag", _this.dragged)
-              .on("end", _this.dragEnded)
-          );
+
         }
       });
     },
@@ -1189,6 +1176,8 @@ export default {
       );
     },
     dragStarted(d) {
+      console.log("i m dragged!");
+      this.svg.selectAll(".buttongroup").classed("notshow", true);
       if (!d3.event.active) this.simulation.alphaTarget(0.8).restart();
       d.fx = d.x;
       d.fy = d.y;
@@ -1198,6 +1187,7 @@ export default {
       d.fy = d3.event.y;
     },
     dragEnded(d) {
+      console.log("i m dragged over!");
       if (!d3.event.active) this.simulation.alphaTarget(0);
       d.fx = d3.event.x;
       d.fy = d3.event.y;
