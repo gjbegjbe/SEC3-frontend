@@ -107,19 +107,27 @@
         <label style="display: flex;" for="collapse6">
           <h4>
             <i class="el-icon-arrow-right"></i>
-            节点搜索 SEARCH
+            搜索 SEARCH
           </h4>
         </label>
 
         <div class="content">
           <div id="search" class="collapse-card">
-            <div style="margin-bottom: 4px;float: left">
+            <div style="margin-bottom: 10px;margin-top: 15px">
               <span style="font-size: 1.2em"> 节点名称：</span>
               <textarea id="nodeSearch"></textarea>
             </div>
+            <div style="margin-bottom: 4px;float: left">
+              <span style="font-size: 1.2em"> 节点类型：</span>
+              <textarea id="typeSearch"></textarea>
+            </div>
+            <div style="margin-bottom: 4px;float: left">
+              <span style="font-size: 1.2em"> 关系名称：</span>
+              <textarea id="relSearch"></textarea>
+            </div>
 
             <div>
-              <a href="javascript:;" @click="searchNode">
+              <a href="javascript:;" @click="search">
                 <li style="margin-left:20%; margin-bottom:25px;">
                   <i class="el-icon-search"></i> 搜索
                 </li>
@@ -276,6 +284,14 @@ export default {
       graph: {
         nodes: [],
         links: []
+      },
+      selected:{
+        nodes: [],
+        links: [],
+        linksIn: [],
+        linksOut: [],
+        sourceNodes: [],
+        targetNodes: [],
       },
       defaultR: 30,
       colorList: [
@@ -518,7 +534,7 @@ export default {
       nodeEnter.on("mouseover", function(d) {
         //todo鼠标放上去只显示相关节点，其他节点和连线隐藏
         d3.selectAll(".node").style("fill-opacity", 0.1);
-        var relvantNodeIds = [];
+        const relvantNodeIds = [];
         var relvantNodes = _this.graph.links.filter(function(n) {
           return n.sourceid == d.uuid || n.targetid == d.uuid;
         });
@@ -629,7 +645,7 @@ export default {
               .attr("xlink:href", d.imgsrc);
             console.log(d.r);
             return "url(#catpattern" + i + ")";
-            
+
           case "square":
             //正方形
             var rect_w = 30,
@@ -1651,7 +1667,127 @@ export default {
       _this.editNodeName = "";
     },
 
-    searchNode() {}
+    search() {
+      let _this = this;
+      // clear
+      this.selected.nodes.splice(0, _this.selected.nodes.length);
+      this.selected.linksIn.splice(0, _this.selected.linksIn.length);
+      this.selected.linksOut.splice(0, _this.selected.linksOut.length);
+      this.selected.sourceNodes.splice(0, _this.selected.sourceNodes.length);
+      this.selected.targetNodes.splice(0, _this.selected.targetNodes.length);
+      // get
+      var nName = document.getElementById("nodeSearch").value;
+      var nType = document.getElementById("typeSearch").value;
+      var lName = document.getElementById("relSearch").value;
+      console.log(nName, nType, lName);
+
+      //优先节点名搜索
+      if (nName !== "") {
+        // 以下检索出目标节点
+        for (let i = 0; i < _this.graph.nodes.length; i++) { //所有满足名称模糊要求的节点搜索
+          if (_this.graph.nodes[i].name === nName) {
+            this.selected.nodes.push(_this.graph.nodes[i]);
+          }
+        }
+        if (nType !== "") { //带类型要求的节点搜索
+          for (let j = 0; j < _this.selected.nodes.length; j++) {
+            if (_this.selected.nodes[j].type !== nType) {
+              this.selected.nodes.splice(j, 1);
+            }
+          }
+        }
+
+        // 以下检索出相关关系及关联节点
+        for (let m = 0; m < _this.selected.nodes.length; m++) { //将与检索出节点有关的关系列出
+          for (let n = 0; n < _this.graph.links.length; n++){
+            if (_this.selected.nodes[m].uuid === _this.graph.links[n].sourceid){ //由目标节点指出的关系
+              this.selected.linksOut.push(_this.graph.links[n]);
+            } else if(_this.selected.nodes[m].uuid === _this.graph.links[n].targetid){ //向目标节点指入的关系
+              this.selected.linksIn.push(_this.graph.links[n]);
+            }
+          }
+        }
+        if (lName !== "") { //按关系名筛选
+          for (let k = 0; k < _this.selected.linksIn.length; k++) {
+            if (_this.selected.linksIn[k].name !== lName) {
+              this.selected.linksIn.splice(k, 1);
+              k--;
+            }
+          }
+          for (let l = 0; l < _this.selected.linksOut.length; l++) {
+            if (_this.selected.linksOut[l].name !== lName) {
+              this.selected.linksOut.splice(l, 1);
+              l--;
+            }
+          }
+        }
+        for (let i = 0; i < _this.graph.nodes.length; i++){ //将与检索出节点有关的节点列出
+          for (let p = 0; p < _this.selected.linksIn.length; p++) { //相关源节点
+            if (_this.graph.nodes[i].uuid === _this.selected.linksIn[p].sourceid) {
+              this.selected.sourceNodes.push(_this.graph.nodes[i]);
+            }
+          }
+          for (let q = 0; q < _this.selected.linksOut.length; q++) { //相关目标节点
+            if (_this.graph.nodes[i].uuid === _this.selected.linksOut[q].targetid) {
+              this.selected.targetNodes.push(_this.graph.nodes[i]);
+            }
+          }
+        }
+      }
+
+      //无节点名的情况下优先节点类型搜索
+      else if(nType !== ""){
+        // 以下检索出目标节点
+        for (let i = 0; i < _this.graph.nodes.length; i++) { //所有满足类型要求的节点搜索
+          if (_this.graph.nodes[i].type === nType) {
+            this.selected.nodes.push(_this.graph.nodes[i]);
+          }
+        }
+
+        // 以下检索出相关关系及关联节点
+        for (let m = 0; m < _this.selected.nodes.length; m++) { //将与检索出节点有关的关系列出
+          for (let n = 0; n < _this.graph.links.length; n++){
+            if (_this.selected.nodes[m].uuid === _this.graph.links[n].sourceid){ //由目标节点指出的关系
+              this.selected.linksOut.push(_this.graph.links[n]);
+            } else if(_this.selected.nodes[m].uuid === _this.graph.links[n].targetid){ //向目标节点指入的关系
+              this.selected.linksIn.push(_this.graph.links[n]);
+            }
+          }
+        }
+        if (lName !== "") { //按关系名筛选
+          for (let k = 0; k < _this.selected.linksIn.length; k++) {
+            if (_this.selected.linksIn[k].name !== lName) {
+              this.selected.linksIn.splice(k, 1);
+              k--;
+            }
+          }
+          for (let l = 0; l < _this.selected.linksOut.length; l++) {
+            if (_this.selected.linksOut[l].name !== lName) {
+              this.selected.linksOut.splice(l, 1);
+              l--;
+            }
+          }
+        }
+        for (let i = 0; i < _this.graph.nodes.length; i++) { //将与检索出节点有关的节点列出
+          for (let p = 0; p < _this.selected.linksIn.length; p++) { //相关源节点
+            if (_this.graph.nodes[i].uuid === _this.selected.linksIn[p].sourceid) {
+              this.selected.sourceNodes.push(_this.graph.nodes[i]);
+            }
+          }
+          for (let q = 0; q < _this.selected.linksOut.length; q++) { //相关目标节点
+            if (_this.graph.nodes[i].uuid === _this.selected.linksOut[q].targetid) {
+              this.selected.targetNodes.push(_this.graph.nodes[i]);
+            }
+          }
+        }
+      }
+
+      //关系搜索
+
+      console.log(_this.selected);
+    }
+
+
   }
 };
 </script>
