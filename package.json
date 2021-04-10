@@ -13,6 +13,7 @@
     "cytoscape": "^3.18.1",
     "cytoscape-cola": "^2.4.0",
     "cytoscape-cxtmenu": "^3.4.0",
+    "echarts": "^5.0.2",
     "element-ui": "^2.15.1",
     "file-saver": "^2.0.5",
     "jquery": "^3.5.1",

@@ -52,6 +52,7 @@
 
     <div id="aside">
       <h2>6PlusCOIN MENU</h2>
+      <div id="charts" style="width:300px;height:200px;}"></div>
       <div class="collapse-item">
         <input type="checkbox" id="collapse1" class="collapse-toggle" />
         <label style="display: flex;" for="collapse1">
@@ -271,6 +272,7 @@
 import axios from "axios";
 import * as d3 from "d3";
 import $ from "jquery";
+// import echarts from "echarts";
 
 export default {
   props: ["pid"],
@@ -383,8 +385,10 @@ export default {
         {
           value: "circle",
           label: "圆形"
-        },
-      ]
+        }
+      ],
+
+      chartDialogVisible: false
     };
   },
   components: {},
@@ -392,6 +396,9 @@ export default {
     this.initGraphContainer();
     this.addMaker();
     this.initGraph();
+
+
+
   },
   created() {},
   watch: {},
@@ -428,11 +435,26 @@ export default {
         )
         .force("collide", d3.forceCollide().strength(0.1))
         .force("center", d3.forceCenter(this.width / 2, this.height / 2));
-      this.qaGraphLink = this.svg.append("g").attr("class", "linkline").attr("id","g1");
-      this.qaGraphLinkText = this.svg.append("g").attr("class", "linktext").attr("id","g2");
-      this.qaGraphNode = this.svg.append("g").attr("class", "node").attr("id","g3");
-      this.qaGraphNodeText = this.svg.append("g").attr("class", "nodetext").attr("id","g4");
-      this.nodebuttonGroup = this.svg.append("g").attr("class", "nodebutton").attr("id","g5");
+      this.qaGraphLink = this.svg
+        .append("g")
+        .attr("class", "linkline")
+        .attr("id", "g1");
+      this.qaGraphLinkText = this.svg
+        .append("g")
+        .attr("class", "linktext")
+        .attr("id", "g2");
+      this.qaGraphNode = this.svg
+        .append("g")
+        .attr("class", "node")
+        .attr("id", "g3");
+      this.qaGraphNodeText = this.svg
+        .append("g")
+        .attr("class", "nodetext")
+        .attr("id", "g4");
+      this.nodebuttonGroup = this.svg
+        .append("g")
+        .attr("class", "nodebutton")
+        .attr("id", "g5");
       this.svg.on(
         "click",
         function() {
@@ -464,6 +486,8 @@ export default {
       }
 
       this.updateGraph();
+      this.getPie();
+
     },
     addMaker() {
       var arrowMarker = this.svg
@@ -844,7 +868,7 @@ export default {
       return nodetext;
     },
     drawLink(links) {
-    //  console.log(links);
+      //  console.log(links);
       var _this = this;
       var link = this.qaGraphLink
         .selectAll(".linkline")
@@ -856,9 +880,10 @@ export default {
       var linkEnter = link
         .enter()
         .append("path")
-        .attr("class","linkline")
-        .attr("id", function(d,i){
-          return "linkline"+i;})
+        .attr("class", "linkline")
+        .attr("id", function(d, i) {
+          return "linkline" + i;
+        })
         .attr("stroke-width", 1)
         .attr("stroke", function() {
           return _this.colorList[2];
@@ -896,7 +921,7 @@ export default {
         .style("font-size", "10px")
         .style("textAnchor", "middle")
         .append("textPath")
-        .attr("class","linktext")
+        .attr("class", "linktext")
         .attr("startOffset", "50%")
         .attr("xlink:href", function(d, i) {
           return "#linkline" + i;
@@ -921,7 +946,7 @@ export default {
       var nodebutton = _this.nodebuttonGroup
         .selectAll("nodebutton")
         .data(nodes, function(d) {
-       //   console.log("we do it for" + d.uuid);
+          //   console.log("we do it for" + d.uuid);
           return d.uuid;
         });
       nodebutton.exit().remove();
@@ -1232,7 +1257,7 @@ export default {
       );
     },
     dragStarted(d) {
-     // console.log("i m dragged!");
+      // console.log("i m dragged!");
       this.svg.selectAll(".buttongroup").classed("notshow", true);
       if (!d3.event.active) this.simulation.alphaTarget(0.8).restart();
       d.fx = d.x;
@@ -1243,7 +1268,7 @@ export default {
       d.fy = d3.event.y;
     },
     dragEnded(d) {
-    //  console.log("i m dragged over!");
+      //  console.log("i m dragged over!");
       if (!d3.event.active) this.simulation.alphaTarget(0);
       d.fx = d3.event.x;
       d.fy = d3.event.y;
@@ -1294,7 +1319,7 @@ export default {
       }
 
       console.log(this.isFullscreen);
-    //  console.log("111");
+      //  console.log("111");
     },
     fullScreen(element) {
       if (element.requestFullscreen) {
@@ -1730,20 +1755,27 @@ export default {
       let _this = this;
       // clear
       for (let i = 0; i < _this.graph.nodes.length; i++) {
-        for (let j = 0; j < _this.selected.sourceNodes.length; j++) { //上级节点
-          if (_this.graph.nodes[i].uuid === _this.selected.sourceNodes[j].uuid) {
+        for (let j = 0; j < _this.selected.sourceNodes.length; j++) {
+          //上级节点
+          if (
+            _this.graph.nodes[i].uuid === _this.selected.sourceNodes[j].uuid
+          ) {
             this.graph.nodes[i].shape = "triangle";
             this.graph.nodes[i].imgsrc = "";
           }
         }
-        for (let j = 0; j < _this.selected.targetNodes.length; j++) { //下级节点
-          if (_this.graph.nodes[i].uuid === _this.selected.targetNodes[j].uuid) {
+        for (let j = 0; j < _this.selected.targetNodes.length; j++) {
+          //下级节点
+          if (
+            _this.graph.nodes[i].uuid === _this.selected.targetNodes[j].uuid
+          ) {
             this.graph.nodes[i].shape = "downtriangle";
             this.graph.nodes[i].imgsrc = "";
           }
         }
         for (let j = 0; j < _this.selected.nodes.length; j++) {
-          if (_this.graph.nodes[i].uuid === _this.selected.nodes[j].uuid) { //目标节点
+          if (_this.graph.nodes[i].uuid === _this.selected.nodes[j].uuid) {
+            //目标节点
             this.graph.nodes[i].shape = "star";
             this.graph.nodes[i].imgsrc = "";
           }
@@ -1763,12 +1795,14 @@ export default {
       //优先节点名搜索
       if (nName !== "") {
         // 以下检索出目标节点
-        for (let i = 0; i < _this.graph.nodes.length; i++) { //所有满足名称模糊要求的节点搜索
+        for (let i = 0; i < _this.graph.nodes.length; i++) {
+          //所有满足名称模糊要求的节点搜索
           if (_this.graph.nodes[i].name === nName) {
             this.selected.nodes.push(_this.graph.nodes[i]);
           }
         }
-        if (nType !== "") { //带类型要求的节点搜索
+        if (nType !== "") {
+          //带类型要求的节点搜索
           for (let j = 0; j < _this.selected.nodes.length; j++) {
             if (_this.selected.nodes[j].type !== nType) {
               this.selected.nodes.splice(j, 1);
@@ -1777,16 +1811,24 @@ export default {
         }
 
         // 以下检索出相关关系及关联节点
-        for (let m = 0; m < _this.selected.nodes.length; m++) { //将与检索出节点有关的关系列出
+        for (let m = 0; m < _this.selected.nodes.length; m++) {
+          //将与检索出节点有关的关系列出
           for (let n = 0; n < _this.graph.links.length; n++) {
-            if (_this.selected.nodes[m].uuid === _this.graph.links[n].sourceid) { //由目标节点指出的关系
+            if (
+              _this.selected.nodes[m].uuid === _this.graph.links[n].sourceid
+            ) {
+              //由目标节点指出的关系
               this.selected.linksOut.push(_this.graph.links[n]);
-            } else if (_this.selected.nodes[m].uuid === _this.graph.links[n].targetid) { //向目标节点指入的关系
+            } else if (
+              _this.selected.nodes[m].uuid === _this.graph.links[n].targetid
+            ) {
+              //向目标节点指入的关系
               this.selected.linksIn.push(_this.graph.links[n]);
             }
           }
         }
-        if (lName !== "") { //按关系名筛选
+        if (lName !== "") {
+          //按关系名筛选
           for (let k = 0; k < _this.selected.linksIn.length; k++) {
             if (_this.selected.linksIn[k].name !== lName) {
               this.selected.linksIn.splice(k, 1);
@@ -1800,14 +1842,21 @@ export default {
             }
           }
         }
-        for (let i = 0; i < _this.graph.nodes.length; i++) { //将与检索出节点有关的节点列出
-          for (let p = 0; p < _this.selected.linksIn.length; p++) { //相关源节点
-            if (_this.graph.nodes[i].uuid === _this.selected.linksIn[p].sourceid) {
+        for (let i = 0; i < _this.graph.nodes.length; i++) {
+          //将与检索出节点有关的节点列出
+          for (let p = 0; p < _this.selected.linksIn.length; p++) {
+            //相关源节点
+            if (
+              _this.graph.nodes[i].uuid === _this.selected.linksIn[p].sourceid
+            ) {
               this.selected.sourceNodes.push(_this.graph.nodes[i]);
             }
           }
-          for (let q = 0; q < _this.selected.linksOut.length; q++) { //相关目标节点
-            if (_this.graph.nodes[i].uuid === _this.selected.linksOut[q].targetid) {
+          for (let q = 0; q < _this.selected.linksOut.length; q++) {
+            //相关目标节点
+            if (
+              _this.graph.nodes[i].uuid === _this.selected.linksOut[q].targetid
+            ) {
               this.selected.targetNodes.push(_this.graph.nodes[i]);
             }
           }
@@ -1817,19 +1866,28 @@ export default {
       //无节点名的情况下优先节点类型搜索
       else if (nType !== "") {
         // 以下检索出目标节点
-        for (let i = 0; i < _this.graph.nodes.length; i++) { //所有满足类型要求的节点搜索
+        for (let i = 0; i < _this.graph.nodes.length; i++) {
+          //所有满足类型要求的节点搜索
           if (_this.graph.nodes[i].type === nType) {
             this.selected.nodes.push(_this.graph.nodes[i]);
           }
         }
 
         // 以下检索出相关关系及关联节点
-        if (lName !== "") { //按关系名筛选
-          for (let m = 0; m < _this.selected.nodes.length; m++) { //将与检索出节点有关的关系列出
-            for (let n = 0; n < _this.graph.links.length; n++){
-              if (_this.selected.nodes[m].uuid === _this.graph.links[n].sourceid){ //由目标节点指出的关系
+        if (lName !== "") {
+          //按关系名筛选
+          for (let m = 0; m < _this.selected.nodes.length; m++) {
+            //将与检索出节点有关的关系列出
+            for (let n = 0; n < _this.graph.links.length; n++) {
+              if (
+                _this.selected.nodes[m].uuid === _this.graph.links[n].sourceid
+              ) {
+                //由目标节点指出的关系
                 this.selected.linksOut.push(_this.graph.links[n]);
-              } else if(_this.selected.nodes[m].uuid === _this.graph.links[n].targetid){ //向目标节点指入的关系
+              } else if (
+                _this.selected.nodes[m].uuid === _this.graph.links[n].targetid
+              ) {
+                //向目标节点指入的关系
                 this.selected.linksIn.push(_this.graph.links[n]);
               }
             }
@@ -1847,14 +1905,21 @@ export default {
             }
           }
         }
-        for (let i = 0; i < _this.graph.nodes.length; i++) { //将与检索出节点有关的节点列出
-          for (let p = 0; p < _this.selected.linksIn.length; p++) { //相关源节点
-            if (_this.graph.nodes[i].uuid === _this.selected.linksIn[p].sourceid) {
+        for (let i = 0; i < _this.graph.nodes.length; i++) {
+          //将与检索出节点有关的节点列出
+          for (let p = 0; p < _this.selected.linksIn.length; p++) {
+            //相关源节点
+            if (
+              _this.graph.nodes[i].uuid === _this.selected.linksIn[p].sourceid
+            ) {
               this.selected.sourceNodes.push(_this.graph.nodes[i]);
             }
           }
-          for (let q = 0; q < _this.selected.linksOut.length; q++) { //相关目标节点
-            if (_this.graph.nodes[i].uuid === _this.selected.linksOut[q].targetid) {
+          for (let q = 0; q < _this.selected.linksOut.length; q++) {
+            //相关目标节点
+            if (
+              _this.graph.nodes[i].uuid === _this.selected.linksOut[q].targetid
+            ) {
               this.selected.targetNodes.push(_this.graph.nodes[i]);
             }
           }
@@ -1862,15 +1927,20 @@ export default {
       }
 
       //关系搜索
-      else if (lName !== ""){
+      else if (lName !== "") {
         // 以下检索出目标关系及关系双方节点
-        for (let i = 0; i < _this.graph.links.length; i++) { //所有满足名称要求的关系搜索
+        for (let i = 0; i < _this.graph.links.length; i++) {
+          //所有满足名称要求的关系搜索
           if (_this.graph.links[i].name === lName) {
             this.selected.links.push(_this.graph.links[i]);
-            for (let j = 0; j < _this.graph.nodes.length; j++) { //将检索出关系的源节点在对应位置列出
+            for (let j = 0; j < _this.graph.nodes.length; j++) {
+              //将检索出关系的源节点在对应位置列出
               if (_this.graph.nodes[j].uuid === _this.graph.links[i].sourceid) {
                 this.selected.sourceNodes.push(_this.graph.nodes[j]);
-              } else if (_this.graph.nodes[j].uuid === _this.graph.links[i].targetid) { //将检索出关系的目标节点在对应位置列出
+              } else if (
+                _this.graph.nodes[j].uuid === _this.graph.links[i].targetid
+              ) {
+                //将检索出关系的目标节点在对应位置列出
                 this.selected.targetNodes.push(_this.graph.nodes[j]);
               }
             }
@@ -1881,22 +1951,32 @@ export default {
       console.log(_this.selected);
 
       for (let i = 0; i < _this.graph.nodes.length; i++) {
-        for (let j = 0; j < _this.selected.sourceNodes.length; j++) { //上级节点
-          if (_this.graph.nodes[i].uuid === _this.selected.sourceNodes[j].uuid) {
+        for (let j = 0; j < _this.selected.sourceNodes.length; j++) {
+          //上级节点
+          if (
+            _this.graph.nodes[i].uuid === _this.selected.sourceNodes[j].uuid
+          ) {
             this.graph.nodes[i].shape = "piccircle";
-            this.graph.nodes[i].imgsrc = "https://ftp.bmp.ovh/imgs/2021/04/8936ebaa1cae405e.png";
+            this.graph.nodes[i].imgsrc =
+              "https://ftp.bmp.ovh/imgs/2021/04/8936ebaa1cae405e.png";
           }
         }
-        for (let j = 0; j < _this.selected.targetNodes.length; j++) { //下级节点
-          if (_this.graph.nodes[i].uuid === _this.selected.targetNodes[j].uuid) {
+        for (let j = 0; j < _this.selected.targetNodes.length; j++) {
+          //下级节点
+          if (
+            _this.graph.nodes[i].uuid === _this.selected.targetNodes[j].uuid
+          ) {
             this.graph.nodes[i].shape = "piccircle";
-            this.graph.nodes[i].imgsrc = "https://ftp.bmp.ovh/imgs/2021/04/bba912c80570087a.png";
+            this.graph.nodes[i].imgsrc =
+              "https://ftp.bmp.ovh/imgs/2021/04/bba912c80570087a.png";
           }
         }
         for (let j = 0; j < _this.selected.nodes.length; j++) {
-          if (_this.graph.nodes[i].uuid === _this.selected.nodes[j].uuid) { //目标节点
+          if (_this.graph.nodes[i].uuid === _this.selected.nodes[j].uuid) {
+            //目标节点
             this.graph.nodes[i].shape = "piccircle";
-            this.graph.nodes[i].imgsrc = "https://ftp.bmp.ovh/imgs/2021/04/b699004a2fa6b17d.png";
+            this.graph.nodes[i].imgsrc =
+              "https://ftp.bmp.ovh/imgs/2021/04/b699004a2fa6b17d.png";
           }
         }
       }
@@ -1905,27 +1985,85 @@ export default {
         type: "success",
         message: "搜索完成！"
       });
-      if ((nName !== "" || nType !== "") && _this.selected.nodes.length === 0){
+      if ((nName !== "" || nType !== "") && _this.selected.nodes.length === 0) {
         await _this.$message({
           type: "warning",
           message: "未找到目标节点！"
         });
       }
-      if ((nName !== "" || nType !== "") && (lName !== "") && (_this.selected.linksIn.length === 0 && _this.selected.linksOut.length === 0)) {
+      if (
+        (nName !== "" || nType !== "") &&
+        lName !== "" &&
+        _this.selected.linksIn.length === 0 &&
+        _this.selected.linksOut.length === 0
+      ) {
         await _this.$message({
           type: "warning",
           message: "未找到目标节点的目标关系！"
         });
       }
-      if ((nName === "" && nType === "" && lName !== "") && _this.selected.links.length === 0){
+      if (
+        nName === "" &&
+        nType === "" &&
+        lName !== "" &&
+        _this.selected.links.length === 0
+      ) {
         await _this.$message({
           type: "warning",
           message: "未找到目标关系！"
         });
       }
+    },
+
+    getPie() {
+      var echarts1 = require('echarts');
+      var myChart = echarts1.init(document.getElementById('charts'));
+      var chartsdata=[];
+      var times = {};
+
+
+      console.log('nb');
+      console.log(this.graph.nodes.length);
+      for (var i=0;i<this.graph.nodes.length;i++){
+        if (Object.prototype.hasOwnProperty.call(times, this.graph.nodes[i].type)) {
+          times[this.graph.nodes[i].type]++;
+        } else {
+          times[this.graph.nodes[i].type] = 1;
+        }
+      };
+      for (var key in times){
+        console.log(key);
+        console.log(times[key]);
+        var temp={};
+        temp['value']=times[key];
+        temp['name']=key;
+        chartsdata.push(temp);
+      }
+      console.log(chartsdata);
+      console.log(times);
+      myChart.setOption({
+        series : [
+          {
+            name: '访问来源',
+            type: 'pie',
+            radius: '55%',
+            itemStyle: {
+              normal: {
+                // 阴影的大小
+                shadowBlur: 200,
+                // 阴影水平方向上的偏移
+                shadowOffsetX: 0,
+                // 阴影垂直方向上的偏移
+                shadowOffsetY: 0,
+                // 阴影颜色
+                shadowColor: 'rgba(0, 0, 0, 0.5)'
+              }
+            },
+            data:chartsdata
+          }
+        ]
+      })
     }
-
-
   }
 };
 </script>
