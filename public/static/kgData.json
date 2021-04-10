@@ -4,7 +4,7 @@
       "name": "徐志摩",
       "uuid": "1",
       "imgsrc": "https://ftp.bmp.ovh/imgs/2021/03/de94a8ed72bbe28f.jpg",
-      "type": "person",
+      "type": "人物",
       "color": "rgb(252,33,44)",
       "shape": "piccircle"
     },
@@ -12,7 +12,7 @@
       "name": "梁思成",
       "uuid": "2",
       "imgsrc": "https://ftp.bmp.ovh/imgs/2021/03/b5d03b95d606ad92.jpg",
-      "type": "person",
+      "type": "人物",
       "color": "rgb(345,0,333)",
       "shape": "diamond"
     },
@@ -20,7 +20,7 @@
       "name": "金岳霖",
       "uuid": "3",
       "imgsrc": "https://ftp.bmp.ovh/imgs/2021/03/4408d74d7667839c.jpg",
-      "type": "person",
+      "type": "人物",
       "color": "rgb(34,2,909)",
       "shape": "star"
     },
@@ -28,7 +28,7 @@
       "name": "林徽因",
       "uuid": "4",
       "imgsrc": "https://ftp.bmp.ovh/imgs/2021/03/77af88cd0b16b3c5.jpg",
-      "type": "person",
+      "type": "人物",
       "color": "rgb(93,1,222)",
       "shape": "triangle"
     },
@@ -36,7 +36,7 @@
       "name": "陆小曼",
       "uuid": "5",
       "imgsrc": "https://ftp.bmp.ovh/imgs/2021/03/6c750693ad07c91e.jpg",
-      "type": "person",
+      "type": "人物",
       "color": "rgb(345,88,99)",
       "shape": "downtriangle"
     },
@@ -44,7 +44,7 @@
       "name": "《再别康桥》",
       "uuid": "6",
       "imgsrc": "https://ftp.bmp.ovh/imgs/2021/03/eab776ea80100c77.jpg",
-      "type": "work",
+      "type": "作品",
       "color": "rgb(930,80,7)",
       "shape": "roundrectangle"
     },
@@ -52,7 +52,7 @@
       "name": "梁启超",
       "uuid": "7",
       "imgsrc": "https://ftp.bmp.ovh/imgs/2021/03/7cfdb35f29b7d801.jpg",
-      "type": "person",
+      "type": "人物",
       "color": "rgb(367,9,9)",
       "shape": "square"
     },
@@ -60,7 +60,7 @@
       "name": "清华大学",
       "uuid": "8",
       "imgsrc": "",
-      "type": "location",
+      "type": "地点",
       "color": "rgb(834,22,33)",
       "shape": "circle"
 
@@ -69,7 +69,7 @@
       "name": "蔡元培",
       "uuid": "9",
       "imgsrc": "",
-      "type": "person",
+      "type": "人物",
       "color": "rgb(34,1,222)",
       "shape": "diamond"
     }

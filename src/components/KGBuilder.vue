@@ -2021,8 +2021,6 @@ export default {
       var chartsdata=[];
       var times = {};
 
-
-      console.log('nb');
       console.log(this.graph.nodes.length);
       for (var i=0;i<this.graph.nodes.length;i++){
         if (Object.prototype.hasOwnProperty.call(times, this.graph.nodes[i].type)) {
