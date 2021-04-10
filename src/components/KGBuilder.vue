@@ -2087,6 +2087,10 @@ export default {
       }
       console.log(this.graph);
       this.updateGraph();
+      _this.$message({
+        type: "success",
+        message: "过滤完成！"
+      });
     },
 
     getPie() {
