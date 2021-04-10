@@ -1797,14 +1797,14 @@ export default {
         // 以下检索出目标节点
         for (let i = 0; i < _this.graph.nodes.length; i++) {
           //所有满足名称模糊要求的节点搜索
-          if (_this.graph.nodes[i].name === nName) {
+          if (_this.graph.nodes[i].name.indexOf(nName)!==-1) {
             this.selected.nodes.push(_this.graph.nodes[i]);
           }
         }
         if (nType !== "") {
           //带类型要求的节点搜索
           for (let j = 0; j < _this.selected.nodes.length; j++) {
-            if (_this.selected.nodes[j].type !== nType) {
+            if (_this.selected.nodes[j].type.indexOf(nType)===-1) {
               this.selected.nodes.splice(j, 1);
             }
           }
@@ -1830,13 +1830,13 @@ export default {
         if (lName !== "") {
           //按关系名筛选
           for (let k = 0; k < _this.selected.linksIn.length; k++) {
-            if (_this.selected.linksIn[k].name !== lName) {
+            if (_this.selected.linksIn[k].name.indexOf(lName)===-1 ) {
               this.selected.linksIn.splice(k, 1);
               k--;
             }
           }
           for (let l = 0; l < _this.selected.linksOut.length; l++) {
-            if (_this.selected.linksOut[l].name !== lName) {
+            if (_this.selected.linksOut[l].name.indexOf(lName)===-1) {
               this.selected.linksOut.splice(l, 1);
               l--;
             }
@@ -1868,7 +1868,7 @@ export default {
         // 以下检索出目标节点
         for (let i = 0; i < _this.graph.nodes.length; i++) {
           //所有满足类型要求的节点搜索
-          if (_this.graph.nodes[i].type === nType) {
+          if (_this.graph.nodes[i].type.indexOf(nType)!==-1) {
             this.selected.nodes.push(_this.graph.nodes[i]);
           }
         }
@@ -1893,13 +1893,13 @@ export default {
             }
           }
           for (let k = 0; k < _this.selected.linksIn.length; k++) {
-            if (_this.selected.linksIn[k].name !== lName) {
+            if (_this.selected.linksIn[k].name.indexOf(lName)===-1 ) {
               this.selected.linksIn.splice(k, 1);
               k--;
             }
           }
           for (let l = 0; l < _this.selected.linksOut.length; l++) {
-            if (_this.selected.linksOut[l].name !== lName) {
+            if (_this.selected.linksOut[l].name.indexOf(lName)===-1) {
               this.selected.linksOut.splice(l, 1);
               l--;
             }
@@ -1931,7 +1931,7 @@ export default {
         // 以下检索出目标关系及关系双方节点
         for (let i = 0; i < _this.graph.links.length; i++) {
           //所有满足名称要求的关系搜索
-          if (_this.graph.links[i].name === lName) {
+          if (_this.graph.links[i].name.indexOf(lName)!==-1) {
             this.selected.links.push(_this.graph.links[i]);
             for (let j = 0; j < _this.graph.nodes.length; j++) {
               //将检索出关系的源节点在对应位置列出
