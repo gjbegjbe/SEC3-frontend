@@ -164,6 +164,36 @@
       </div>
 
       <div class="collapse-item">
+        <input type="checkbox" id="collapse7" class="collapse-toggle" />
+        <label style="display: flex;" for="collapse7">
+          <h4>
+            <i class="el-icon-arrow-right"></i>
+            类型过滤 FILTER
+          </h4>
+        </label>
+
+        <div class="content">
+          <div id="filter" class="collapse-card">
+            <div style="margin-bottom: 4px;float: left">
+              <span style="font-size: 1.2em"> 选择类型：</span>
+              <textarea id="typeFilter"></textarea>
+            </div>
+
+            <div>
+              <a href="javascript:;" @click="filter">
+                <li style="margin-left:20%; margin-bottom:25px;">
+                  <i class="el-icon-search"></i> 过滤
+                </li>
+              </a>
+              <a href="javascript:;" @click="restartPicture">
+                <li style=""><i class="el-icon-refresh"></i> 还原</li>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="collapse-item">
         <input type="checkbox" id="collapse3" class="collapse-toggle" />
         <label style="display: flex;" for="collapse3">
           <h4>
@@ -2042,6 +2072,21 @@ export default {
           message: "未找到目标关系！"
         });
       }
+    },
+
+    filter() {
+      let _this = this;
+      var type = document.getElementById("typeFilter").value;
+      console.log(type);
+      for (let i = 0; i < _this.graph.nodes.length; i++) {
+        //所有满足类型要求的节点搜索
+        if (_this.graph.nodes[i].type.indexOf(type)===-1) {
+          this.graph.nodes.splice(i,1);
+          i--;
+        }
+      }
+      console.log(this.graph);
+      this.updateGraph();
     },
 
     getPie() {
