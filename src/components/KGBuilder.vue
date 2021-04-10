@@ -36,6 +36,17 @@
               </el-option>
             </el-select>
           </el-form-item>
+          <el-form-item label="节点类型">
+            <el-select v-model="editNodeType" placeholder="请选择">
+              <el-option
+                  v-for="item in types"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+              >
+              </el-option>
+            </el-select>
+          </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
           <el-button @click="cancelNodeEdit">取消</el-button>
@@ -348,6 +359,7 @@ export default {
       editNodeName: "", //正在编辑的节点名称
       editNodeColor: "", //正在编辑的节点颜色
       editNodeShape: "", //正在编辑的节点形状
+      editNodeType: "", // 正在编辑的节点类型
 
       shapes: [
         {
@@ -387,8 +399,21 @@ export default {
           label: "圆形"
         }
       ],
+      types: [
+        {
+          value: "人物",
+          label: "人物"
+        },
+        {
+          value: "地点",
+          label: "地点"
+        },
+        {
+          value: "作品",
+          label: "作品"
+        },
+      ],
 
-      chartDialogVisible: false
     };
   },
   components: {},
@@ -1075,6 +1100,7 @@ export default {
                   _this.editNodeName = _this.graph.nodes[i].name;
                   _this.editNodeColor = _this.graph.nodes[i].color;
                   _this.editNodeShape = _this.graph.nodes[i].shape;
+                  _this.editNodeType = _this.graph.nodes[i].type;
                 }
               }
               break;
@@ -1732,6 +1758,7 @@ export default {
       _this.editNodeName = "";
       _this.editNodeColor = "";
       _this.editNodeShape = "";
+      _this.editNodeType = "";
     },
 
     saveNodeEdit() {
@@ -1742,6 +1769,7 @@ export default {
           _this.graph.nodes[i].name = _this.editNodeName;
           _this.graph.nodes[i].color = _this.editNodeColor;
           _this.graph.nodes[i].shape = _this.editNodeShape;
+          _this.graph.nodes[i].type = _this.editNodeType;
         }
       }
       _this.updateGraph();
@@ -1749,6 +1777,7 @@ export default {
       _this.editNodeName = "";
       _this.editNodeColor = "";
       _this.editNodeShape = "";
+      _this.editNodeType = "";
     },
 
     async search() {
