@@ -182,14 +182,29 @@
             <div style="margin-bottom: 10px">
               <span style="font-size: 1.2em"> 节点名称：</span>
               <textarea id="nodeSearch"></textarea>
+              <div class="search_menu" style="margin-bottom: 4px;float: left">
+                <li v-for="item in historyList.nName" :key="item.id" @click="inputHistory(item, 0)">
+                  {{ item }}
+                </li>
+              </div>
             </div>
             <div style="margin-bottom: 4px;float: left">
               <span style="font-size: 1.2em"> 关系名称：</span>
               <textarea id="relSearch"></textarea>
+              <div class="search_menu" style="margin-bottom: 4px;float: left">
+                <li v-for="item in historyList.lName" :key="item.id" @click="inputHistory(item, 1)">
+                  {{ item }}
+                </li>
+              </div>
             </div>
             <div style="margin-bottom: 4px;float: left">
               <span style="font-size: 1.2em"> 类型检索：</span>
               <textarea id="typeSearch"></textarea>
+              <div class="search_menu" style="margin-bottom: 4px;float: left">
+                <li v-for="item in historyList.nType" :key="item.id" @click="inputHistory(item, 2)">
+                  {{ item }}
+                </li>
+              </div>
             </div>
 
             <div>
@@ -389,6 +404,11 @@ export default {
         linksOut: [],
         sourceNodes: [],
         targetNodes: []
+      },
+      historyList: {
+        nName: [],
+        lName: [],
+        nType: []
       },
       defaultR: 30,
       colorList: [
@@ -1936,8 +1956,17 @@ export default {
       this.selected.targetNodes.splice(0, _this.selected.targetNodes.length);
       // get
       var nName = document.getElementById("nodeSearch").value;
-      var nType = document.getElementById("typeSearch").value;
+      if (nName !== "") {
+        this.searchVal(nName, 0);
+      }
       var lName = document.getElementById("relSearch").value;
+      if (lName !== "") {
+        this.searchVal(lName, 1);
+      }
+      var nType = document.getElementById("typeSearch").value;
+      if (nType !== "") {
+        this.searchVal(nType, 2);
+      }
       console.log(nName, nType, lName);
 
       //优先节点名搜索
@@ -2160,6 +2189,73 @@ export default {
           type: "warning",
           message: "未找到目标关系！"
         });
+      }
+    },
+
+    inputHistory(item, i) {
+      switch (i){
+        case 0:
+          document.getElementById("nodeSearch").value=item;
+          break;
+        case 1:
+          document.getElementById("relSearch").value=item;
+          break;
+        case 2:
+          document.getElementById("typeSearch").value=item;
+          break;
+      }
+    },
+
+    searchVal (val, i) {
+      switch (i){
+        case 0:
+          val = val.trim() // 清除空格
+          if (this.historyList.nName.length > 0) { // 有数据的话 判断
+            if (this.historyList.nName.indexOf(val) !== -1) { // 有相同的，先删除 再添加
+              this.historyList.nName.splice(this.historyList.nName.indexOf(val), 1)
+              this.historyList.nName.unshift(val)
+            } else { // 没有相同的 添加
+              this.historyList.nName.unshift(val)
+            }
+          } else { // 没有数据 添加
+            this.historyList.nName.unshift(val)
+          }
+          if (this.historyList.nName.length > 6) { // 保留六个值
+            this.historyList.nName.pop()
+          }
+          break;
+        case 1:
+          val = val.trim() // 清除空格
+          if (this.historyList.lName.length > 0) { // 有数据的话 判断
+            if (this.historyList.lName.indexOf(val) !== -1) { // 有相同的，先删除 再添加
+              this.historyList.lName.splice(this.historyList.lName.indexOf(val), 1)
+              this.historyList.lName.unshift(val)
+            } else { // 没有相同的 添加
+              this.historyList.lName.unshift(val)
+            }
+          } else { // 没有数据 添加
+            this.historyList.lName.unshift(val)
+          }
+          if (this.historyList.lName.length > 6) { // 保留六个值
+            this.historyList.lName.pop()
+          }
+          break;
+        case 2:
+          val = val.trim() // 清除空格
+          if (this.historyList.nType.length > 0) { // 有数据的话 判断
+            if (this.historyList.nType.indexOf(val) !== -1) { // 有相同的，先删除 再添加
+              this.historyList.nType.splice(this.historyList.nType.indexOf(val), 1)
+              this.historyList.nType.unshift(val)
+            } else { // 没有相同的 添加
+              this.historyList.nType.unshift(val)
+            }
+          } else { // 没有数据 添加
+            this.historyList.nType.unshift(val)
+          }
+          if (this.historyList.nType.length > 6) { // 保留六个值
+            this.historyList.nType.pop()
+          }
+          break;
       }
     },
 
@@ -2433,6 +2529,35 @@ h4 {
   float: left;
   font-family: "微软雅黑";
   color: white;
+}
+
+.search_menu{
+  margin-top: 1px;
+  background-color: rgba(204, 204, 204, 1);
+  display: block;
+  width:124px;
+  border-color: rgba(204, 204, 204, 0.2);
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+.search_menu li {
+  margin-top: 1px ;
+  margin-bottom: 1px;
+  height: 25px;
+  width: 100%;
+  text-align: justify;
+  resize: none;
+  font-size: 1.1em;
+  float: left;
+  font-family: "微软雅黑 light";
+  color: white;
+  cursor: pointer;
+}
+.search_menu li:hover{
+  background-color: beige;
+}
+.holder:hover .search_menu {
+  display: block;
 }
 
 a {
