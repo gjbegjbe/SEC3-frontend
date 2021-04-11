@@ -1,13 +1,14 @@
 <template>
   <div>
     <div>
-      <el-dialog title="修改节点" :visible.sync="editNodeFormVisible">
-        <el-form>
+      <el-dialog title="修改节点" :visible.sync="editNodeFormVisible" style="width: 1200px ;height:640px; left:20%">
+        <el-form label-width="80px">
           <el-form-item label="节点ID">
             <el-input
               :disabled="true"
               v-model="editNodeUuid"
               class="withoutColor"
+              style="width: 400px;float: left"
             ></el-input>
           </el-form-item>
           <el-form-item label="节点名称">
@@ -15,6 +16,7 @@
               :disabled="false"
               v-model="editNodeName"
               class="withoutColor"
+              style="width: 400px;float: left"
             ></el-input>
           </el-form-item>
           <el-form-item label="节点颜色">
@@ -22,22 +24,24 @@
               :disabled="true"
               v-model="editNodeColor"
               class="lineColor"
+              style="width: 400px;float: left"
             ></el-input>
             <el-color-picker v-model="editNodeColor"></el-color-picker>
           </el-form-item>
           <el-form-item label="节点形状">
-            <el-select v-model="editNodeShape" placeholder="请选择">
+            <el-select v-model="editNodeShape" placeholder="请选择" style="float:left">
               <el-option
                 v-for="item in shapes"
                 :key="item.value"
                 :label="item.label"
                 :value="item.value"
+                style="float:left"
               >
               </el-option>
             </el-select>
           </el-form-item>
           <el-form-item label="节点类型">
-            <el-select v-model="editNodeType" placeholder="请选择">
+            <el-select v-model="editNodeType" placeholder="请选择" style="float:left">
               <el-option
                   v-for="item in types"
                   :key="item.value"
@@ -47,11 +51,13 @@
               </el-option>
             </el-select>
           </el-form-item>
+          <el-form-item  >
+            <el-button type="primary" @click="saveNodeEdit" style="margin-top: 10px;float: left" >保存修改</el-button>
+            <el-button @click="cancelNodeEdit" style="margin-top: 10px;float: left">取消</el-button>
+
+          </el-form-item>
         </el-form>
-        <div slot="footer" class="dialog-footer">
-          <el-button @click="cancelNodeEdit">取消</el-button>
-          <el-button type="primary" @click="saveNodeEdit">保存修改</el-button>
-        </div>
+
       </el-dialog>
     </div>
 
