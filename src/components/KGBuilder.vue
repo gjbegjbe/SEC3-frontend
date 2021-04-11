@@ -63,7 +63,7 @@
 
     <div id="aside">
       <h2>6PlusCOIN MENU</h2>
-      <div id="charts" style="width:300px;height:200px;}"></div>
+      <div id="charts" style="width:300px;height:200px;margin-left: 10px"></div>
       <div class="collapse-item">
         <input type="checkbox" id="collapse1" class="collapse-toggle" />
         <label style="display: flex;" for="collapse1">
@@ -2190,11 +2190,11 @@ export default {
           {
             name: '访问来源',
             type: 'pie',
-            radius: '55%',
+            radius: ['30%','55%'],
             itemStyle: {
               normal: {
                 // 阴影的大小
-                shadowBlur: 200,
+                shadowBlur: 15,
                 // 阴影水平方向上的偏移
                 shadowOffsetX: 0,
                 // 阴影垂直方向上的偏移
@@ -2203,7 +2203,33 @@ export default {
                 shadowColor: 'rgba(0, 0, 0, 0.5)'
               }
             },
-            data:chartsdata
+            data:chartsdata,
+            label:{
+              //minMargin: 5,
+              edgeDistance: 10,
+              //lineHeight: 15,
+              color: 'rgba(255, 255, 255, 1)',
+              alignTo: 'edge',
+              formatter: '{b|{b}}\n{c|nums:{c}}',
+              rich:{
+                b:{
+                  //color:'rgba(255, 255, 255, 0.5)',
+                },
+                c:{
+                  color:'rgba(255, 255, 255, 0.6)',
+                  fontSize:10,
+                }
+              }
+            },
+            labelLine: {
+              smooth: 0.1,
+              length: 20,
+              length2: 15,
+              maxSurfaceAngle:80,
+              lineStyle: {
+                color: 'rgba(255, 255, 255, 0.8)'
+              }
+            },
           }
         ]
       })
@@ -2298,6 +2324,10 @@ h4 {
   line-height: 0em;
   text-shadow: 2px 2px 2px #999999;
   width: 95%;
+}
+
+#charts text{
+  color: royalblue;
 }
 
 #download li {
