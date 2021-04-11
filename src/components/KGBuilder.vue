@@ -20,13 +20,13 @@
             ></el-input>
           </el-form-item>
           <el-form-item label="节点颜色">
+            <el-color-picker v-model="editNodeColor" style="float: left"></el-color-picker>
             <el-input
               :disabled="true"
               v-model="editNodeColor"
               class="lineColor"
-              style="width: 400px;float: left"
+              style="width: 340px;float: left;margin-left: 20px"
             ></el-input>
-            <el-color-picker v-model="editNodeColor"></el-color-picker>
           </el-form-item>
           <el-form-item label="节点形状">
             <el-select v-model="editNodeShape" placeholder="请选择" style="float:left">
