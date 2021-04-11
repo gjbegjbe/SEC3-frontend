@@ -387,12 +387,12 @@ export default {
       },
       defaultR: 30,
       colorList: [
-        "#ff8373",
-        "#f9c62c",
-        "#7f7fd5",
-        "#7dd5ff",
-        "#70d3bd",
-        "#ea91b0"
+        'rgb(255,131,115)',
+        'rgb(249,198,44)',
+        'rgb(127,127,213)',
+        'rgb(125,213,255)',
+        'rgb(112,211,189)',
+        'rgb(234,145,176)',
       ],
       pagesizelist: [
         { size: 100, isactive: false },
