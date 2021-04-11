@@ -121,6 +121,28 @@
             <a href="javascript:;" @click="changeFull">
               <li><i class="el-icon-full-screen"></i> 全屏切换</li>
             </a>
+            <a href="javascript:;" @click="zoomInNodeText">
+              <li><i class="el-icon-zoom-in"></i> 放大节点字体</li>
+            </a>
+            <a href="javascript:;" @click="zoomOutNodeText">
+              <li><i class="el-icon-zoom-out"></i> 缩小节点字体</li>
+            </a>
+            <a href="javascript:;" @click="refreshNodeText">
+              <li><i class="el-icon-refresh-right"></i> 还原节点字体</li>
+            </a>
+            <a href="javascript:;" @click="changeLinkTextVisibility">
+              <li><i class="el-icon-info"></i> 显示/隐藏关系文字</li>
+            </a>
+            <a href="javascript:;" @click="zoomInLinkText">
+              <li><i class="el-icon-zoom-in"></i> 放大关系字体</li>
+            </a>
+            <a href="javascript:;" @click="zoomOutLinkText">
+              <li><i class="el-icon-zoom-out"></i> 缩小关系字体</li>
+            </a>
+            <a href="javascript:;" @click="refreshLinkText">
+              <li><i class="el-icon-refresh-right"></i> 还原关系字体</li>
+            </a>
+
           </div>
         </div>
       </div>
@@ -443,6 +465,10 @@ export default {
           label: "作品"
         },
       ],
+
+      nodeTextSize: 12, // 节点字体大小
+      linkTextSize: 10, // 关系字体大小
+      linkTextVisible: true, //是否显示关系文字
 
     };
   },
@@ -907,7 +933,7 @@ export default {
         .attr("class", "nodetext")
         .attr("dy", "3.6em")
         .attr("font-family", "方正雅黑")
-        .attr("font-size", 12)
+        .attr("font-size", this.nodeTextSize)
         .attr("text-anchor", "middle")
         .text(function(d) {
           return d.name;
@@ -967,33 +993,36 @@ export default {
           return d.uuid;
         });
       linktext.exit().remove();
-      var linktextEnter = linktext
-        .enter()
-        .append("text")
-        .attr("class", "linktext")
-        .attr("font-family", "微软雅黑")
-        .style("fill", "#888888")
-        .style("font-size", "10px")
-        .style("textAnchor", "middle")
-        .append("textPath")
-        .attr("class", "linktext")
-        .attr("startOffset", "50%")
-        .attr("xlink:href", function(d, i) {
-          return "#linkline" + i;
-        })
-        .text(function(d) {
+      if(this.linkTextVisible){
+        var linktextEnter = linktext
+            .enter()
+            .append("text")
+            .attr("class", "linktext")
+            .attr("font-family", "微软雅黑")
+            .style("fill", "#888888")
+            .style("font-size", this.linkTextSize)
+            .style("textAnchor", "middle")
+            .append("textPath")
+            .attr("class", "linktext")
+            .attr("startOffset", "50%")
+            .attr("xlink:href", function(d, i) {
+              return "#linkline" + i;
+            })
+            .text(function(d) {
+              return d.lk.name;
+            });
+        linktext = linktextEnter.merge(linktext).text(function(d) {
           return d.lk.name;
         });
-      linktext = linktextEnter.merge(linktext).text(function(d) {
-        return d.lk.name;
-      });
-      linktextEnter.call(
-        d3
-          .drag()
-          .on("start", _this.dragStarted)
-          .on("drag", _this.dragged)
-          .on("end", _this.dragEnded)
-      );
+        linktextEnter.call(
+            d3
+                .drag()
+                .on("start", _this.dragStarted)
+                .on("drag", _this.dragged)
+                .on("end", _this.dragEnded)
+        );
+      }
+
       return linktext;
     },
     drawButtonGroup(nodes) {
@@ -1396,6 +1425,41 @@ export default {
       } else if (document.webkitExitFullscreen) {
         document.webkitExitFullscreen();
       }
+    },
+    zoomInNodeText() {
+      var _this=this;
+      _this.nodeTextSize+=1;
+      _this.drawNodeText(_this.graph.nodes);
+    },
+    zoomOutNodeText() {
+      var _this=this;
+      _this.nodeTextSize-=1;
+      _this.drawNodeText(_this.graph.nodes);
+    },
+    refreshNodeText() {
+      var _this=this;
+      _this.nodeTextSize=12;
+      _this.drawNodeText(_this.graph.nodes);
+    },
+    changeLinkTextVisibility(){
+      var _this=this;
+      _this.linkTextVisible=!_this.linkTextVisible;
+      _this.updateGraph();
+    },
+    zoomInLinkText() {
+      var _this=this;
+      _this.linkTextSize+=1;
+      _this.updateGraph();
+    },
+    zoomOutLinkText() {
+      var _this=this;
+      _this.linkTextSize-=1;
+      _this.updateGraph();
+    },
+    refreshLinkText() {
+      var _this=this;
+      _this.linkTextSize=10;
+      _this.updateGraph();
     },
     btnCollapseNode() {},
     btnOpenNode() {},
@@ -2178,7 +2242,7 @@ export default {
 }
 
 .collapse-toggle:checked ~ .content {
-  max-height: 400px;
+  max-height: 600px;
 }
 
 .collapse-toggle:checked ~ label .el-icon-arrow-right {
