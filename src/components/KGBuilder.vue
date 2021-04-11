@@ -63,7 +63,7 @@
 
     <div id="aside">
       <h2>6PlusCOIN MENU</h2>
-      <div id="charts" style="width:300px;height:200px;margin-left: 10px"></div>
+      <div id="charts" style="width:280px;height:200px;margin-left: 25px"></div>
       <div class="collapse-item">
         <input type="checkbox" id="collapse1" class="collapse-toggle" />
         <label style="display: flex;" for="collapse1">
@@ -2186,11 +2186,18 @@ export default {
       console.log(chartsdata);
       console.log(times);
       myChart.setOption({
+        title:{
+          text:"节点类型统计",
+          textStyle:{
+            color:'rgba(255, 255, 255, 1)'
+          }
+        },
         series : [
           {
             name: '访问来源',
             type: 'pie',
             radius: ['30%','55%'],
+            top: '10%',
             itemStyle: {
               normal: {
                 // 阴影的大小
@@ -2326,9 +2333,6 @@ h4 {
   width: 95%;
 }
 
-#charts text{
-  color: royalblue;
-}
 
 #download li {
   list-style: none;
