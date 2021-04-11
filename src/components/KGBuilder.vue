@@ -35,7 +35,6 @@
                 :key="item.value"
                 :label="item.label"
                 :value="item.value"
-                style="float:left"
               >
               </el-option>
             </el-select>
