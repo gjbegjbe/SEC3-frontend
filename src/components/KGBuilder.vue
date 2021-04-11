@@ -1808,6 +1808,7 @@ export default {
       _this.editNodeColor = "";
       _this.editNodeShape = "";
       _this.editNodeType = "";
+      _this.getPie();
     },
 
     async search() {
