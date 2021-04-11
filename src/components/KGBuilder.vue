@@ -1523,7 +1523,10 @@ export default {
         body.node.push({
           uuid: currNode.uuid,
           name: currNode.name,
-          imgsrc: currNode.imgsrc
+          imgsrc: currNode.imgsrc,
+          type: currNode.type,
+          shape: currNode.shape,
+          color: currNode.color
         });
       }
       for (let currLink of this.graph.links) {
