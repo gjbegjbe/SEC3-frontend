@@ -63,7 +63,23 @@
 
     <div id="aside">
       <h2>6PlusCOIN MENU</h2>
-      <div id="charts" style="width:280px;height:200px;margin-left: 25px"></div>
+      <div class="collapse-item">
+        <input type="checkbox" id="collapse0" class="collapse-toggle" />
+        <label style="display: flex;" for="collapse0">
+          <div>
+            <h4>
+              <i
+                  class="el-icon-arrow-right"
+                  style="transition: ease-in-out"
+              ></i>
+              统计 STATISTICS
+            </h4>
+          </div>
+        </label>
+        <div class="content">
+          <div id="charts" style="width:280px;height:200px;margin-left: 25px"></div>
+        </div>
+      </div>
       <div class="collapse-item">
         <input type="checkbox" id="collapse1" class="collapse-toggle" />
         <label style="display: flex;" for="collapse1">
@@ -2186,18 +2202,12 @@ export default {
       console.log(chartsdata);
       console.log(times);
       myChart.setOption({
-        title:{
-          text:"节点类型统计",
-          textStyle:{
-            color:'rgba(255, 255, 255, 1)'
-          }
-        },
         series : [
           {
             name: '访问来源',
             type: 'pie',
             radius: ['30%','55%'],
-            top: '10%',
+            //top: '10%',
             itemStyle: {
               normal: {
                 // 阴影的大小
@@ -2223,7 +2233,7 @@ export default {
                   //color:'rgba(255, 255, 255, 0.5)',
                 },
                 c:{
-                  color:'rgba(255, 255, 255, 0.6)',
+                  color:'rgba(255, 255, 255, 0.7)',
                   fontSize:10,
                 }
               }
