@@ -179,7 +179,7 @@
 
         <div class="content">
           <div id="search" class="collapse-card">
-            <div style="margin-bottom: 10px">
+            <div class="holder" style="margin-bottom: 10px">
               <span style="font-size: 1.2em"> 节点名称：</span>
               <textarea id="nodeSearch"></textarea>
               <div class="search_menu" style="margin-bottom: 4px;float: left">
@@ -188,7 +188,7 @@
                 </li>
               </div>
             </div>
-            <div style="margin-bottom: 4px;float: left">
+            <div class="holder" style="margin-bottom: 4px;float: left">
               <span style="font-size: 1.2em"> 关系名称：</span>
               <textarea id="relSearch"></textarea>
               <div class="search_menu" style="margin-bottom: 4px;float: left">
@@ -197,7 +197,7 @@
                 </li>
               </div>
             </div>
-            <div style="margin-bottom: 4px;float: left">
+            <div class="holder" style="margin-bottom: 4px;float: left">
               <span style="font-size: 1.2em"> 类型检索：</span>
               <textarea id="typeSearch"></textarea>
               <div class="search_menu" style="margin-bottom: 4px;float: left">
@@ -2531,9 +2531,12 @@ h4 {
   color: white;
 }
 
-.search_menu{
+.holder{
+}
+
+.search_menu {
   background-color: rgb(224, 224, 224);
-  display: block;
+  display: none;
   width:124px;
   border-bottom-left-radius: 4px;
   border-bottom-right-radius: 4px;
@@ -2552,7 +2555,7 @@ h4 {
   color: #3d3d3d;
   cursor: pointer;
 }
-.search_menu li:hover{
+.search_menu li:hover {
   color: dodgerblue;
   font-weight: bold;
 }
