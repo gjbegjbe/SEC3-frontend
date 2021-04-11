@@ -2532,17 +2532,16 @@ h4 {
 }
 
 .search_menu{
-  margin-top: 1px;
-  background-color: rgba(204, 204, 204, 1);
+  background-color: rgb(224, 224, 224);
   display: block;
   width:124px;
-  border-color: rgba(204, 204, 204, 0.2);
   border-bottom-left-radius: 4px;
   border-bottom-right-radius: 4px;
 }
 .search_menu li {
   margin-top: 1px ;
   margin-bottom: 1px;
+  text-indent: 2px;
   height: 25px;
   width: 100%;
   text-align: justify;
@@ -2550,11 +2549,12 @@ h4 {
   font-size: 1.1em;
   float: left;
   font-family: "微软雅黑 light";
-  color: white;
+  color: #3d3d3d;
   cursor: pointer;
 }
 .search_menu li:hover{
-  background-color: beige;
+  color: dodgerblue;
+  font-weight: bold;
 }
 .holder:hover .search_menu {
   display: block;
