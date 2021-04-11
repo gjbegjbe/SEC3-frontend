@@ -2200,7 +2200,7 @@ export default {
                 // 阴影垂直方向上的偏移
                 shadowOffsetY: 0,
                 // 阴影颜色
-                shadowColor: 'rgba(0, 0, 0, 0.5)'
+                shadowColor: 'rgba(0,0,0,0.5)',
               }
             },
             data:chartsdata,
@@ -2227,7 +2227,7 @@ export default {
               length2: 15,
               maxSurfaceAngle:80,
               lineStyle: {
-                color: 'rgba(255, 255, 255, 0.8)'
+                color: 'rgba(255,255,255,0.5)'
               }
             },
           }
