@@ -371,7 +371,7 @@
 // import axios from "axios";
 import * as d3 from "d3";
 import $ from "jquery";
-import {getCoin, updateCoin} from "../api/myCoinApi";
+import {getOnlineGraph, addGraph, getLocalGraph} from "../api/graphApi";
 // import echarts from "echarts";
 
 export default {
@@ -587,10 +587,11 @@ export default {
       );
     },
     async initGraph() {
-      let data = await getCoin();
+      let data = await getOnlineGraph();
+      if(!data)
+        data = await getLocalGraph();
+      this.graph = data;
       console.log(data);
-      this.graph.nodes = data.node;
-      this.graph.links = data.relationship;
 
       for (let node of this.graph.nodes) {
         if (node.uuid + 1 > this.uuidEndNum) this.uuidEndNum = node.uuid + 1;
@@ -601,7 +602,6 @@ export default {
 
       this.updateGraph();
       this.getPie();
-
     },
     addMaker() {
       var arrowMarker = this.svg
@@ -1551,28 +1551,7 @@ export default {
       downloadAnchorNode.remove();
     },
     exportSERVER: async function() {
-      let body = { node: [], relationship: [] };
-      for (let currNode of this.graph.nodes) {
-        body.node.push({
-          uuid: currNode.uuid,
-          name: currNode.name,
-          imgsrc: currNode.imgsrc,
-          type: currNode.type,
-          shape: currNode.shape,
-          color: currNode.color
-        });
-      }
-      for (let currLink of this.graph.links) {
-        body.relationship.push({
-          sourceid: currLink.sourceid,
-          targetid: currLink.targetid,
-          name: currLink.name,
-          uuid: currLink.uuid
-        });
-      }
-      console.log(body);
-
-      if(await updateCoin(body))
+      if(await addGraph(this.graph))
         this.$message({
           type: "success",
           message: "保存成功！"
