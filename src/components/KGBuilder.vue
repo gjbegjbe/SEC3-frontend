@@ -368,9 +368,10 @@
 </template>
 
 <script>
-import axios from "axios";
+// import axios from "axios";
 import * as d3 from "d3";
 import $ from "jquery";
+import {getCoin, updateCoin} from "../api/myCoinApi";
 // import echarts from "echarts";
 
 export default {
@@ -586,16 +587,7 @@ export default {
       );
     },
     async initGraph() {
-      let response = {};
-      try {
-        response = await axios.get("http://localhost:8081/api/getCoin", {});
-        if (response.data.node.length === 0)
-          response = await axios.get("/static/kgData.json", {});
-      } catch (e) {
-        response = await axios.get("/static/kgData.json", {});
-      }
-
-      let data = response.data;
+      let data = await getCoin();
       console.log(data);
       this.graph.nodes = data.node;
       this.graph.links = data.relationship;
@@ -1580,18 +1572,16 @@ export default {
       }
       console.log(body);
 
-      try {
-        await axios.post("http://localhost:8081/api/updateCoin", body);
+      if(await updateCoin(body))
         this.$message({
           type: "success",
           message: "保存成功！"
         });
-      } catch (e) {
+      else
         this.$message({
           type: "info",
           message: "保存失败！"
         });
-      }
     },
     restartPicture: function() {
       d3.select("svg").remove();
