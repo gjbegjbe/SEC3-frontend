@@ -163,6 +163,15 @@
             <a href="javascript:;" @click="refreshLinkText">
               <li><i class="el-icon-refresh-right"></i> 还原关系字体</li>
             </a>
+            <a href="javascript:;" @click="zoomInNodeDistance">
+              <li><i class="el-icon-zoom-in"></i> 放大节点距离</li>
+            </a>
+            <a href="javascript:;" @click="zoomOutNodeDistance">
+              <li><i class="el-icon-zoom-out"></i> 缩小节点距离</li>
+            </a>
+            <a href="javascript:;" @click="refreshNodeDistance">
+              <li><i class="el-icon-refresh-right"></i> 还原节点距离</li>
+            </a>
 
           </div>
         </div>
@@ -511,6 +520,7 @@ export default {
       nodeTextSize: 12, // 节点字体大小
       linkTextSize: 10, // 关系字体大小
       linkTextVisible: true, //是否显示关系文字
+      nodeForce: -1500, //节点之间作用力大小，绝对值越大距离越大
 
     };
   },
@@ -546,7 +556,7 @@ export default {
       this.svg.attr("preserveAspectRatio", "xMidYMidmeet");
       this.simulation = d3
         .forceSimulation()
-        .force("charge", d3.forceManyBody().strength(-1500))
+        .force("charge", d3.forceManyBody().strength(this.nodeForce))
         .force(
           "link",
           d3
@@ -1494,6 +1504,24 @@ export default {
       _this.linkTextSize=10;
       _this.updateGraph();
     },
+    zoomInNodeDistance() {
+      var _this=this;
+      _this.nodeForce-=1000;
+      _this.restartPicture();
+
+    },
+    zoomOutNodeDistance() {
+      var _this=this;
+      _this.nodeForce+=1000;
+      _this.restartPicture();
+
+    },
+    refreshNodeDistance() {
+      var _this=this;
+      _this.nodeForce=-1500;
+      _this.restartPicture();
+
+    },
     btnCollapseNode() {},
     btnOpenNode() {},
     close() {},
@@ -2358,7 +2386,7 @@ export default {
 }
 
 .collapse-toggle:checked ~ .content {
-  max-height: 600px;
+  max-height: 800px;
 }
 
 .collapse-toggle:checked ~ label .el-icon-arrow-right {
