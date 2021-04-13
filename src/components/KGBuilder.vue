@@ -2131,7 +2131,7 @@ export default {
         // 以下检索出目标节点
         for (let i = 0; i < _this.graph.nodes.length; i++) {
           //所有满足类型要求的节点搜索
-          if (_this.graph.nodes[i].type.indexOf(nType)!==-1) {
+          if (_this.graph.nodes[i].type && _this.graph.nodes[i].type.indexOf(nType)!==-1) {
             this.selected.nodes.push(_this.graph.nodes[i]);
           }
         }
