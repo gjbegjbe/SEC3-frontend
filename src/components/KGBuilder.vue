@@ -192,6 +192,20 @@
                 <li style="margin-right: 5%"><i class="el-icon-refresh-right"></i> 还原</li>
               </a>
             </div>
+            <div style="margin-bottom: 12px">
+              <span style="font-size: 1.2em"><i class="el-icon-edit"></i> 节点半径调整：</span>
+            </div>
+            <div>
+              <a href="javascript:;" @click="zoomInNodeRadius">
+                <li style="margin-left:20%; margin-bottom:25px;"><i class="el-icon-zoom-in"></i> 大号</li>
+              </a>
+              <a href="javascript:;" @click="zoomOutNodeRadius">
+                <li><i class="el-icon-zoom-out"></i> 小号</li>
+              </a>
+              <a href="javascript:;" @click="refreshNodeRadius">
+                <li style="margin-right: 5%"><i class="el-icon-refresh-right"></i> 中号</li>
+              </a>
+            </div>
 <!--            -->
 <!--            <div style="margin-bottom: 4px;float: left">-->
 <!--              <span style="font-size: 1.2em">修改名称：</span>-->
@@ -592,6 +606,7 @@ export default {
   methods: {
     initGraphContainer() {
       this.gcontainer = d3.select("#gid");
+      this.gcontainer = d3.select("#gid");
       if (this.isFullscreen) {
         this.width = window.screen.width;
         this.height = window.screen.height;
@@ -655,7 +670,7 @@ export default {
       if(!data)
         data = await getLocalGraph();
       this.graph = data;
-      console.log(data);
+      console.log(this.graph);
 
       for (let node of this.graph.nodes) {
         if (node.uuid + 1 > this.uuidEndNum) this.uuidEndNum = node.uuid + 1;
@@ -843,6 +858,10 @@ export default {
             return 0.1;
           });
       });
+      nodeEnter.on("dblclick",function(){
+        console.log(this.r.animVal.value);
+
+      })
       nodeEnter.call(
         d3
           .drag()
@@ -873,8 +892,8 @@ export default {
         switch (d.shape) {
           case "piccircle":
             //圆形填充图片
-            var img_w = 77,
-              img_h = 80;
+            var img_w = d.r/3*8,
+              img_h = d.r/3*8;
 
             var catpattern = defs
               .append("pattern")
@@ -1576,6 +1595,22 @@ export default {
       _this.restartPicture();
 
     },
+    zoomInNodeRadius() {
+      var _this=this;
+      _this.defaultR=40;
+      _this.restartPicture();
+    },
+    zoomOutNodeRadius() {
+      var _this=this;
+      _this.defaultR=20;
+      _this.restartPicture();
+    },
+    refreshNodeRadius() {
+      var _this=this;
+      _this.defaultR=30;
+      _this.restartPicture();
+    },
+
     btnCollapseNode() {},
     btnOpenNode() {},
     close() {},
