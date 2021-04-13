@@ -2351,7 +2351,7 @@ export default {
       console.log(type);
       for (let i = 0; i < _this.graph.nodes.length; i++) {
         //所有满足类型要求的节点搜索
-        if (_this.graph.nodes[i].type.indexOf(type)===-1) {
+        if (!_this.graph.nodes[i].type || _this.graph.nodes[i].type.indexOf(type)===-1) {
           this.graph.nodes.splice(i,1);
           i--;
         }
