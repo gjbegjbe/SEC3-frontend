@@ -127,51 +127,105 @@
         </label>
         <div class="content">
           <div id="adjust" class="collapse-card">
-            <a href="javascript:;" @click="zoomIn">
-              <li><i class="el-icon-zoom-in"></i> 放大</li>
-            </a>
-            <a href="javascript:;" @click="zoomOut">
-              <li><i class="el-icon-zoom-out"></i> 缩小</li>
-            </a>
-            <a href="javascript:;" @click="refresh">
-              <li><i class="el-icon-refresh-right"></i> 还原大小</li>
-            </a>
-            <a href="javascript:;" @click="restartPicture">
-              <li><i class="el-icon-refresh"></i> 还原图形</li>
-            </a>
-            <a href="javascript:;" @click="changeFull">
-              <li><i class="el-icon-full-screen"></i> 全屏切换</li>
-            </a>
-            <a href="javascript:;" @click="zoomInNodeText">
-              <li><i class="el-icon-zoom-in"></i> 放大节点字体</li>
-            </a>
-            <a href="javascript:;" @click="zoomOutNodeText">
-              <li><i class="el-icon-zoom-out"></i> 缩小节点字体</li>
-            </a>
-            <a href="javascript:;" @click="refreshNodeText">
-              <li><i class="el-icon-refresh-right"></i> 还原节点字体</li>
-            </a>
-            <a href="javascript:;" @click="changeLinkTextVisibility">
-              <li><i class="el-icon-info"></i> 显示/隐藏关系文字</li>
-            </a>
-            <a href="javascript:;" @click="zoomInLinkText">
-              <li><i class="el-icon-zoom-in"></i> 放大关系字体</li>
-            </a>
-            <a href="javascript:;" @click="zoomOutLinkText">
-              <li><i class="el-icon-zoom-out"></i> 缩小关系字体</li>
-            </a>
-            <a href="javascript:;" @click="refreshLinkText">
-              <li><i class="el-icon-refresh-right"></i> 还原关系字体</li>
-            </a>
-            <a href="javascript:;" @click="zoomInNodeDistance">
-              <li><i class="el-icon-zoom-in"></i> 放大节点距离</li>
-            </a>
-            <a href="javascript:;" @click="zoomOutNodeDistance">
-              <li><i class="el-icon-zoom-out"></i> 缩小节点距离</li>
-            </a>
-            <a href="javascript:;" @click="refreshNodeDistance">
-              <li><i class="el-icon-refresh-right"></i> 还原节点距离</li>
-            </a>
+            <div style="margin-bottom: 12px">
+              <span style="font-size: 1.2em"><i class="el-icon-data-board"></i> 图形显示调整：</span>
+            </div>
+            <div>
+              <a href="javascript:;" @click="zoomIn">
+                <li style="margin-left:20%; margin-bottom:10px;"><i class="el-icon-zoom-in"></i> 放大</li>
+              </a>
+              <a href="javascript:;" @click="zoomOut">
+                <li><i class="el-icon-zoom-out"></i> 缩小</li>
+              </a>
+              <a href="javascript:;" @click="refresh">
+                <li style="margin-right: 5%"><i class="el-icon-refresh-right"></i> 还原</li>
+              </a>
+              <a href="javascript:;" @click="restartPicture">
+                <li style="margin-left:20%; margin-bottom:20px; width:37%"><i class="el-icon-refresh"></i> 还原全图</li>
+              </a>
+              <a href="javascript:;" @click="changeFull">
+                <li style="width:37%; margin-right: 6%"><i class="el-icon-full-screen"></i> 全屏切换</li>
+              </a>
+            </div>
+            <div style="margin-bottom: 12px">
+              <span style="font-size: 1.2em"><i class="el-icon-chat-line-round"></i> 节点文字调整：</span>
+            </div>
+            <div>
+              <a href="javascript:;" @click="zoomInNodeText">
+                <li style="margin-left:20%; margin-bottom:20px;"><i class="el-icon-zoom-in"></i> 放大</li>
+              </a>
+              <a href="javascript:;" @click="zoomOutNodeText">
+                <li><i class="el-icon-zoom-out"></i> 缩小</li>
+              </a>
+              <a href="javascript:;" @click="refreshNodeText">
+                <li style="margin-right: 5%"><i class="el-icon-refresh-right"></i> 还原</li>
+              </a>
+            </div>
+            <div style="margin-bottom: 4px">
+              <span style="font-size: 1.2em"><i class="el-icon-chat-line-square"></i> 关系文字调整：</span>
+            </div>
+            <div>
+              <a href="javascript:;" @click="zoomInLinkText">
+                <li style="margin-left:20%; margin-bottom:10px;"><i class="el-icon-zoom-in"></i> 放大</li>
+              </a>
+              <a href="javascript:;" @click="zoomOutLinkText">
+                <li><i class="el-icon-zoom-out"></i> 缩小</li>
+              </a>
+              <a href="javascript:;" @click="refreshLinkText">
+                <li><i class="el-icon-refresh-right"></i> 还原</li>
+              </a>
+              <a href="javascript:;" @click="changeLinkTextVisibility">
+                <li style="margin-left:21%; margin-right:20%; margin-bottom:20px; width:60%"><i class="el-icon-view"></i> 显示/隐藏关系文字</li>
+              </a>
+            </div>
+            <div style="margin-bottom: 12px">
+              <span style="font-size: 1.2em"><i class="el-icon-sort"></i> 节点距离调整：</span>
+            </div>
+            <div>
+              <a href="javascript:;" @click="zoomInNodeDistance">
+                <li style="margin-left:20%; margin-bottom:25px;"><i class="el-icon-zoom-in"></i> 放大</li>
+              </a>
+              <a href="javascript:;" @click="zoomOutNodeDistance">
+                <li><i class="el-icon-zoom-out"></i> 缩小</li>
+              </a>
+              <a href="javascript:;" @click="refreshNodeDistance">
+                <li style="margin-right: 5%"><i class="el-icon-refresh-right"></i> 还原</li>
+              </a>
+            </div>
+<!--            -->
+<!--            <div style="margin-bottom: 4px;float: left">-->
+<!--              <span style="font-size: 1.2em">修改名称：</span>-->
+<!--            </div>-->
+<!--            <a href="javascript:;" @click="zoomInNodeText">-->
+<!--              <li><i class="el-icon-zoom-in"></i> 放大节点字体</li>-->
+<!--            </a>-->
+<!--            <a href="javascript:;" @click="zoomOutNodeText">-->
+<!--              <li><i class="el-icon-zoom-out"></i> 缩小节点字体</li>-->
+<!--            </a>-->
+<!--            <a href="javascript:;" @click="refreshNodeText">-->
+<!--              <li><i class="el-icon-refresh-right"></i> 还原节点字体</li>-->
+<!--            </a>-->
+<!--            <a href="javascript:;" @click="changeLinkTextVisibility">-->
+<!--              <li><i class="el-icon-view"></i> 显示/隐藏关系文字</li>-->
+<!--            </a>-->
+<!--            <a href="javascript:;" @click="zoomInLinkText">-->
+<!--              <li><i class="el-icon-zoom-in"></i> 放大关系字体</li>-->
+<!--            </a>-->
+<!--            <a href="javascript:;" @click="zoomOutLinkText">-->
+<!--              <li><i class="el-icon-zoom-out"></i> 缩小关系字体</li>-->
+<!--            </a>-->
+<!--            <a href="javascript:;" @click="refreshLinkText">-->
+<!--              <li><i class="el-icon-refresh-right"></i> 还原关系字体</li>-->
+<!--            </a>-->
+<!--            <a href="javascript:;" @click="zoomInNodeDistance">-->
+<!--              <li><i class="el-icon-zoom-in"></i> 放大节点距离</li>-->
+<!--            </a>-->
+<!--            <a href="javascript:;" @click="zoomOutNodeDistance">-->
+<!--              <li><i class="el-icon-zoom-out"></i> 缩小节点距离</li>-->
+<!--            </a>-->
+<!--            <a href="javascript:;" @click="refreshNodeDistance">-->
+<!--              <li><i class="el-icon-refresh-right"></i> 还原节点距离</li>-->
+<!--            </a>-->
 
           </div>
         </div>
@@ -223,7 +277,7 @@
                 </li>
               </a>
               <a href="javascript:;" @click="restartPicture">
-                <li style=""><i class="el-icon-refresh"></i> 还原</li>
+                <li style="margin-right: 30%"><i class="el-icon-refresh"></i> 还原</li>
               </a>
             </div>
           </div>
@@ -2452,9 +2506,11 @@ h4 {
   font-size: 1.2em;
 }
 
-#adjust li {
+#adjust span {
   list-style: none;
   color: white;
+  margin-bottom: 10px;
+  line-height: 2em;
   width: 100%;
   height: 1.6em;
   text-align: left;
