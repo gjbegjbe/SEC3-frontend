@@ -85,6 +85,29 @@
           <div id="charts" style="width:280px;height:200px;margin-left: 25px"></div>
         </div>
       </div>
+
+      <div class="collapse-item">
+        <input type="checkbox" id="collapse8" class="collapse-toggle" />
+        <label style="display: flex;" for="collapse8">
+          <div>
+            <h4>
+              <i
+                  class="el-icon-arrow-right"
+                  style="transition: ease-in-out"
+              ></i>
+              模式切换 SWITCH
+            </h4>
+          </div>
+        </label>
+
+        <div class="content">
+          <div class="collapse-card" id="switch">
+            <button type="info" @click="toForced">力导图模式</button>
+            <button type="info" @click="toListed">排版模式</button>
+          </div>
+        </div>
+      </div>
+
       <div class="collapse-item">
         <input type="checkbox" id="collapse1" class="collapse-toggle" />
         <label style="display: flex;" for="collapse1">
@@ -2624,6 +2647,16 @@ h4 {
   text-align: left;
   margin-left: 40px;
   font-size: 1.2em;
+}
+
+#switch button{
+  margin-left: 5%;
+  width: 35%;
+  height: 30px;
+  border-color: dodgerblue;
+  border-radius: 30px;
+  outline-width: 5px;
+  cursor: pointer;
 }
 
 .collapse-card li {
