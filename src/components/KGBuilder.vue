@@ -475,6 +475,15 @@ export default {
         nodes: [],
         links: []
       },
+      currentMode: true, //true为力导图模式，false为排版模式
+      listed: {
+        nodes: [],
+        links: []
+      },
+      forced: {
+        nodes: [],
+        links: []
+      },
       selected: {
         nodes: [],
         links: [],
@@ -588,7 +597,7 @@ export default {
       nodeTextSize: 12, // 节点字体大小
       linkTextSize: 10, // 关系字体大小
       linkTextVisible: true, //是否显示关系文字
-      nodeForce: -1500, //节点之间作用力大小，绝对值越大距离越大
+      nodeForce: -500, //节点之间作用力大小，绝对值越大距离越大
 
     };
   },
@@ -2003,6 +2012,70 @@ export default {
       _this.editNodeShape = "";
       _this.editNodeType = "";
       _this.getPie();
+    },
+
+    toListed() {
+      let _this = this;
+      if (!_this.currentMode){ //已经是排版模式
+        return 0;
+      }
+      _this.currentMode = false;
+      _this.listed.nodes.splice(0, _this.listed.nodes.length);
+      _this.listed.links.splice(0, _this.listed.links.length);
+      for (let i = 0; i < _this.graph.nodes.length; i++) {
+        _this.listed.nodes.push(JSON.parse(JSON.stringify(_this.graph.nodes[i])));
+      }
+      console.log(_this.graph);
+      for (let i = 0; i < _this.graph.links.length; i++) {
+        for (let j = 0; j < _this.graph.nodes.length; j++) {
+          if (_this.graph.links[i].targetid === _this.graph.nodes[j].uuid) {
+            _this.listed.nodes.push(JSON.parse(JSON.stringify(_this.graph.nodes[j])));
+            if(_this.listed.nodes[_this.listed.nodes.length - 2].uuid > 0){
+              _this.listed.nodes[_this.listed.nodes.length - 1].uuid = -1;
+            }else {
+              _this.listed.nodes[_this.listed.nodes.length - 1].uuid = _this.listed.nodes[_this.listed.nodes.length - 2].uuid - 1;
+            }
+            _this.listed.links.push(JSON.parse(JSON.stringify(_this.graph.links[i])));
+            _this.listed.links[_this.listed.links.length - 1].targetid = _this.listed.nodes[_this.listed.nodes.length - 1].uuid;
+            break;
+          }
+        }
+      }
+      console.log(_this.listed);
+      _this.forced.nodes.splice(0, _this.forced.nodes.length);
+      _this.forced.links.splice(0, _this.forced.links.length);
+      for (let i = 0; i < _this.graph.nodes.length; i++) {
+        _this.forced.nodes.push(JSON.parse(JSON.stringify(_this.graph.nodes[i])));
+      }
+      for (let i = 0; i < _this.listed.links.length; i++) {
+        _this.forced.links.push(JSON.parse(JSON.stringify(_this.graph.links[i])));
+      }
+      _this.graph.nodes.splice(0, _this.graph.nodes.length);
+      _this.graph.links.splice(0, _this.graph.links.length);
+      for (let i = 0; i < _this.listed.nodes.length; i++) {
+        _this.graph.nodes.push(JSON.parse(JSON.stringify(_this.listed.nodes[i])));
+      }
+      for (let i = 0; i < _this.listed.links.length; i++) {
+        _this.graph.links.push(JSON.parse(JSON.stringify(_this.listed.links[i])));
+      }
+      _this.updateGraph();
+    },
+
+    toForced() {
+      let _this = this;
+      if (_this.currentMode){ //已经是力导图模式
+        return 0;
+      }
+      _this.currentMode = true;
+      _this.graph.nodes.splice(0, _this.graph.nodes.length);
+      _this.graph.links.splice(0, _this.graph.links.length);
+      for (let i = 0; i < _this.forced.nodes.length; i++) {
+        _this.graph.nodes.push(JSON.parse(JSON.stringify(_this.forced.nodes[i])));
+      }
+      for (let i = 0; i < _this.listed.links.length; i++) {
+        _this.graph.links.push(JSON.parse(JSON.stringify(_this.forced.links[i])));
+      }
+      _this.updateGraph();
     },
 
     async search() {
