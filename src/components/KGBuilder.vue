@@ -2055,6 +2055,12 @@ export default {
       for (let i = 0; i < _this.graph.nodes.length; i++) {
         if (_this.graph.nodes[i].uuid > 0){
           _this.forced.nodes.push(JSON.parse(JSON.stringify(_this.graph.nodes[i])));
+          delete _this.listed.nodes[_this.listed.nodes.length-1].fx;
+          delete _this.listed.nodes[_this.listed.nodes.length-1].fy;
+          delete _this.listed.nodes[_this.listed.nodes.length-1].x;
+          delete _this.listed.nodes[_this.listed.nodes.length-1].y;
+          delete _this.listed.nodes[_this.listed.nodes.length-1].vx;
+          delete _this.listed.nodes[_this.listed.nodes.length-1].vy;
         }
       }
       for (let i = 0; i < _this.graph.links.length; i++) {
@@ -2100,6 +2106,12 @@ export default {
       _this.listed.links.splice(0, _this.listed.links.length);
       for (let i = 0; i < _this.graph.nodes.length; i++) {
         _this.listed.nodes.push(JSON.parse(JSON.stringify(_this.graph.nodes[i])));
+        delete _this.listed.nodes[_this.listed.nodes.length-1].fx;
+        delete _this.listed.nodes[_this.listed.nodes.length-1].fy;
+        delete _this.listed.nodes[_this.listed.nodes.length-1].x;
+        delete _this.listed.nodes[_this.listed.nodes.length-1].y;
+        delete _this.listed.nodes[_this.listed.nodes.length-1].vx;
+        delete _this.listed.nodes[_this.listed.nodes.length-1].vy;
       }
       for (let i = 0; i < _this.graph.links.length; i++) {
         for (let j = 0; j < _this.graph.nodes.length; j++) {
