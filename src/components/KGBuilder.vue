@@ -702,6 +702,11 @@ export default {
       if(!data)
         data = await getLocalGraph();
       this.graph = data;
+      for (let i = 0; i < this.graph.links.length; i++) {
+        if (this.graph.links[i].targetid < 0) { //如果已经有targetid为负，则读入的是排版模式
+          this.currentMode = false;
+        }
+      }
       console.log(this.graph);
 
       for (let node of this.graph.nodes) {
@@ -2065,14 +2070,6 @@ export default {
         }
       }
       console.log(_this.listed);
-      _this.forced.nodes.splice(0, _this.forced.nodes.length);
-      _this.forced.links.splice(0, _this.forced.links.length);
-      for (let i = 0; i < _this.graph.nodes.length; i++) {
-        _this.forced.nodes.push(JSON.parse(JSON.stringify(_this.graph.nodes[i])));
-      }
-      for (let i = 0; i < _this.listed.links.length; i++) {
-        _this.forced.links.push(JSON.parse(JSON.stringify(_this.graph.links[i])));
-      }
       _this.graph.nodes.splice(0, _this.graph.nodes.length);
       _this.graph.links.splice(0, _this.graph.links.length);
       for (let i = 0; i < _this.listed.nodes.length; i++) {
@@ -2090,6 +2087,33 @@ export default {
         return 0;
       }
       _this.currentMode = true;
+      _this.forced.nodes.splice(0, _this.forced.nodes.length);
+      _this.forced.links.splice(0, _this.forced.links.length);
+      for (let i = 0; i < _this.graph.nodes.length; i++) {
+        if (_this.graph.nodes[i].uuid > 0){
+          _this.forced.nodes.push(JSON.parse(JSON.stringify(_this.graph.nodes[i])));
+        }
+      }
+      for (let i = 0; i < _this.graph.links.length; i++) {
+        _this.forced.links.push(JSON.parse(JSON.stringify(_this.graph.links[i])));
+      }
+      console.log(_this.graph);
+      console.log(_this.forced);
+      for (let i = 0; i < _this.graph.links.length; i++) { // 遍历所有关系
+        if (_this.graph.links[i].targetid < 0) { //选出targetid为负的
+          for (let j = 0; j < _this.graph.nodes.length; j++) { //遍历所有节点
+            if (_this.graph.links[i].targetid === _this.graph.nodes[j].uuid) { //找出targetid对应的节点
+              for (let k = 0; k < _this.graph.nodes.length; k++) { //遍历所有节点
+                if (_this.graph.nodes[k].uuid > 0 && _this.graph.nodes[k].name === _this.graph.nodes[j].name) { //找到与负值uuid同名的正值uuid节点
+                  _this.forced.links[i].targetid = _this.graph.nodes[k].uuid; //将负值targetid改为正值
+                  break;
+                }
+              }
+            }
+          }
+        }
+      }
+      console.log(_this.forced);
       _this.graph.nodes.splice(0, _this.graph.nodes.length);
       _this.graph.links.splice(0, _this.graph.links.length);
       for (let i = 0; i < _this.forced.nodes.length; i++) {
