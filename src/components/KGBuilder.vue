@@ -620,7 +620,7 @@ export default {
       nodeTextSize: 12, // 节点字体大小
       linkTextSize: 10, // 关系字体大小
       linkTextVisible: true, //是否显示关系文字
-      nodeForce: -500, //节点之间作用力大小，绝对值越大距离越大
+      nodeForce: -1000, //节点之间作用力大小，绝对值越大距离越大
 
     };
   },
@@ -697,8 +697,10 @@ export default {
         false
       );
     },
-    async initGraph() {
-      let data = await getOnlineGraph();
+    async initGraph(init) {
+      let data = init;
+      if(!data)
+        data = await getOnlineGraph();
       if(!data)
         data = await getLocalGraph();
       this.graph = data;
@@ -1716,11 +1718,11 @@ export default {
           message: "保存失败！"
         });
     },
-    restartPicture: function() {
+    restartPicture(init) {
       d3.select("svg").remove();
       this.initGraphContainer();
       this.addMaker();
-      this.initGraph();
+      this.initGraph(init);
     },
     // 增加节点
     addNode() {
@@ -2042,45 +2044,6 @@ export default {
       _this.getPie();
     },
 
-    toListed() {
-      let _this = this;
-      if (!_this.currentMode){ //已经是排版模式
-        return 0;
-      }
-      _this.currentMode = false;
-      _this.listed.nodes.splice(0, _this.listed.nodes.length);
-      _this.listed.links.splice(0, _this.listed.links.length);
-      for (let i = 0; i < _this.graph.nodes.length; i++) {
-        _this.listed.nodes.push(JSON.parse(JSON.stringify(_this.graph.nodes[i])));
-      }
-      console.log(_this.graph);
-      for (let i = 0; i < _this.graph.links.length; i++) {
-        for (let j = 0; j < _this.graph.nodes.length; j++) {
-          if (_this.graph.links[i].targetid === _this.graph.nodes[j].uuid) {
-            _this.listed.nodes.push(JSON.parse(JSON.stringify(_this.graph.nodes[j])));
-            if(_this.listed.nodes[_this.listed.nodes.length - 2].uuid > 0){
-              _this.listed.nodes[_this.listed.nodes.length - 1].uuid = -1;
-            }else {
-              _this.listed.nodes[_this.listed.nodes.length - 1].uuid = _this.listed.nodes[_this.listed.nodes.length - 2].uuid - 1;
-            }
-            _this.listed.links.push(JSON.parse(JSON.stringify(_this.graph.links[i])));
-            _this.listed.links[_this.listed.links.length - 1].targetid = _this.listed.nodes[_this.listed.nodes.length - 1].uuid;
-            break;
-          }
-        }
-      }
-      console.log(_this.listed);
-      _this.graph.nodes.splice(0, _this.graph.nodes.length);
-      _this.graph.links.splice(0, _this.graph.links.length);
-      for (let i = 0; i < _this.listed.nodes.length; i++) {
-        _this.graph.nodes.push(JSON.parse(JSON.stringify(_this.listed.nodes[i])));
-      }
-      for (let i = 0; i < _this.listed.links.length; i++) {
-        _this.graph.links.push(JSON.parse(JSON.stringify(_this.listed.links[i])));
-      }
-      _this.updateGraph();
-    },
-
     toForced() {
       let _this = this;
       if (_this.currentMode){ //已经是力导图模式
@@ -2097,8 +2060,6 @@ export default {
       for (let i = 0; i < _this.graph.links.length; i++) {
         _this.forced.links.push(JSON.parse(JSON.stringify(_this.graph.links[i])));
       }
-      console.log(_this.graph);
-      console.log(_this.forced);
       for (let i = 0; i < _this.graph.links.length; i++) { // 遍历所有关系
         if (_this.graph.links[i].targetid < 0) { //选出targetid为负的
           for (let j = 0; j < _this.graph.nodes.length; j++) { //遍历所有节点
@@ -2113,6 +2074,7 @@ export default {
           }
         }
       }
+      console.log("forced")
       console.log(_this.forced);
       _this.graph.nodes.splice(0, _this.graph.nodes.length);
       _this.graph.links.splice(0, _this.graph.links.length);
@@ -2122,7 +2084,52 @@ export default {
       for (let i = 0; i < _this.listed.links.length; i++) {
         _this.graph.links.push(JSON.parse(JSON.stringify(_this.forced.links[i])));
       }
-      _this.updateGraph();
+      console.log("graph");
+      console.log(_this.graph);
+      _this.nodeForce = -1000;
+      _this.restartPicture(_this.graph);
+    },
+
+    toListed() {
+      let _this = this;
+      if (!_this.currentMode){ //已经是排版模式
+        return 0;
+      }
+      _this.currentMode = false;
+      _this.listed.nodes.splice(0, _this.listed.nodes.length);
+      _this.listed.links.splice(0, _this.listed.links.length);
+      for (let i = 0; i < _this.graph.nodes.length; i++) {
+        _this.listed.nodes.push(JSON.parse(JSON.stringify(_this.graph.nodes[i])));
+      }
+      for (let i = 0; i < _this.graph.links.length; i++) {
+        for (let j = 0; j < _this.graph.nodes.length; j++) {
+          if (_this.graph.links[i].targetid === _this.graph.nodes[j].uuid) {
+            _this.listed.nodes.push(JSON.parse(JSON.stringify(_this.graph.nodes[j])));
+            if(_this.listed.nodes[_this.listed.nodes.length - 2].uuid > 0){
+              _this.listed.nodes[_this.listed.nodes.length - 1].uuid = -1;
+            }else {
+              _this.listed.nodes[_this.listed.nodes.length - 1].uuid = _this.listed.nodes[_this.listed.nodes.length - 2].uuid - 1;
+            }
+            _this.listed.links.push(JSON.parse(JSON.stringify(_this.graph.links[i])));
+            _this.listed.links[_this.listed.links.length - 1].targetid = _this.listed.nodes[_this.listed.nodes.length - 1].uuid;
+            break;
+          }
+        }
+      }
+      console.log("listed");
+      console.log(_this.listed);
+      _this.graph.nodes.splice(0, _this.graph.nodes.length);
+      _this.graph.links.splice(0, _this.graph.links.length);
+      for (let i = 0; i < _this.listed.nodes.length; i++) {
+        _this.graph.nodes.push(JSON.parse(JSON.stringify(_this.listed.nodes[i])));
+      }
+      for (let i = 0; i < _this.listed.links.length; i++) {
+        _this.graph.links.push(JSON.parse(JSON.stringify(_this.listed.links[i])));
+      }
+      console.log("graph");
+      console.log(_this.graph);
+      _this.nodeForce = -60;
+      _this.restartPicture(_this.graph);
     },
 
     async search() {
@@ -2173,6 +2180,7 @@ export default {
       if (nType !== "") {
         this.searchVal(nType, 2);
       }
+      _this.nodeForce = -500;
       console.log(nName, nType, lName);
 
       //优先节点名搜索
