@@ -163,7 +163,7 @@
               <a href="javascript:;" @click="refresh">
                 <li style="margin-right: 5%"><i class="el-icon-refresh-right"></i> 还原</li>
               </a>
-              <a href="javascript:;" @click="restartPicture">
+              <a href="javascript:;" @click="restartPicture(0)">
                 <li style="margin-left:20%; margin-bottom:20px; width:37%"><i class="el-icon-refresh"></i> 还原全图</li>
               </a>
               <a href="javascript:;" @click="changeFull">
@@ -313,7 +313,7 @@
                   <i class="el-icon-search"></i> 搜索
                 </li>
               </a>
-              <a href="javascript:;" @click="restartPicture">
+              <a href="javascript:;" @click="restartPicture(0)">
                 <li style="margin-right: 30%"><i class="el-icon-refresh"></i> 还原</li>
               </a>
             </div>
@@ -343,7 +343,7 @@
                   <i class="el-icon-search"></i> 过滤
                 </li>
               </a>
-              <a href="javascript:;" @click="restartPicture">
+              <a href="javascript:;" @click="restartPicture(0)">
                 <li style=""><i class="el-icon-refresh"></i> 还原</li>
               </a>
             </div>
@@ -628,7 +628,7 @@ export default {
   mounted() {
     this.initGraphContainer();
     this.addMaker();
-    this.initGraph();
+    this.initGraph(0);
 
 
 
@@ -697,12 +697,20 @@ export default {
         false
       );
     },
-    async initGraph(init) {
-      let data = init;
-      if(!data)
+    async initGraph(i) {
+      console.log(i);
+      let data;
+      if(i === 0){
         data = await getOnlineGraph();
-      if(!data)
-        data = await getLocalGraph();
+        if(!data)
+          data = await getLocalGraph();
+      }
+      else if(i === 1){
+        data = this.forced;
+      }
+      else if(i === -1){
+        data = this.listed;
+      }
       this.graph = data;
       for (let i = 0; i < this.graph.links.length; i++) {
         if (this.graph.links[i].targetid < 0) { //如果已经有targetid为负，则读入的是排版模式
@@ -1619,35 +1627,35 @@ export default {
     zoomInNodeDistance() {
       var _this=this;
       _this.nodeForce-=1000;
-      _this.restartPicture();
+      _this.restartPicture(0);
 
     },
     zoomOutNodeDistance() {
       var _this=this;
       _this.nodeForce+=1000;
-      _this.restartPicture();
+      _this.restartPicture(0);
 
     },
     refreshNodeDistance() {
       var _this=this;
       _this.nodeForce=-1500;
-      _this.restartPicture();
+      _this.restartPicture(0);
 
     },
     zoomInNodeRadius() {
       var _this=this;
       _this.defaultR=40;
-      _this.restartPicture();
+      _this.restartPicture(0);
     },
     zoomOutNodeRadius() {
       var _this=this;
       _this.defaultR=20;
-      _this.restartPicture();
+      _this.restartPicture(0);
     },
     refreshNodeRadius() {
       var _this=this;
       _this.defaultR=30;
-      _this.restartPicture();
+      _this.restartPicture(0);
     },
 
     btnCollapseNode() {},
@@ -1718,11 +1726,11 @@ export default {
           message: "保存失败！"
         });
     },
-    restartPicture(init) {
+    restartPicture(i) {
       d3.select("svg").remove();
       this.initGraphContainer();
       this.addMaker();
-      this.initGraph(init);
+      this.initGraph(i);
     },
     // 增加节点
     addNode() {
@@ -2093,7 +2101,7 @@ export default {
       console.log("graph");
       console.log(_this.graph);
       _this.nodeForce = -1000;
-      _this.restartPicture(_this.graph);
+      _this.restartPicture(1);
     },
 
     toListed() {
@@ -2141,7 +2149,7 @@ export default {
       console.log("graph");
       console.log(_this.graph);
       _this.nodeForce = -60;
-      _this.restartPicture(_this.graph);
+      _this.restartPicture(-1);
     },
 
     async search() {
@@ -2153,8 +2161,8 @@ export default {
           if (
             _this.graph.nodes[i].uuid === _this.selected.sourceNodes[j].uuid
           ) {
-            this.graph.nodes[i].shape = "triangle";
-            this.graph.nodes[i].imgsrc = "";
+            this.graph.nodes[i].shape = _this.selected.sourceNodes[j].shape;
+            this.graph.nodes[i].imgsrc = _this.selected.sourceNodes[j].imgsrc;
           }
         }
         for (let j = 0; j < _this.selected.targetNodes.length; j++) {
@@ -2162,15 +2170,15 @@ export default {
           if (
             _this.graph.nodes[i].uuid === _this.selected.targetNodes[j].uuid
           ) {
-            this.graph.nodes[i].shape = "downtriangle";
-            this.graph.nodes[i].imgsrc = "";
+            this.graph.nodes[i].shape = _this.selected.targetNodes[j].shape;
+            this.graph.nodes[i].imgsrc = _this.selected.targetNodes[j].imgsrc;
           }
         }
         for (let j = 0; j < _this.selected.nodes.length; j++) {
           if (_this.graph.nodes[i].uuid === _this.selected.nodes[j].uuid) {
             //目标节点
-            this.graph.nodes[i].shape = "star";
-            this.graph.nodes[i].imgsrc = "";
+            this.graph.nodes[i].shape = _this.selected.nodes[j].shape;
+            this.graph.nodes[i].imgsrc = _this.selected.nodes[j].imgsrc;
           }
         }
       }
@@ -2192,7 +2200,6 @@ export default {
       if (nType !== "") {
         this.searchVal(nType, 2);
       }
-      _this.nodeForce = -500;
       console.log(nName, nType, lName);
 
       //优先节点名搜索
@@ -2201,7 +2208,7 @@ export default {
         for (let i = 0; i < _this.graph.nodes.length; i++) {
           //所有满足名称模糊要求的节点搜索
           if (_this.graph.nodes[i].name.indexOf(nName)!==-1) {
-            this.selected.nodes.push(_this.graph.nodes[i]);
+            this.selected.nodes.push(JSON.parse(JSON.stringify(_this.graph.nodes[i])));
           }
         }
         if (nType !== "") {
@@ -2221,12 +2228,12 @@ export default {
               _this.selected.nodes[m].uuid === _this.graph.links[n].sourceid
             ) {
               //由目标节点指出的关系
-              this.selected.linksOut.push(_this.graph.links[n]);
+              this.selected.linksOut.push(JSON.parse(JSON.stringify(_this.graph.links[n])));
             } else if (
               _this.selected.nodes[m].uuid === _this.graph.links[n].targetid
             ) {
               //向目标节点指入的关系
-              this.selected.linksIn.push(_this.graph.links[n]);
+              this.selected.linksIn.push(JSON.parse(JSON.stringify(_this.graph.links[n])));
             }
           }
         }
@@ -2252,7 +2259,7 @@ export default {
             if (
               _this.graph.nodes[i].uuid === _this.selected.linksIn[p].sourceid
             ) {
-              this.selected.sourceNodes.push(_this.graph.nodes[i]);
+              this.selected.sourceNodes.push(JSON.parse(JSON.stringify(_this.graph.nodes[i])));
             }
           }
           for (let q = 0; q < _this.selected.linksOut.length; q++) {
@@ -2260,7 +2267,7 @@ export default {
             if (
               _this.graph.nodes[i].uuid === _this.selected.linksOut[q].targetid
             ) {
-              this.selected.targetNodes.push(_this.graph.nodes[i]);
+              this.selected.targetNodes.push(JSON.parse(JSON.stringify(_this.graph.nodes[i])));
             }
           }
         }
@@ -2272,7 +2279,7 @@ export default {
         for (let i = 0; i < _this.graph.nodes.length; i++) {
           //所有满足类型要求的节点搜索
           if (_this.graph.nodes[i].type && _this.graph.nodes[i].type.indexOf(nType)!==-1) {
-            this.selected.nodes.push(_this.graph.nodes[i]);
+            this.selected.nodes.push(JSON.parse(JSON.stringify(_this.graph.nodes[i])));
           }
         }
 
@@ -2286,12 +2293,12 @@ export default {
                 _this.selected.nodes[m].uuid === _this.graph.links[n].sourceid
               ) {
                 //由目标节点指出的关系
-                this.selected.linksOut.push(_this.graph.links[n]);
+                this.selected.linksOut.push(JSON.parse(JSON.stringify(_this.graph.links[n])));
               } else if (
                 _this.selected.nodes[m].uuid === _this.graph.links[n].targetid
               ) {
                 //向目标节点指入的关系
-                this.selected.linksIn.push(_this.graph.links[n]);
+                this.selected.linksIn.push(JSON.parse(JSON.stringify(_this.graph.links[n])));
               }
             }
           }
@@ -2315,7 +2322,7 @@ export default {
             if (
               _this.graph.nodes[i].uuid === _this.selected.linksIn[p].sourceid
             ) {
-              this.selected.sourceNodes.push(_this.graph.nodes[i]);
+              this.selected.sourceNodes.push(JSON.parse(JSON.stringify(_this.graph.nodes[i])));
             }
           }
           for (let q = 0; q < _this.selected.linksOut.length; q++) {
@@ -2323,7 +2330,7 @@ export default {
             if (
               _this.graph.nodes[i].uuid === _this.selected.linksOut[q].targetid
             ) {
-              this.selected.targetNodes.push(_this.graph.nodes[i]);
+              this.selected.targetNodes.push(JSON.parse(JSON.stringify(_this.graph.nodes[i])));
             }
           }
         }
@@ -2335,16 +2342,16 @@ export default {
         for (let i = 0; i < _this.graph.links.length; i++) {
           //所有满足名称要求的关系搜索
           if (_this.graph.links[i].name.indexOf(lName)!==-1) {
-            this.selected.links.push(_this.graph.links[i]);
+            this.selected.links.push(JSON.parse(JSON.stringify(_this.graph.links[i])));
             for (let j = 0; j < _this.graph.nodes.length; j++) {
               //将检索出关系的源节点在对应位置列出
               if (_this.graph.nodes[j].uuid === _this.graph.links[i].sourceid) {
-                this.selected.sourceNodes.push(_this.graph.nodes[j]);
+                this.selected.sourceNodes.push(JSON.parse(JSON.stringify(_this.graph.nodes[j])));
               } else if (
                 _this.graph.nodes[j].uuid === _this.graph.links[i].targetid
               ) {
                 //将检索出关系的目标节点在对应位置列出
-                this.selected.targetNodes.push(_this.graph.nodes[j]);
+                this.selected.targetNodes.push(JSON.parse(JSON.stringify(_this.graph.nodes[j])));
               }
             }
           }
