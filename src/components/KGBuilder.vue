@@ -718,6 +718,7 @@ export default {
         }
       }
       console.log(this.graph);
+      console.log(this.currentMode);
 
       for (let node of this.graph.nodes) {
         if (node.uuid + 1 > this.uuidEndNum) this.uuidEndNum = node.uuid + 1;
@@ -2063,12 +2064,12 @@ export default {
       for (let i = 0; i < _this.graph.nodes.length; i++) {
         if (_this.graph.nodes[i].uuid > 0){
           _this.forced.nodes.push(JSON.parse(JSON.stringify(_this.graph.nodes[i])));
-          delete _this.listed.nodes[_this.listed.nodes.length-1].fx;
-          delete _this.listed.nodes[_this.listed.nodes.length-1].fy;
-          delete _this.listed.nodes[_this.listed.nodes.length-1].x;
-          delete _this.listed.nodes[_this.listed.nodes.length-1].y;
-          delete _this.listed.nodes[_this.listed.nodes.length-1].vx;
-          delete _this.listed.nodes[_this.listed.nodes.length-1].vy;
+          delete _this.forced.nodes[_this.forced.nodes.length-1].fx;
+          delete _this.forced.nodes[_this.forced.nodes.length-1].fy;
+          delete _this.forced.nodes[_this.forced.nodes.length-1].x;
+          delete _this.forced.nodes[_this.forced.nodes.length-1].y;
+          delete _this.forced.nodes[_this.forced.nodes.length-1].vx;
+          delete _this.forced.nodes[_this.forced.nodes.length-1].vy;
         }
       }
       for (let i = 0; i < _this.graph.links.length; i++) {
