@@ -626,7 +626,7 @@ export default {
   },
   components: {},
   mounted() {
-    this.initGraphContainer();
+    this.initGraphContainer(0);
     this.addMaker();
     this.initGraph(0);
 
@@ -636,7 +636,7 @@ export default {
   created() {},
   watch: {},
   methods: {
-    initGraphContainer() {
+    async initGraphContainer(i) {
       this.gcontainer = d3.select("#gid");
       this.gcontainer = d3.select("#gid");
       if (this.isFullscreen) {
@@ -655,6 +655,29 @@ export default {
       // this.svg.attr("viewBox", "0 0 " + sWidth / 2 + " " + sHeight / 2);
       this.svg.attr("id", "svg_idx");
       this.svg.attr("preserveAspectRatio", "xMidYMidmeet");
+
+      console.log("abc")
+      let temp;
+      if(i === 0){
+        temp = await getOnlineGraph();
+        if(!temp)
+          temp = await getLocalGraph();
+      }
+      else if(i === 1){
+        temp = this.forced;
+      }
+      else if(i === -1){
+        temp = this.listed;
+      }
+      for (let j = 0; j < temp.links.length; j++) {
+        if (temp.links[j].targetid < 0) { //如果已经有targetid为负，则读入的是排版模式
+          this.nodeForce = -60;
+        }
+      }
+      console.log(this.nodeForce);
+      console.log("000");
+
+      console.log(this.nodeForce);
       this.simulation = d3
         .forceSimulation()
         .force("charge", d3.forceManyBody().strength(this.nodeForce))
@@ -1729,7 +1752,7 @@ export default {
     },
     restartPicture(i) {
       d3.select("svg").remove();
-      this.initGraphContainer();
+      this.initGraphContainer(i);
       this.addMaker();
       this.initGraph(i);
     },
