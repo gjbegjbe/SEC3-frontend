@@ -5,36 +5,36 @@
         <el-form label-width="80px">
           <el-form-item label="节点ID">
             <el-input
-              :disabled="true"
-              v-model="editNodeUuid"
-              class="withoutColor"
-              style="width: 400px;float: left"
+                :disabled="true"
+                v-model="editNodeUuid"
+                class="withoutColor"
+                style="width: 400px;float: left"
             ></el-input>
           </el-form-item>
           <el-form-item label="节点名称">
             <el-input
-              :disabled="false"
-              v-model="editNodeName"
-              class="withoutColor"
-              style="width: 400px;float: left"
+                :disabled="false"
+                v-model="editNodeName"
+                class="withoutColor"
+                style="width: 400px;float: left"
             ></el-input>
           </el-form-item>
           <el-form-item label="节点颜色">
             <el-color-picker v-model="editNodeColor" style="float: left"></el-color-picker>
             <el-input
-              :disabled="true"
-              v-model="editNodeColor"
-              class="lineColor"
-              style="width: 340px;float: left;margin-left: 20px"
+                :disabled="true"
+                v-model="editNodeColor"
+                class="lineColor"
+                style="width: 340px;float: left;margin-left: 20px"
             ></el-input>
           </el-form-item>
           <el-form-item label="节点形状">
             <el-select v-model="editNodeShape" placeholder="请选择" style="float:left">
               <el-option
-                v-for="item in shapes"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
+                  v-for="item in shapes"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
               >
               </el-option>
             </el-select>
@@ -50,8 +50,8 @@
               </el-option>
             </el-select>
           </el-form-item>
-          <el-form-item  >
-            <el-button type="primary" @click="saveNodeEdit" style="margin-top: 10px;float: left" >保存修改</el-button>
+          <el-form-item>
+            <el-button type="primary" @click="saveNodeEdit" style="margin-top: 10px;float: left">保存修改</el-button>
             <el-button @click="cancelNodeEdit" style="margin-top: 10px;float: left">取消</el-button>
 
           </el-form-item>
@@ -114,8 +114,8 @@
           <div>
             <h4>
               <i
-                class="el-icon-arrow-right"
-                style="transition: ease-in-out"
+                  class="el-icon-arrow-right"
+                  style="transition: ease-in-out"
               ></i>
               导出 EXPORT
             </h4>
@@ -357,7 +357,7 @@
             </a>
             <a href="javascript:;" @click="change">
               <li
-                style="float: left;margin-left: 35px;margin-bottom:20px;font-size: 1.2em;color: white;"
+                  style="float: left;margin-left: 35px;margin-bottom:20px;font-size: 1.2em;color: white;"
               >
                 <i class="el-icon-edit-outline"></i> 文档修改
               </li>
@@ -375,11 +375,10 @@
 </template>
 
 <script>
-// import axios from "axios";
+
 import * as d3 from "d3";
 import $ from "jquery";
-import {getOnlineGraph, addGraph, getLocalGraph} from "../api/graphApi";
-// import echarts from "echarts";
+import { getOnlineGraph, addGraph, getLocalGraph } from "../api/graphApi";
 
 export default {
   props: ["pid"],
@@ -429,12 +428,12 @@ export default {
       },
       defaultR: 30,
       colorList: [
-        'rgb(255,131,115)',
-        'rgb(249,198,44)',
-        'rgb(127,127,213)',
-        'rgb(125,213,255)',
-        'rgb(112,211,189)',
-        'rgb(234,145,176)',
+        "rgb(255,131,115)",
+        "rgb(249,198,44)",
+        "rgb(127,127,213)",
+        "rgb(125,213,255)",
+        "rgb(112,211,189)",
+        "rgb(234,145,176)"
       ],
       pagesizelist: [
         { size: 100, isactive: false },
@@ -455,10 +454,7 @@ export default {
 
       txx: "",
       tyy: "",
-      //
-      // selectrelationid: '',//选择操作的关系id
-      //
-      // deleteLinkDialogVisible:true
+
       isToolButtonShow: false,
 
       isAddingNode: false,
@@ -521,13 +517,13 @@ export default {
         {
           value: "作品",
           label: "作品"
-        },
+        }
       ],
 
       nodeTextSize: 12, // 节点字体大小
       linkTextSize: 10, // 关系字体大小
       linkTextVisible: true, //是否显示关系文字
-      nodeForce: -1000, //节点之间作用力大小，绝对值越大距离越大
+      nodeForce: -1000 //节点之间作用力大小，绝对值越大距离越大
 
     };
   },
@@ -536,11 +532,9 @@ export default {
     this.initGraphContainer(0);
     this.addMaker();
     this.initGraph(0);
-
-
-
   },
-  created() {},
+  created() {
+  },
   watch: {},
   methods: {
     async initGraphContainer(i) {
@@ -559,21 +553,18 @@ export default {
 
       this.svg.attr("width", sWidth);
       this.svg.attr("height", sHeight);
-      // this.svg.attr("viewBox", "0 0 " + sWidth / 2 + " " + sHeight / 2);
       this.svg.attr("id", "svg_idx");
       this.svg.attr("preserveAspectRatio", "xMidYMidmeet");
 
-      console.log("abc")
+      console.log("abc");
       let temp;
-      if(i === 0){
+      if (i === 0) {
         temp = await getOnlineGraph();
-        if(!temp)
+        if (!temp)
           temp = await getLocalGraph();
-      }
-      else if(i === 1){
+      } else if (i === 1) {
         temp = this.forced;
-      }
-      else if(i === -1){
+      } else if (i === -1) {
         temp = this.listed;
       }
       for (let j = 0; j < temp.links.length; j++) {
@@ -586,59 +577,57 @@ export default {
 
       console.log(this.nodeForce);
       this.simulation = d3
-        .forceSimulation()
-        .force("charge", d3.forceManyBody().strength(this.nodeForce))
-        .force(
-          "link",
-          d3
-            .forceLink()
-            .distance(60)
-            .id(function(d) {
-              return d.uuid;
-            })
-        )
-        .force("collide", d3.forceCollide().strength(0.1))
-        .force("center", d3.forceCenter(this.width / 2, this.height / 2));
+          .forceSimulation()
+          .force("charge", d3.forceManyBody().strength(this.nodeForce))
+          .force(
+              "link",
+              d3
+                  .forceLink()
+                  .distance(60)
+                  .id(function(d) {
+                    return d.uuid;
+                  })
+          )
+          .force("collide", d3.forceCollide().strength(0.1))
+          .force("center", d3.forceCenter(this.width / 2, this.height / 2));
       this.qaGraphLink = this.svg
-        .append("g")
-        .attr("class", "linkline")
-        .attr("id", "g1");
+          .append("g")
+          .attr("class", "linkline")
+          .attr("id", "g1");
       this.qaGraphLinkText = this.svg
-        .append("g")
-        .attr("class", "linktext")
-        .attr("id", "g2");
+          .append("g")
+          .attr("class", "linktext")
+          .attr("id", "g2");
       this.qaGraphNode = this.svg
-        .append("g")
-        .attr("class", "node")
-        .attr("id", "g3");
+          .append("g")
+          .attr("class", "node")
+          .attr("id", "g3");
       this.qaGraphNodeText = this.svg
-        .append("g")
-        .attr("class", "nodetext")
-        .attr("id", "g4");
+          .append("g")
+          .attr("class", "nodetext")
+          .attr("id", "g4");
       this.nodebuttonGroup = this.svg
-        .append("g")
-        .attr("class", "nodebutton")
-        .attr("id", "g5");
+          .append("g")
+          .attr("class", "nodebutton")
+          .attr("id", "g5");
       this.svg.on(
-        "click",
-        function() {
-          d3.selectAll(".buttongroup").classed("notshow", true);
-        },
-        false
+          "click",
+          function() {
+            d3.selectAll(".buttongroup").classed("notshow", true);
+          },
+          false
       );
     },
     async initGraph(i) {
       console.log(i);
       let data;
-      if(i === 0){
+      if (i === 0) {
         data = await getOnlineGraph();
-        if(!data)
+        if (!data)
           data = await getLocalGraph();
-      }
-      else if(i === 1){
+      } else if (i === 1) {
         data = this.forced;
-      }
-      else if(i === -1){
+      } else if (i === -1) {
         data = this.listed;
       }
       this.graph = data;
@@ -662,63 +651,21 @@ export default {
     },
     addMaker() {
       var arrowMarker = this.svg
-        .append("marker")
-        .attr("id", "arrow")
-        .attr("markerUnits", "strokeWidth")
-        .attr("markerWidth", "20") //
-        .attr("markerHeight", "20")
-        .attr("viewBox", "0 0 12 12")
-        .attr("refX", "28")
-        .attr("refY", "6")
-        .attr("orient", "auto");
+          .append("marker")
+          .attr("id", "arrow")
+          .attr("markerUnits", "strokeWidth")
+          .attr("markerWidth", "20") //
+          .attr("markerHeight", "20")
+          .attr("viewBox", "0 0 12 12")
+          .attr("refX", "28")
+          .attr("refY", "6")
+          .attr("orient", "auto");
       var arrowPath = "M2,2 L10,6 L2,10 L6,6 L2,2"; // 定义箭头形状
       arrowMarker
-        .append("path")
-        .attr("d", arrowPath)
-        .attr("class", "arrowmarker")
-        .attr("fill", "#56c38a");
-    },
-    openNode() {
-      var _this = this;
-      var noddd = [
-        {
-          flag: "1",
-          code: "27301111",
-          parentCode: "273",
-          grade: "2",
-          name: "儒家2",
-          uuid: "4617858011"
-        },
-        {
-          code: "273012222",
-          flag: "1",
-          parentCode: "273",
-          grade: "3",
-          name: "故事轶闻2",
-          uuid: "2636501111"
-        }
-      ];
-      var newships = [
-        {
-          sourceid: "273",
-          targetid: "2636501111",
-          name: "",
-          targetcode: "2730107",
-          uuid: "91804213",
-          sourcecode: "27301"
-        },
-        {
-          sourceid: "273",
-          targetid: "4617858011",
-          name: "",
-          targetcode: "273010723",
-          uuid: "91804389",
-          sourcecode: "2730107"
-        }
-      ];
-      _this.graph.nodes = _this.graph.nodes.concat(noddd);
-      _this.graph.links = _this.graph.links.concat(newships);
-      _this.updategraph();
+          .append("path")
+          .attr("d", arrowPath)
+          .attr("class", "arrowmarker")
+          .attr("fill", "#56c38a");
     },
     drawNode(nodes) {
       var _this = this;
@@ -727,9 +674,9 @@ export default {
       });
       node.exit().remove();
       var nodeEnter = node
-        .enter()
-        .append("circle")
-        .style("stroke-width", 0);
+          .enter()
+          .append("circle")
+          .style("stroke-width", 0);
 
       nodeEnter.on("click", function(d) {
         console.log("触发单击");
@@ -737,17 +684,16 @@ export default {
         var out_buttongroup_id = ".out_buttongroup_" + d.uuid;
         var selectItem = d3.select(out_buttongroup_id)._groups[0][0];
         if (
-          selectItem.classList.contains("notshow") &&
-          !_this.isToolButtonShow
+            selectItem.classList.contains("notshow") &&
+            !_this.isToolButtonShow
         ) {
           _this.isToolButtonShow = true;
           _this.svg.selectAll(".buttongroup").classed("notshow", true);
           d3.select(out_buttongroup_id)
-            .classed("notshow", false)
-            .attr("transform", function(d) {
-              //console.log("we are trans")
-              return "translate(" + d.x + "," + d.y + ") scale(1)";
-            });
+              .classed("notshow", false)
+              .attr("transform", function(d) {
+                return "translate(" + d.x + "," + d.y + ") scale(1)";
+              });
         } else {
           _this.isToolButtonShow = false;
           d3.select(out_buttongroup_id).classed("notshow", true);
@@ -765,8 +711,8 @@ export default {
         d3.select(".node").style("fill-opacity", 1);
         d3.select(".nodetext").style("fill-opacity", 1);
         d3.selectAll(".linkline")
-          .style("stroke-opacity", 1)
-          .style("stroke-width", 1);
+            .style("stroke-opacity", 1)
+            .style("stroke-width", 1);
         d3.selectAll(".linktext").style("fill-opacity", 1);
         d3.selectAll(".arrowmarker").style("fill-opacity", 1);
       });
@@ -783,76 +729,68 @@ export default {
         });
         //显示相关的节点
         _this.qaGraphNode
-          .selectAll("circle")
-          .style("fill-opacity", function(c) {
-            if (relvantNodeIds.indexOf(c.uuid) > -1) {
-              return 1.0;
-            }
-          });
+            .selectAll("circle")
+            .style("fill-opacity", function(c) {
+              if (relvantNodeIds.indexOf(c.uuid) > -1) {
+                return 1.0;
+              }
+            });
         //透明所有节点文字
         d3.selectAll(".nodetext").style("fill-opacity", 0.1);
         //显示相关的节点文字
         _this.qaGraphNodeText
-          .selectAll("text")
-          .style("fill-opacity", function(c) {
-            if (relvantNodeIds.indexOf(c.uuid) > -1) {
-              return 1.0;
-            }
-          });
+            .selectAll("text")
+            .style("fill-opacity", function(c) {
+              if (relvantNodeIds.indexOf(c.uuid) > -1) {
+                return 1.0;
+              }
+            });
         //透明所有连线
         d3.selectAll(".linkline").style("stroke-opacity", 0.1);
         d3.selectAll(".arrowmarker").style("fill-opacity", 0.5);
-        //console.log(d3.selectAll(".arrowmarker"));
         //显示相关的连线
         _this.qaGraphLink
-          .selectAll(".linkline")
-          .style("stroke-opacity", function(c) {
-            if (c.lk.targetid === d.uuid || c.lk.sourceid === d.uuid) {
-              //console.log(c);
-              return 1.0;
-            }
-          })
-          .style("stroke-width", function(c) {
-            if (c.lk.targetid === d.uuid || c.lk.sourceid === d.uuid) {
-              //console.log(c);
-              return 1.5;
-            }
-          });
+            .selectAll(".linkline")
+            .style("stroke-opacity", function(c) {
+              if (c.lk.targetid === d.uuid || c.lk.sourceid === d.uuid) {
+                return 1.0;
+              }
+            })
+            .style("stroke-width", function(c) {
+              if (c.lk.targetid === d.uuid || c.lk.sourceid === d.uuid) {
+                return 1.5;
+              }
+            });
 
         //透明所有连线文字
         _this.qaGraphLinkText.selectAll(".linktext").style("fill-opacity", 0.1);
-        //console.log("we did s1!")
 
         //显示相关的连线文字
         _this.qaGraphLinkText
-          .selectAll(".linktext")
-          .style("fill-opacity", function(c) {
-            if (c.lk.targetid === d.uuid || c.lk.sourceid === d.uuid) {
-              // console.log("we are in 2");
-              // console.log(c);
-              // console.log(d.uuid)
-              return 1.0;
-            }
-            return 0.1;
-          });
+            .selectAll(".linktext")
+            .style("fill-opacity", function(c) {
+              if (c.lk.targetid === d.uuid || c.lk.sourceid === d.uuid) {
+                return 1.0;
+              }
+              return 0.1;
+            });
       });
-      nodeEnter.on("dblclick",function(){
+      nodeEnter.on("dblclick", function() {
         console.log(this.r.animVal.value);
 
-      })
+      });
       nodeEnter.call(
-        d3
-          .drag()
-          .on("start", _this.dragStarted)
-          .on("drag", _this.dragged)
-          .on("end", _this.dragEnded)
+          d3
+              .drag()
+              .on("start", _this.dragStarted)
+              .on("drag", _this.dragged)
+              .on("end", _this.dragEnded)
       );
       node = nodeEnter.merge(node).text(function(d) {
         return d.name;
       });
       node.style("stroke", function(d) {
         if (d.color) {
-          // return _this.colorList[d.color-1];
           return d.color;
         }
         return "#ffffff";
@@ -870,117 +808,116 @@ export default {
         switch (d.shape) {
           case "piccircle":
             //圆形填充图片
-            var img_w = d.r/3*8,
-              img_h = d.r/3*8;
+            var img_w = d.r / 3 * 8,
+                img_h = d.r / 3 * 8;
 
             var catpattern = defs
-              .append("pattern")
-              .attr("id", "catpattern" + i)
-              .attr("height", 1)
-              .attr("width", 1);
+                .append("pattern")
+                .attr("id", "catpattern" + i)
+                .attr("height", 1)
+                .attr("width", 1);
             catpattern
-              .append("image")
-              .attr("x", -(img_w / 2 - d.r))
-              .attr("y", -(img_h / 2 - d.r))
-              .attr("width", img_w)
-              .attr("height", img_h)
-              .attr("xlink:href", d.imgsrc);
-            //console.log(d.r);
+                .append("image")
+                .attr("x", -(img_w / 2 - d.r))
+                .attr("y", -(img_h / 2 - d.r))
+                .attr("width", img_w)
+                .attr("height", img_h)
+                .attr("xlink:href", d.imgsrc);
             return "url(#catpattern" + i + ")";
 
           case "square":
             //正方形
             var rect_w = 30,
-              rect_h = 30;
+                rect_h = 30;
             var rectpattern = defs
-              .append("pattern")
-              .attr("id", "recttest" + i)
-              .attr("height", 1)
-              .attr("width", 1);
+                .append("pattern")
+                .attr("id", "recttest" + i)
+                .attr("height", 1)
+                .attr("width", 1);
 
             rectpattern
-              .append("rect")
-              .attr("x", -(rect_w / 2 - d.r))
-              .attr("y", -(rect_h / 2 - d.r))
-              .attr("width", rect_w)
-              .attr("height", rect_h)
-              .attr("fill", d.color);
+                .append("rect")
+                .attr("x", -(rect_w / 2 - d.r))
+                .attr("y", -(rect_h / 2 - d.r))
+                .attr("width", rect_w)
+                .attr("height", rect_h)
+                .attr("fill", d.color);
             return "url(#recttest" + i + ")";
 
           case "roundrectangle":
             //圆角矩形
             var ec_x = 50,
-              ec_y = 30;
+                ec_y = 30;
             var ecpattern = defs
-              .append("pattern")
-              .attr("id", "ectest" + i)
-              .attr("height", 1)
-              .attr("width", 1);
+                .append("pattern")
+                .attr("id", "ectest" + i)
+                .attr("height", 1)
+                .attr("width", 1);
 
             ecpattern
-              .append("rect")
-              .attr("x", -(ec_x / 2 - d.r))
-              .attr("y", -(ec_y / 2 - d.r))
-              .attr("width", ec_x)
-              .attr("height", ec_y)
-              .attr("rx", 10)
-              .attr("fill", d.color);
+                .append("rect")
+                .attr("x", -(ec_x / 2 - d.r))
+                .attr("y", -(ec_y / 2 - d.r))
+                .attr("width", ec_x)
+                .attr("height", ec_y)
+                .attr("rx", 10)
+                .attr("fill", d.color);
             return "url(#ectest" + i + ")";
 
           case "downtriangle":
             //倒三角
             var tri_down_pattern = defs
-              .append("pattern")
-              .attr("id", "tri_down_pattern" + i)
-              .attr("height", 1)
-              .attr("width", 1);
+                .append("pattern")
+                .attr("id", "tri_down_pattern" + i)
+                .attr("height", 1)
+                .attr("width", 1);
 
             tri_down_pattern
-              .append("polygon")
-              .attr("points", "30,55 10,20 50,20")
-              .attr("fill", d.color);
+                .append("polygon")
+                .attr("points", "30,55 10,20 50,20")
+                .attr("fill", d.color);
             return "url(#tri_down_pattern" + i + ")";
 
           case "triangle":
             var tri_up_pattern = defs
-              .append("pattern")
-              .attr("id", "tri_up_test" + i)
-              .attr("height", 1)
-              .attr("width", 1);
+                .append("pattern")
+                .attr("id", "tri_up_test" + i)
+                .attr("height", 1)
+                .attr("width", 1);
 
             tri_up_pattern
-              .append("polygon")
-              .attr("points", "30,10 10,45 50,45")
-              .attr("fill", d.color);
+                .append("polygon")
+                .attr("points", "30,10 10,45 50,45")
+                .attr("fill", d.color);
             return "url(#tri_up_test" + i + ")";
 
           case "star":
             //五角星
 
             var five_p_star_pattern = defs
-              .append("pattern")
-              .attr("id", "five_p_star_test" + i)
-              .attr("height", 1)
-              .attr("width", 1);
+                .append("pattern")
+                .attr("id", "five_p_star_test" + i)
+                .attr("height", 1)
+                .attr("width", 1);
 
             five_p_star_pattern
-              .append("polygon")
-              .attr("points", "30,10 19,46 48,24 12,24 42,46")
-              .attr("fill", d.color);
+                .append("polygon")
+                .attr("points", "30,10 19,46 48,24 12,24 42,46")
+                .attr("fill", d.color);
             return "url(#five_p_star_test" + i + ")";
 
           case "diamond":
             //菱形
             var diamond_pattern = defs
-              .append("pattern")
-              .attr("id", "diamond_test" + i)
-              .attr("height", 1)
-              .attr("width", 1);
+                .append("pattern")
+                .attr("id", "diamond_test" + i)
+                .attr("height", 1)
+                .attr("width", 1);
 
             diamond_pattern
-              .append("polygon")
-              .attr("points", "30,10 50,30 30,50 10,30")
-              .attr("fill", d.color);
+                .append("polygon")
+                .attr("points", "30,10 50,30 30,50 10,30")
+                .attr("fill", d.color);
             return "url(#diamond_test" + i + ")";
 
           default:
@@ -992,102 +929,100 @@ export default {
         }
       });
       node
-        .append("title") // 为每个节点设置title
-        .text(function(d) {
-          if (d.name) {
-            return d.name;
-          }
-          return "";
-        });
+          .append("title") // 为每个节点设置title
+          .text(function(d) {
+            if (d.name) {
+              return d.name;
+            }
+            return "";
+          });
       return node;
     },
     drawNodeText(nodes) {
       var _this = this;
       var nodetext = this.qaGraphNodeText
-        .selectAll("text")
-        .data(nodes, function(d) {
-          return d.uuid;
-        });
+          .selectAll("text")
+          .data(nodes, function(d) {
+            return d.uuid;
+          });
       nodetext.exit().remove();
       var nodetextEnter = nodetext.enter().append("text");
       nodetextEnter.call(
-        d3
-          .drag()
-          .on("start", _this.dragStarted)
-          .on("drag", _this.dragged)
-          .on("end", _this.dragEnded)
+          d3
+              .drag()
+              .on("start", _this.dragStarted)
+              .on("drag", _this.dragged)
+              .on("end", _this.dragEnded)
       );
       nodetext = nodetextEnter.merge(nodetext).text(function(d) {
         return d.name;
       });
       nodetext
-        .style("fill", function() {
-          return "#222";
-        })
-        .attr("class", "nodetext")
-        .attr("dy", "3.6em")
-        .attr("font-family", "方正雅黑")
-        .attr("font-size", this.nodeTextSize)
-        .attr("text-anchor", "middle")
-        .text(function(d) {
-          return d.name;
-        });
-      nodetext
-        .append("title") // 为每个节点设置title
-        .text(function(d) {
-          if (d.name) {
+          .style("fill", function() {
+            return "#222";
+          })
+          .attr("class", "nodetext")
+          .attr("dy", "3.6em")
+          .attr("font-family", "方正雅黑")
+          .attr("font-size", this.nodeTextSize)
+          .attr("text-anchor", "middle")
+          .text(function(d) {
             return d.name;
-          }
-          return "";
-        });
+          });
+      nodetext
+          .append("title") // 为每个节点设置title
+          .text(function(d) {
+            if (d.name) {
+              return d.name;
+            }
+            return "";
+          });
       return nodetext;
     },
     drawLink(links) {
-      //  console.log(links);
       var _this = this;
       var link = this.qaGraphLink
-        .selectAll(".linkline")
-        .data(links, function(d) {
-          return d.uuid;
-        });
+          .selectAll(".linkline")
+          .data(links, function(d) {
+            return d.uuid;
+          });
       link.exit().remove();
 
       var linkEnter = link
-        .enter()
-        .append("path")
-        .attr("class", "linkline")
-        .attr("id", function(d, i) {
-          return "linkline" + i;
-        })
-        .attr("stroke-width", 1)
-        .attr("stroke", function() {
-          return _this.colorList[2];
-        })
-        .attr("marker-end", "url(#arrow)");
+          .enter()
+          .append("path")
+          .attr("class", "linkline")
+          .attr("id", function(d, i) {
+            return "linkline" + i;
+          })
+          .attr("stroke-width", 1)
+          .attr("stroke", function() {
+            return _this.colorList[2];
+          })
+          .attr("marker-end", "url(#arrow)");
 
       linkEnter.on("mouseenter", function() {
         console.log(this);
       });
       linkEnter.call(
-        d3
-          .drag()
-          .on("start", _this.dragStarted)
-          .on("drag", _this.dragged)
-          .on("end", _this.dragEnded)
+          d3
+              .drag()
+              .on("start", _this.dragStarted)
+              .on("drag", _this.dragged)
+              .on("end", _this.dragEnded)
       );
-
       link = linkEnter.merge(link);
       return link;
     },
     drawLinkText(links) {
       var _this = this;
       var linktext = _this.qaGraphLinkText
-        .selectAll(".linktext")
-        .data(links, function(d) {
-          return d.uuid;
-        });
+          .selectAll(".linktext")
+          .data(links, function(d) {
+            return d.uuid;
+          });
       linktext.exit().remove();
-      if(this.linkTextVisible){
+      if (this.linkTextVisible) {
         var linktextEnter = linktext
             .enter()
             .append("text")
@@ -1122,35 +1057,34 @@ export default {
     drawButtonGroup(nodes) {
       var _this = this;
       var nodebutton = _this.nodebuttonGroup
-        .selectAll("nodebutton")
-        .data(nodes, function(d) {
-          //   console.log("we do it for" + d.uuid);
-          return d.uuid;
-        });
+          .selectAll("nodebutton")
+          .data(nodes, function(d) {
+            return d.uuid;
+          });
       nodebutton.exit().remove();
       var nodebuttonEnter = nodebutton
-        .enter()
-        .append("use") //  为每个节点组添加一个 use 子元素
-        .attr("r", function(d) {
-          if (!d.r) {
-            return _this.defaultR;
-          }
-          return d.r;
-        })
-        .attr("uuid", function(d) {
-          return d.uuid;
-        })
-        .attr("xlink:href", function(d) {
-          if (!d.r) {
-            return "#out_circle_" + _this.defaultR;
-          }
-          return "#out_circle_" + d.r;
-        }) //  指定 use 引用的内容
-        .attr("class", function(d) {
-          //console.log("!!!"+d.uuid);
-          return "buttongroup out_buttongroup_" + d.uuid;
-        })
-        .classed("notshow", true);
+          .enter()
+          .append("use") //  为每个节点组添加一个 use 子元素
+          .attr("r", function(d) {
+            if (!d.r) {
+              return _this.defaultR;
+            }
+            return d.r;
+          })
+          .attr("uuid", function(d) {
+            return d.uuid;
+          })
+          .attr("xlink:href", function(d) {
+            if (!d.r) {
+              return "#out_circle_" + _this.defaultR;
+            }
+            return "#out_circle_" + d.r;
+          }) //  指定 use 引用的内容
+          .attr("class", function(d) {
+            //console.log("!!!"+d.uuid);
+            return "buttongroup out_buttongroup_" + d.uuid;
+          })
+          .classed("notshow", true);
       nodebutton = nodebuttonEnter.merge(nodebutton);
 
       return nodebutton;
@@ -1161,12 +1095,12 @@ export default {
       d3.selectAll("svg >defs").remove();
 
       var pie = d3
-        .pie()
-        .value(function(d) {
-          return d.value; //处理数据，指定value作为计算比例的字段
-        })
-        .startAngle(Math.PI * -0.7)
-        .endAngle(Math.PI * 0.4);
+          .pie()
+          .value(function(d) {
+            return d.value; //处理数据，指定value作为计算比例的字段
+          })
+          .startAngle(Math.PI * -0.7)
+          .endAngle(Math.PI * 0.4);
 
       var piedata = pie(_this.toolbarData);
       var nodeButtonGroup = this.svg.append("defs");
@@ -1179,56 +1113,55 @@ export default {
         if (nodeRArr.indexOf(m.r) == -1) {
           nodeRArr.push(m.r);
           var nbtng = nodeButtonGroup
-            .append("g")
-            .attr("id", "out_circle_" + m.r); //为每一个节点定制一个按钮组，在画按钮组的时候为其指定该id
+              .append("g")
+              .attr("id", "out_circle_" + m.r); //为每一个节点定制一个按钮组，在画按钮组的时候为其指定该id
           var buttonGroupEnter = nbtng
-            .selectAll(".buttongroup")
-            .data(piedata)
-            .enter()
-            .append("g")
-            .attr("class", function(d) {
-              return "action_" + d.data.code;
-            });
+              .selectAll(".buttongroup")
+              .data(piedata)
+              .enter()
+              .append("g")
+              .attr("class", function(d) {
+                return "action_" + d.data.code;
+              });
           var arc = d3
-            .arc()
-            .innerRadius(m.r + 8)
-            .outerRadius(m.r + 28)
-            .padAngle(0.04)
-            .padRadius(100)
-            .cornerRadius(3);
+              .arc()
+              .innerRadius(m.r + 8)
+              .outerRadius(m.r + 28)
+              .padAngle(0.04)
+              .padRadius(100)
+              .cornerRadius(3);
           buttonGroupEnter
-            .append("path")
-            .attr("d", function(d) {
-              return arc(d);
-            })
-            .attr("fill", "#86a8e7")
-            .style("opacity", 0.6)
-            .attr("stroke", "#50658a")
-            .attr("stroke-width", 2.5)
-            .attr("stroke-opacity", 0.3)
-            .attr("id", function(d, i) {
-              //console.log("!"+d.uuid);
-              return "buttonarc" + i + ".";
-            });
+              .append("path")
+              .attr("d", function(d) {
+                return arc(d);
+              })
+              .attr("fill", "#86a8e7")
+              .style("opacity", 0.6)
+              .attr("stroke", "#50658a")
+              .attr("stroke-width", 2.5)
+              .attr("stroke-opacity", 0.3)
+              .attr("id", function(d, i) {
+                return "buttonarc" + i + ".";
+              });
 
           buttonGroupEnter
-            .append("text")
-            .attr("transform", function(d) {
-              return "translate(" + arc.centroid(d) + ")";
-            })
-            .attr("text-anchor", "middle")
-            .text(function(d) {
-              return d.data.name;
-            })
-            .style("fill", function() {
-              return "#ffffff";
-            })
-            .style("fill-opacity", 1)
-            .attr("font-size", 10)
-            .append("textPath")
-            .attr("xlink:href", function(d, i) {
-              return "#buttonarc" + i + "." + _this.selectUuid;
-            });
+              .append("text")
+              .attr("transform", function(d) {
+                return "translate(" + arc.centroid(d) + ")";
+              })
+              .attr("text-anchor", "middle")
+              .text(function(d) {
+                return d.data.name;
+              })
+              .style("fill", function() {
+                return "#ffffff";
+              })
+              .style("fill-opacity", 1)
+              .attr("font-size", 10)
+              .append("textPath")
+              .attr("xlink:href", function(d, i) {
+                return "#buttonarc" + i + "." + _this.selectUuid;
+              });
         }
       });
     },
@@ -1240,7 +1173,7 @@ export default {
         var btnClass = ".action_" + m.code;
         _this.svg.selectAll(btnClass).on("click", function(d) {
           console.log(
-            d.data.name + ":" + d.data.code + ":uuid:" + _this.selectUuid
+              d.data.name + ":" + d.data.code + ":uuid:" + _this.selectUuid
           );
           switch (d.data.code) {
             case "append":
@@ -1263,33 +1196,33 @@ export default {
               break;
             case "delete":
               _this
-                .$confirm("该操作暂时不可撤销", "将要删除该节点，是否继续？", {
-                  confirmButtonText: "确定",
-                  cancelButtonText: "取消",
-                  type: "warning"
-                })
-                .then(() => {
-                  var selectDeleteUuid = _this.selectUuid;
-                  //console.log(selectDeleteUuid);
-                  for (let i = 0; i < _this.graph.nodes.length; i++) {
-                    if (_this.graph.nodes[i].uuid === selectDeleteUuid) {
-                      _this.graph.nodes.splice(i, 1);
-                      break;
+                  .$confirm("该操作暂时不可撤销", "将要删除该节点，是否继续？", {
+                    confirmButtonText: "确定",
+                    cancelButtonText: "取消",
+                    type: "warning"
+                  })
+                  .then(() => {
+                    var selectDeleteUuid = _this.selectUuid;
+                    //console.log(selectDeleteUuid);
+                    for (let i = 0; i < _this.graph.nodes.length; i++) {
+                      if (_this.graph.nodes[i].uuid === selectDeleteUuid) {
+                        _this.graph.nodes.splice(i, 1);
+                        break;
+                      }
                     }
-                  }
-                  _this.updateGraph();
-                  _this.$message({
-                    type: "success",
-                    message: "删除成功！"
+                    _this.updateGraph();
+                    _this.$message({
+                      type: "success",
+                      message: "删除成功！"
+                    });
+                  })
+                  .catch(() => {
+
+                    _this.$message({
+                      type: "info",
+                      message: "操作已取消"
+                    });
                   });
-                })
-                .catch(() => {
-                  _this.selectrelationid = "";
-                  _this.$message({
-                    type: "info",
-                    message: "操作已取消"
-                  });
-                });
               break;
           }
           console.log(_this.editNodeFormVisible);
@@ -1347,82 +1280,80 @@ export default {
       // 更新连线文字
       var graphLinkText = _this.drawLinkText(links);
       _this.simulation
-        .nodes(nodes)
-        .alphaTarget(0)
-        .alphaDecay(0.05)
-        .on("tick", ticked);
+          .nodes(nodes)
+          .alphaTarget(0)
+          .alphaDecay(0.05)
+          .on("tick", ticked);
 
       function ticked() {
         // 更新连线坐标
         graphLink
-          .attr("d", function(d) {
-            return (
-              "M" +
-              d.source.x +
-              " " +
-              d.source.y +
-              "L" +
-              d.target.x +
-              " " +
-              d.target.y
-            );
-          })
-          .attr("id", function(d, i) {
-            return "linkline" + i;
-          });
+            .attr("d", function(d) {
+              return (
+                  "M" +
+                  d.source.x +
+                  " " +
+                  d.source.y +
+                  "L" +
+                  d.target.x +
+                  " " +
+                  d.target.y
+              );
+            })
+            .attr("id", function(d, i) {
+              return "linkline" + i;
+            });
 
         // 刷新连接线上的文字位置
         graphLinkText
-          .attr("x", function(d) {
-            if (!d.source.x || !d.target.x) return 0;
-            var x = (parseFloat(d.source.x) + parseFloat(d.target.x)) / 2;
-            return x;
-          })
-          .attr("y", function(d) {
-            if (!d.source.y || !d.target.y) return 0;
-            var y = (parseFloat(d.source.y) + parseFloat(d.target.y)) / 2;
-            return y;
-          });
+            .attr("x", function(d) {
+              if (!d.source.x || !d.target.x) return 0;
+              var x = (parseFloat(d.source.x) + parseFloat(d.target.x)) / 2;
+              return x;
+            })
+            .attr("y", function(d) {
+              if (!d.source.y || !d.target.y) return 0;
+              var y = (parseFloat(d.source.y) + parseFloat(d.target.y)) / 2;
+              return y;
+            });
         // 更新节点坐标
         graphNode
-          .attr("cx", function(d) {
-            return d.x;
-          })
-          .attr("cy", function(d) {
-            return d.y;
-          });
+            .attr("cx", function(d) {
+              return d.x;
+            })
+            .attr("cy", function(d) {
+              return d.y;
+            });
         // 更新节点操作按钮组坐标
         graphNodeButtonGroup
-          .attr("cx", function(d) {
-            return d.x;
-          })
-          .attr("cy", function(d) {
-            return d.y;
-          });
-
-        //console.log(graphNodeButtonGroup);
+            .attr("cx", function(d) {
+              return d.x;
+            })
+            .attr("cy", function(d) {
+              return d.y;
+            });
 
         // 更新文字坐标
         graphNodeText
-          .attr("x", function(d) {
-            return d.x;
-          })
-          .attr("y", function(d) {
-            return d.y;
-          });
+            .attr("x", function(d) {
+              return d.x;
+            })
+            .attr("y", function(d) {
+              return d.y;
+            });
       }
 
       _this.simulation.force("link").links(links);
       _this.simulation.force(
-        "center",
-        d3.forceCenter(_this.width / 2, _this.height / 2)
+          "center",
+          d3.forceCenter(_this.width / 2, _this.height / 2)
       );
       _this.simulation.alpha(1).restart();
       // 鼠标滚轮缩放
       _this.zoom = d3
-        .zoom()
-        .scaleExtent([0.1, 4])
-        .on("zoom", _this.zoomed);
+          .zoom()
+          .scaleExtent([0.1, 4])
+          .on("zoom", _this.zoomed);
       _this.svg.call(_this.zoom);
       // 静止双击缩放
       _this.svg.on("dblclick.zoom", null);
@@ -1430,13 +1361,12 @@ export default {
       _this.bindEventButtonGroup();
       //在文本框显示json内容
       document.getElementById("text").value = JSON.stringify(
-        this.graph,
-        null,
-        4
+          this.graph,
+          null,
+          4
       );
     },
     dragStarted(d) {
-      // console.log("i m dragged!");
       this.svg.selectAll(".buttongroup").classed("notshow", true);
       if (!d3.event.active) this.simulation.alphaTarget(0.8).restart();
       d.fx = d.x;
@@ -1447,23 +1377,16 @@ export default {
       d.fy = d3.event.y;
     },
     dragEnded(d) {
-      //  console.log("i m dragged over!");
       if (!d3.event.active) this.simulation.alphaTarget(0);
       d.fx = d3.event.x;
       d.fy = d3.event.y;
     },
     zoomed() {
-      //
-      //console.log(d3.selectAll('g'))
-
       d3.select("#g1").attr("transform", d3.event.transform);
       d3.select("#g2").attr("transform", d3.event.transform);
       d3.select("#g3").attr("transform", d3.event.transform);
       d3.select("#g4").attr("transform", d3.event.transform);
       d3.select("#g5").attr("transform", d3.event.transform);
-      //d3.selectAll(".nodebutton").attr("transform", d3.event.transform);*/
-
-      //d3.selectAll("g").attr("transform", d3.event.transform);
     },
     zoomClick(direction) {
       var self = this;
@@ -1483,12 +1406,9 @@ export default {
       this.zoomClick(-1);
     },
     refresh() {
-      console.log("111");
       this.svg.call(this.zoom.transform, d3.zoomIdentity);
     },
     changeFull() {
-      console.log(this.isFullscreen);
-      console.log("000");
       this.isFullscreen = !this.isFullscreen;
       if (this.isFullscreen) {
         let full = document.getElementById("kg_container");
@@ -1496,9 +1416,6 @@ export default {
       } else {
         this.exitFullScreen();
       }
-
-      console.log(this.isFullscreen);
-      //  console.log("111");
     },
     fullScreen(element) {
       if (element.requestFullscreen) {
@@ -1520,12 +1437,6 @@ export default {
         document.webkitExitFullscreen();
       }
     },
-    
-
-    btnCollapseNode() {},
-    btnOpenNode() {},
-    close() {},
-
     exportPNG: function() {
       var serializer = new XMLSerializer();
       var newsvg = this.svg;
@@ -1533,11 +1444,11 @@ export default {
       newsvg.selectAll(".nodebutton").remove();
 
       var source =
-        '<?xml version="1.0" standalone="no"?>\r\n' +
-        serializer.serializeToString(newsvg.node());
+          "<?xml version=\"1.0\" standalone=\"no\"?>\r\n" +
+          serializer.serializeToString(newsvg.node());
       var image = new Image();
       image.src =
-        "data:image/svg+xml;charset=utf-8," + encodeURIComponent(source);
+          "data:image/svg+xml;charset=utf-8," + encodeURIComponent(source);
       var canvas = document.createElement("canvas");
       canvas.width = window.screen.width;
       canvas.height = window.screen.height;
@@ -1557,8 +1468,8 @@ export default {
     exportJSON: function() {
       console.log(this.graph);
       var datastr =
-        "data:text/json;charset=utf-8," +
-        encodeURIComponent(JSON.stringify(this.graph, null, 4));
+          "data:text/json;charset=utf-8," +
+          encodeURIComponent(JSON.stringify(this.graph, null, 4));
       var downloadAnchorNode = document.createElement("a");
       downloadAnchorNode.setAttribute("href", datastr);
       var timestamp = Date.parse(new Date());
@@ -1579,7 +1490,7 @@ export default {
       downloadAnchorNode.remove();
     },
     exportSERVER: async function() {
-      if(await addGraph(this.graph))
+      if (await addGraph(this.graph))
         this.$message({
           type: "success",
           message: "保存成功！"
@@ -1609,46 +1520,41 @@ export default {
         var offsetY = event.offsetY;
         if (cursor == "crosshair" && _this.isAddingNode) {
           _this
-            .$confirm("是否加入该节点？", {
-              confirmButtonText: "确定",
-              cancelButtonText: "取消",
-              type: "warning"
-            })
+              .$confirm("是否加入该节点？", {
+                confirmButtonText: "确定",
+                cancelButtonText: "取消",
+                type: "warning"
+              })
 
-            .then(() => {
-              // var nName = document.getElementById("nameIn").value;
-              var nName = "新节点";
-              console.log(nName);
+              .then(() => {
+                var nName = "新节点";
+                console.log(nName);
 
-              let newNode = {};
-              newNode.name = nName;
-              newNode.uuid = _this.uuidEndNum;
-              newNode.color = 3;
-              _this.uuidEndNum++;
-              console.log(newNode.uuid);
+                let newNode = {};
+                newNode.name = nName;
+                newNode.uuid = _this.uuidEndNum;
+                newNode.color = 3;
+                _this.uuidEndNum++;
+                newNode.x = 0;
+                newNode.y = 0;
+                newNode.fx = offsetX;
+                newNode.fy = offsetY;
+                _this.graph.nodes.push(newNode);
 
-              newNode.x = 0;
-              newNode.y = 0;
-              newNode.fx = offsetX;
-              console.log("x");
-              console.log(offsetX);
-              newNode.fy = offsetY;
-              _this.graph.nodes.push(newNode);
+                _this.updateGraph();
 
-              _this.updateGraph();
+                _this.$message({
+                  type: "success",
+                  message: "添加成功！"
+                });
+              })
+              .catch(() => {
 
-              _this.$message({
-                type: "success",
-                message: "添加成功！"
+                _this.$message({
+                  type: "info",
+                  message: "操作已取消"
+                });
               });
-            })
-            .catch(() => {
-              _this.selectrelationid = "";
-              _this.$message({
-                type: "info",
-                message: "操作已取消"
-              });
-            });
           d3.select(".gid").style("cursor", "");
           _this.isAddingNode = false;
         }
@@ -1658,130 +1564,119 @@ export default {
     deleteNode() {
       let _this = this;
       _this
-        .$confirm("该操作暂时不可撤销", "将要删除该节点，是否继续？", {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          type: "warning"
-        })
-        .then(() => {
-          var nName = document.getElementById("nameIn").value;
-          console.log(nName);
-          for (let i = 0; i < _this.graph.nodes.length; i++) {
-            if (_this.graph.nodes[i].name === nName) {
-              _this.graph.nodes.splice(i, 1);
-              break;
+          .$confirm("该操作暂时不可撤销", "将要删除该节点，是否继续？", {
+            confirmButtonText: "确定",
+            cancelButtonText: "取消",
+            type: "warning"
+          })
+          .then(() => {
+            var nName = document.getElementById("nameIn").value;
+            for (let i = 0; i < _this.graph.nodes.length; i++) {
+              if (_this.graph.nodes[i].name === nName) {
+                _this.graph.nodes.splice(i, 1);
+                break;
+              }
             }
-          }
-          _this.updateGraph();
-          console.log(_this.graph.links);
-          _this.selectrelationid = "";
-          _this.deleteNodeDialogVisible = true;
-          _this.$message({
-            type: "success",
-            message: "删除成功！"
+            _this.updateGraph();
+
+            _this.deleteNodeDialogVisible = true;
+            _this.$message({
+              type: "success",
+              message: "删除成功！"
+            });
+          })
+          .catch(() => {
+
+            _this.$message({
+              type: "info",
+              message: "操作已取消"
+            });
           });
-        })
-        .catch(() => {
-          _this.selectrelationid = "";
-          _this.$message({
-            type: "info",
-            message: "操作已取消"
-          });
-        });
     },
     // 修改节点名
     changeNode() {
       let _this = this;
       _this
-        .$confirm("是否修改该节点？", {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          type: "warning"
-        })
-        .then(() => {
-          var nName = document.getElementById("nameIn").value;
-          var nNewName = document.getElementById("nameOut").value;
-          console.log(nName);
-          for (let i = 0; i < _this.graph.nodes.length; i++) {
-            if (_this.graph.nodes[i].name === nName) {
-              this.graph.nodes[i].name = nNewName;
-              break;
+          .$confirm("是否修改该节点？", {
+            confirmButtonText: "确定",
+            cancelButtonText: "取消",
+            type: "warning"
+          })
+          .then(() => {
+            var nName = document.getElementById("nameIn").value;
+            var nNewName = document.getElementById("nameOut").value;
+            for (let i = 0; i < _this.graph.nodes.length; i++) {
+              if (_this.graph.nodes[i].name === nName) {
+                this.graph.nodes[i].name = nNewName;
+                break;
+              }
             }
-          }
-          _this.updateGraph();
-          console.log(_this.graph.links);
-          _this.selectrelationid = "";
-          _this.deleteNodeDialogVisible = true;
-          _this.$message({
-            type: "success",
-            message: "修改成功！"
+            _this.updateGraph();
+
+            _this.deleteNodeDialogVisible = true;
+            _this.$message({
+              type: "success",
+              message: "修改成功！"
+            });
+          })
+          .catch(() => {
+
+            _this.$message({
+              type: "info",
+              message: "操作已取消"
+            });
           });
-        })
-        .catch(() => {
-          _this.selectrelationid = "";
-          _this.$message({
-            type: "info",
-            message: "操作已取消"
-          });
-        });
     },
     // 增加联系
     addLink() {
       let _this = this;
       _this
-        .$confirm("是否添加该关系？", {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          type: "warning"
-        })
-        .then(() => {
-          var rName = document.getElementById("relNameIn").value;
-          console.log(rName);
-          let newLink = {};
-          newLink.uuid = _this.uuidEndNum;
-          _this.uuidEndNum++;
-          var sourceName = document.getElementById("from_id").value;
-          var targetName = document.getElementById("to_id").value;
-          for (let m = 0; m < _this.graph.nodes.length; m++) {
-            if (_this.graph.nodes[m].name === targetName) {
-              newLink.targetid = _this.graph.nodes[m].uuid;
-              break;
+          .$confirm("是否添加该关系？", {
+            confirmButtonText: "确定",
+            cancelButtonText: "取消",
+            type: "warning"
+          })
+          .then(() => {
+            var rName = document.getElementById("relNameIn").value;
+            let newLink = {};
+            newLink.uuid = _this.uuidEndNum;
+            _this.uuidEndNum++;
+            var sourceName = document.getElementById("from_id").value;
+            var targetName = document.getElementById("to_id").value;
+            for (let m = 0; m < _this.graph.nodes.length; m++) {
+              if (_this.graph.nodes[m].name === targetName) {
+                newLink.targetid = _this.graph.nodes[m].uuid;
+                break;
+              }
             }
-          }
-          for (let n = 0; n < _this.graph.nodes.length; n++) {
-            if (_this.graph.nodes[n].name === sourceName) {
-              newLink.sourceid = _this.graph.nodes[n].uuid;
-              break;
+            for (let n = 0; n < _this.graph.nodes.length; n++) {
+              if (_this.graph.nodes[n].name === sourceName) {
+                newLink.sourceid = _this.graph.nodes[n].uuid;
+                break;
+              }
             }
-          }
 
-          newLink.name = rName;
-          console.log(newLink);
-          _this.graph.links.push(newLink);
-          _this.updateGraph();
+            newLink.name = rName;
+            _this.graph.links.push(newLink);
+            _this.updateGraph();
 
-          _this.$message({
-            type: "success",
-            message: "添加成功！"
+            _this.$message({
+              type: "success",
+              message: "添加成功！"
+            });
+          })
+          .catch(() => {
+
+            _this.$message({
+              type: "info",
+              message: "操作已取消"
+            });
           });
-        })
-        .catch(() => {
-          _this.selectrelationid = "";
-          // _this.isEditingLink = false
-          // _this.emptyLinkEntity()
-          // _this.EditLinkDialogVisible = false
-          _this.$message({
-            type: "info",
-            message: "操作已取消"
-          });
-        });
     },
     // 删除联系
     deleteLink() {
       var sourceName = document.getElementById("from_id").value;
       var targetName = document.getElementById("to_id").value;
-      console.log(sourceName);
-      console.log(targetName);
       let _this = this;
       for (let m = 0; m < _this.graph.nodes.length; m++) {
         if (_this.graph.nodes[m].name === sourceName) {
@@ -1796,43 +1691,39 @@ export default {
         }
       }
       _this
-        .$confirm("该操作不可撤销", "将要删除该联系，是否继续？", {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          type: "warning"
-        })
-        .then(() => {
-          for (let i = 0; i < _this.graph.links.length; i++) {
-            if (
-              _this.graph.links[i].sourceid === _this.source &&
-              _this.graph.links[i].targetid === _this.target
-            ) {
-              _this.graph.links.splice(i, 1);
-              break;
+          .$confirm("该操作不可撤销", "将要删除该联系，是否继续？", {
+            confirmButtonText: "确定",
+            cancelButtonText: "取消",
+            type: "warning"
+          })
+          .then(() => {
+            for (let i = 0; i < _this.graph.links.length; i++) {
+              if (
+                  _this.graph.links[i].sourceid === _this.source &&
+                  _this.graph.links[i].targetid === _this.target
+              ) {
+                _this.graph.links.splice(i, 1);
+                break;
+              }
             }
-          }
-          _this.updateGraph();
-          _this.selectrelationid = "";
-          _this.deleteLinkDialogVisible = true;
-          _this.$message({
-            type: "success",
-            message: "删除成功！"
+            _this.updateGraph();
+            _this.$message({
+              type: "success",
+              message: "删除成功！"
+            });
+          })
+          .catch(() => {
+
+            _this.$message({
+              type: "info",
+              message: "操作已取消"
+            });
           });
-        })
-        .catch(() => {
-          _this.selectrelationid = "";
-          _this.$message({
-            type: "info",
-            message: "操作已取消"
-          });
-        });
     },
     // 修改联系名
     changeLink() {
       var sourceName = document.getElementById("from_id").value;
       var targetName = document.getElementById("to_id").value;
-      console.log(sourceName);
-      console.log(targetName);
       let _this = this;
       for (let m = 0; m < _this.graph.nodes.length; m++) {
         if (_this.graph.nodes[m].name === sourceName) {
@@ -1847,37 +1738,34 @@ export default {
         }
       }
       _this
-        .$confirm("是否修改该关系？", {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          type: "warning"
-        })
-        .then(() => {
-          var lNewName = document.getElementById("relNameOut").value;
-          for (let i = 0; i < _this.graph.links.length; i++) {
-            if (
-              _this.graph.links[i].sourceid === _this.source &&
-              _this.graph.links[i].targetid === _this.target
-            ) {
-              this.graph.links[i].name = lNewName;
-              break;
+          .$confirm("是否修改该关系？", {
+            confirmButtonText: "确定",
+            cancelButtonText: "取消",
+            type: "warning"
+          })
+          .then(() => {
+            var lNewName = document.getElementById("relNameOut").value;
+            for (let i = 0; i < _this.graph.links.length; i++) {
+              if (
+                  _this.graph.links[i].sourceid === _this.source &&
+                  _this.graph.links[i].targetid === _this.target
+              ) {
+                this.graph.links[i].name = lNewName;
+                break;
+              }
             }
-          }
-          _this.updateGraph();
-          _this.selectrelationid = "";
-          _this.deleteLinkDialogVisible = true;
-          _this.$message({
-            type: "success",
-            message: "修改成功！"
+            _this.updateGraph();
+            _this.$message({
+              type: "success",
+              message: "修改成功！"
+            });
+          })
+          .catch(() => {
+            _this.$message({
+              type: "info",
+              message: "操作已取消"
+            });
           });
-        })
-        .catch(() => {
-          _this.selectrelationid = "";
-          _this.$message({
-            type: "info",
-            message: "操作已取消"
-          });
-        });
     },
 
     change: function() {
@@ -1918,21 +1806,21 @@ export default {
 
     toForced() {
       let _this = this;
-      if (_this.currentMode){ //已经是力导图模式
+      if (_this.currentMode) { //已经是力导图模式
         return 0;
       }
       _this.currentMode = true;
       _this.forced.nodes.splice(0, _this.forced.nodes.length);
       _this.forced.links.splice(0, _this.forced.links.length);
       for (let i = 0; i < _this.graph.nodes.length; i++) {
-        if (_this.graph.nodes[i].uuid > 0){
+        if (_this.graph.nodes[i].uuid > 0) {
           _this.forced.nodes.push(JSON.parse(JSON.stringify(_this.graph.nodes[i])));
-          delete _this.forced.nodes[_this.forced.nodes.length-1].fx;
-          delete _this.forced.nodes[_this.forced.nodes.length-1].fy;
-          delete _this.forced.nodes[_this.forced.nodes.length-1].x;
-          delete _this.forced.nodes[_this.forced.nodes.length-1].y;
-          delete _this.forced.nodes[_this.forced.nodes.length-1].vx;
-          delete _this.forced.nodes[_this.forced.nodes.length-1].vy;
+          delete _this.forced.nodes[_this.forced.nodes.length - 1].fx;
+          delete _this.forced.nodes[_this.forced.nodes.length - 1].fy;
+          delete _this.forced.nodes[_this.forced.nodes.length - 1].x;
+          delete _this.forced.nodes[_this.forced.nodes.length - 1].y;
+          delete _this.forced.nodes[_this.forced.nodes.length - 1].vx;
+          delete _this.forced.nodes[_this.forced.nodes.length - 1].vy;
         }
       }
       for (let i = 0; i < _this.graph.links.length; i++) {
@@ -1952,7 +1840,7 @@ export default {
           }
         }
       }
-      console.log("forced")
+      console.log("forced");
       console.log(_this.forced);
       _this.graph.nodes.splice(0, _this.graph.nodes.length);
       _this.graph.links.splice(0, _this.graph.links.length);
@@ -1962,15 +1850,13 @@ export default {
       for (let i = 0; i < _this.listed.links.length; i++) {
         _this.graph.links.push(JSON.parse(JSON.stringify(_this.forced.links[i])));
       }
-      console.log("graph");
-      console.log(_this.graph);
       _this.nodeForce = -1000;
       _this.restartPicture(1);
     },
 
     toListed() {
       let _this = this;
-      if (!_this.currentMode){ //已经是排版模式
+      if (!_this.currentMode) { //已经是排版模式
         return 0;
       }
       _this.currentMode = false;
@@ -1978,20 +1864,20 @@ export default {
       _this.listed.links.splice(0, _this.listed.links.length);
       for (let i = 0; i < _this.graph.nodes.length; i++) {
         _this.listed.nodes.push(JSON.parse(JSON.stringify(_this.graph.nodes[i])));
-        delete _this.listed.nodes[_this.listed.nodes.length-1].fx;
-        delete _this.listed.nodes[_this.listed.nodes.length-1].fy;
-        delete _this.listed.nodes[_this.listed.nodes.length-1].x;
-        delete _this.listed.nodes[_this.listed.nodes.length-1].y;
-        delete _this.listed.nodes[_this.listed.nodes.length-1].vx;
-        delete _this.listed.nodes[_this.listed.nodes.length-1].vy;
+        delete _this.listed.nodes[_this.listed.nodes.length - 1].fx;
+        delete _this.listed.nodes[_this.listed.nodes.length - 1].fy;
+        delete _this.listed.nodes[_this.listed.nodes.length - 1].x;
+        delete _this.listed.nodes[_this.listed.nodes.length - 1].y;
+        delete _this.listed.nodes[_this.listed.nodes.length - 1].vx;
+        delete _this.listed.nodes[_this.listed.nodes.length - 1].vy;
       }
       for (let i = 0; i < _this.graph.links.length; i++) {
         for (let j = 0; j < _this.graph.nodes.length; j++) {
           if (_this.graph.links[i].targetid === _this.graph.nodes[j].uuid) {
             _this.listed.nodes.push(JSON.parse(JSON.stringify(_this.graph.nodes[j])));
-            if(_this.listed.nodes[_this.listed.nodes.length - 2].uuid > 0){
+            if (_this.listed.nodes[_this.listed.nodes.length - 2].uuid > 0) {
               _this.listed.nodes[_this.listed.nodes.length - 1].uuid = -1;
-            }else {
+            } else {
               _this.listed.nodes[_this.listed.nodes.length - 1].uuid = _this.listed.nodes[_this.listed.nodes.length - 2].uuid - 1;
             }
             _this.listed.links.push(JSON.parse(JSON.stringify(_this.graph.links[i])));
@@ -2000,8 +1886,6 @@ export default {
           }
         }
       }
-      console.log("listed");
-      console.log(_this.listed);
       _this.graph.nodes.splice(0, _this.graph.nodes.length);
       _this.graph.links.splice(0, _this.graph.links.length);
       for (let i = 0; i < _this.listed.nodes.length; i++) {
@@ -2010,8 +1894,6 @@ export default {
       for (let i = 0; i < _this.listed.links.length; i++) {
         _this.graph.links.push(JSON.parse(JSON.stringify(_this.listed.links[i])));
       }
-      console.log("graph");
-      console.log(_this.graph);
       _this.nodeForce = -60;
       _this.restartPicture(-1);
     },
@@ -2023,7 +1905,7 @@ export default {
         for (let j = 0; j < _this.selected.sourceNodes.length; j++) {
           //上级节点
           if (
-            _this.graph.nodes[i].uuid === _this.selected.sourceNodes[j].uuid
+              _this.graph.nodes[i].uuid === _this.selected.sourceNodes[j].uuid
           ) {
             this.graph.nodes[i].shape = _this.selected.sourceNodes[j].shape;
             this.graph.nodes[i].imgsrc = _this.selected.sourceNodes[j].imgsrc;
@@ -2032,7 +1914,7 @@ export default {
         for (let j = 0; j < _this.selected.targetNodes.length; j++) {
           //下级节点
           if (
-            _this.graph.nodes[i].uuid === _this.selected.targetNodes[j].uuid
+              _this.graph.nodes[i].uuid === _this.selected.targetNodes[j].uuid
           ) {
             this.graph.nodes[i].shape = _this.selected.targetNodes[j].shape;
             this.graph.nodes[i].imgsrc = _this.selected.targetNodes[j].imgsrc;
@@ -2064,21 +1946,20 @@ export default {
       if (nType !== "") {
         this.searchVal(nType, 2);
       }
-      console.log(nName, nType, lName);
 
       //优先节点名搜索
       if (nName !== "") {
         // 以下检索出目标节点
         for (let i = 0; i < _this.graph.nodes.length; i++) {
           //所有满足名称模糊要求的节点搜索
-          if (_this.graph.nodes[i].name.indexOf(nName)!==-1) {
+          if (_this.graph.nodes[i].name.indexOf(nName) !== -1) {
             this.selected.nodes.push(JSON.parse(JSON.stringify(_this.graph.nodes[i])));
           }
         }
         if (nType !== "") {
           //带类型要求的节点搜索
           for (let j = 0; j < _this.selected.nodes.length; j++) {
-            if (_this.selected.nodes[j].type.indexOf(nType)===-1) {
+            if (_this.selected.nodes[j].type.indexOf(nType) === -1) {
               this.selected.nodes.splice(j, 1);
             }
           }
@@ -2089,12 +1970,12 @@ export default {
           //将与检索出节点有关的关系列出
           for (let n = 0; n < _this.graph.links.length; n++) {
             if (
-              _this.selected.nodes[m].uuid === _this.graph.links[n].sourceid
+                _this.selected.nodes[m].uuid === _this.graph.links[n].sourceid
             ) {
               //由目标节点指出的关系
               this.selected.linksOut.push(JSON.parse(JSON.stringify(_this.graph.links[n])));
             } else if (
-              _this.selected.nodes[m].uuid === _this.graph.links[n].targetid
+                _this.selected.nodes[m].uuid === _this.graph.links[n].targetid
             ) {
               //向目标节点指入的关系
               this.selected.linksIn.push(JSON.parse(JSON.stringify(_this.graph.links[n])));
@@ -2104,13 +1985,13 @@ export default {
         if (lName !== "") {
           //按关系名筛选
           for (let k = 0; k < _this.selected.linksIn.length; k++) {
-            if (_this.selected.linksIn[k].name.indexOf(lName)===-1 ) {
+            if (_this.selected.linksIn[k].name.indexOf(lName) === -1) {
               this.selected.linksIn.splice(k, 1);
               k--;
             }
           }
           for (let l = 0; l < _this.selected.linksOut.length; l++) {
-            if (_this.selected.linksOut[l].name.indexOf(lName)===-1) {
+            if (_this.selected.linksOut[l].name.indexOf(lName) === -1) {
               this.selected.linksOut.splice(l, 1);
               l--;
             }
@@ -2121,7 +2002,7 @@ export default {
           for (let p = 0; p < _this.selected.linksIn.length; p++) {
             //相关源节点
             if (
-              _this.graph.nodes[i].uuid === _this.selected.linksIn[p].sourceid
+                _this.graph.nodes[i].uuid === _this.selected.linksIn[p].sourceid
             ) {
               this.selected.sourceNodes.push(JSON.parse(JSON.stringify(_this.graph.nodes[i])));
             }
@@ -2129,7 +2010,7 @@ export default {
           for (let q = 0; q < _this.selected.linksOut.length; q++) {
             //相关目标节点
             if (
-              _this.graph.nodes[i].uuid === _this.selected.linksOut[q].targetid
+                _this.graph.nodes[i].uuid === _this.selected.linksOut[q].targetid
             ) {
               this.selected.targetNodes.push(JSON.parse(JSON.stringify(_this.graph.nodes[i])));
             }
@@ -2142,7 +2023,7 @@ export default {
         // 以下检索出目标节点
         for (let i = 0; i < _this.graph.nodes.length; i++) {
           //所有满足类型要求的节点搜索
-          if (_this.graph.nodes[i].type && _this.graph.nodes[i].type.indexOf(nType)!==-1) {
+          if (_this.graph.nodes[i].type && _this.graph.nodes[i].type.indexOf(nType) !== -1) {
             this.selected.nodes.push(JSON.parse(JSON.stringify(_this.graph.nodes[i])));
           }
         }
@@ -2154,12 +2035,12 @@ export default {
             //将与检索出节点有关的关系列出
             for (let n = 0; n < _this.graph.links.length; n++) {
               if (
-                _this.selected.nodes[m].uuid === _this.graph.links[n].sourceid
+                  _this.selected.nodes[m].uuid === _this.graph.links[n].sourceid
               ) {
                 //由目标节点指出的关系
                 this.selected.linksOut.push(JSON.parse(JSON.stringify(_this.graph.links[n])));
               } else if (
-                _this.selected.nodes[m].uuid === _this.graph.links[n].targetid
+                  _this.selected.nodes[m].uuid === _this.graph.links[n].targetid
               ) {
                 //向目标节点指入的关系
                 this.selected.linksIn.push(JSON.parse(JSON.stringify(_this.graph.links[n])));
@@ -2167,13 +2048,13 @@ export default {
             }
           }
           for (let k = 0; k < _this.selected.linksIn.length; k++) {
-            if (_this.selected.linksIn[k].name.indexOf(lName)===-1 ) {
+            if (_this.selected.linksIn[k].name.indexOf(lName) === -1) {
               this.selected.linksIn.splice(k, 1);
               k--;
             }
           }
           for (let l = 0; l < _this.selected.linksOut.length; l++) {
-            if (_this.selected.linksOut[l].name.indexOf(lName)===-1) {
+            if (_this.selected.linksOut[l].name.indexOf(lName) === -1) {
               this.selected.linksOut.splice(l, 1);
               l--;
             }
@@ -2184,7 +2065,7 @@ export default {
           for (let p = 0; p < _this.selected.linksIn.length; p++) {
             //相关源节点
             if (
-              _this.graph.nodes[i].uuid === _this.selected.linksIn[p].sourceid
+                _this.graph.nodes[i].uuid === _this.selected.linksIn[p].sourceid
             ) {
               this.selected.sourceNodes.push(JSON.parse(JSON.stringify(_this.graph.nodes[i])));
             }
@@ -2192,7 +2073,7 @@ export default {
           for (let q = 0; q < _this.selected.linksOut.length; q++) {
             //相关目标节点
             if (
-              _this.graph.nodes[i].uuid === _this.selected.linksOut[q].targetid
+                _this.graph.nodes[i].uuid === _this.selected.linksOut[q].targetid
             ) {
               this.selected.targetNodes.push(JSON.parse(JSON.stringify(_this.graph.nodes[i])));
             }
@@ -2205,14 +2086,14 @@ export default {
         // 以下检索出目标关系及关系双方节点
         for (let i = 0; i < _this.graph.links.length; i++) {
           //所有满足名称要求的关系搜索
-          if (_this.graph.links[i].name.indexOf(lName)!==-1) {
+          if (_this.graph.links[i].name.indexOf(lName) !== -1) {
             this.selected.links.push(JSON.parse(JSON.stringify(_this.graph.links[i])));
             for (let j = 0; j < _this.graph.nodes.length; j++) {
               //将检索出关系的源节点在对应位置列出
               if (_this.graph.nodes[j].uuid === _this.graph.links[i].sourceid) {
                 this.selected.sourceNodes.push(JSON.parse(JSON.stringify(_this.graph.nodes[j])));
               } else if (
-                _this.graph.nodes[j].uuid === _this.graph.links[i].targetid
+                  _this.graph.nodes[j].uuid === _this.graph.links[i].targetid
               ) {
                 //将检索出关系的目标节点在对应位置列出
                 this.selected.targetNodes.push(JSON.parse(JSON.stringify(_this.graph.nodes[j])));
@@ -2222,27 +2103,26 @@ export default {
         }
       }
 
-      console.log(_this.selected);
 
       for (let i = 0; i < _this.graph.nodes.length; i++) {
         for (let j = 0; j < _this.selected.sourceNodes.length; j++) {
           //上级节点
           if (
-            _this.graph.nodes[i].uuid === _this.selected.sourceNodes[j].uuid
+              _this.graph.nodes[i].uuid === _this.selected.sourceNodes[j].uuid
           ) {
             this.graph.nodes[i].shape = "piccircle";
             this.graph.nodes[i].imgsrc =
-              "https://ftp.bmp.ovh/imgs/2021/04/8936ebaa1cae405e.png";
+                "https://ftp.bmp.ovh/imgs/2021/04/8936ebaa1cae405e.png";
           }
         }
         for (let j = 0; j < _this.selected.targetNodes.length; j++) {
           //下级节点
           if (
-            _this.graph.nodes[i].uuid === _this.selected.targetNodes[j].uuid
+              _this.graph.nodes[i].uuid === _this.selected.targetNodes[j].uuid
           ) {
             this.graph.nodes[i].shape = "piccircle";
             this.graph.nodes[i].imgsrc =
-              "https://ftp.bmp.ovh/imgs/2021/04/bba912c80570087a.png";
+                "https://ftp.bmp.ovh/imgs/2021/04/bba912c80570087a.png";
           }
         }
         for (let j = 0; j < _this.selected.nodes.length; j++) {
@@ -2250,7 +2130,7 @@ export default {
             //目标节点
             this.graph.nodes[i].shape = "piccircle";
             this.graph.nodes[i].imgsrc =
-              "https://ftp.bmp.ovh/imgs/2021/04/b699004a2fa6b17d.png";
+                "https://ftp.bmp.ovh/imgs/2021/04/b699004a2fa6b17d.png";
           }
         }
       }
@@ -2266,10 +2146,10 @@ export default {
         });
       }
       if (
-        (nName !== "" || nType !== "") &&
-        lName !== "" &&
-        _this.selected.linksIn.length === 0 &&
-        _this.selected.linksOut.length === 0
+          (nName !== "" || nType !== "") &&
+          lName !== "" &&
+          _this.selected.linksIn.length === 0 &&
+          _this.selected.linksOut.length === 0
       ) {
         await _this.$message({
           type: "warning",
@@ -2277,10 +2157,10 @@ export default {
         });
       }
       if (
-        nName === "" &&
-        nType === "" &&
-        lName !== "" &&
-        _this.selected.links.length === 0
+          nName === "" &&
+          nType === "" &&
+          lName !== "" &&
+          _this.selected.links.length === 0
       ) {
         await _this.$message({
           type: "warning",
@@ -2290,67 +2170,67 @@ export default {
     },
 
     inputHistory(item, i) {
-      switch (i){
+      switch (i) {
         case 0:
-          document.getElementById("nodeSearch").value=item;
+          document.getElementById("nodeSearch").value = item;
           break;
         case 1:
-          document.getElementById("relSearch").value=item;
+          document.getElementById("relSearch").value = item;
           break;
         case 2:
-          document.getElementById("typeSearch").value=item;
+          document.getElementById("typeSearch").value = item;
           break;
       }
     },
 
-    searchVal (val, i) {
-      switch (i){
+    searchVal(val, i) {
+      switch (i) {
         case 0:
-          val = val.trim() // 清除空格
+          val = val.trim(); // 清除空格
           if (this.historyList.nName.length > 0) { // 有数据的话 判断
             if (this.historyList.nName.indexOf(val) !== -1) { // 有相同的，先删除 再添加
-              this.historyList.nName.splice(this.historyList.nName.indexOf(val), 1)
-              this.historyList.nName.unshift(val)
+              this.historyList.nName.splice(this.historyList.nName.indexOf(val), 1);
+              this.historyList.nName.unshift(val);
             } else { // 没有相同的 添加
-              this.historyList.nName.unshift(val)
+              this.historyList.nName.unshift(val);
             }
           } else { // 没有数据 添加
-            this.historyList.nName.unshift(val)
+            this.historyList.nName.unshift(val);
           }
           if (this.historyList.nName.length > 6) { // 保留六个值
-            this.historyList.nName.pop()
+            this.historyList.nName.pop();
           }
           break;
         case 1:
-          val = val.trim() // 清除空格
+          val = val.trim(); // 清除空格
           if (this.historyList.lName.length > 0) { // 有数据的话 判断
             if (this.historyList.lName.indexOf(val) !== -1) { // 有相同的，先删除 再添加
-              this.historyList.lName.splice(this.historyList.lName.indexOf(val), 1)
-              this.historyList.lName.unshift(val)
+              this.historyList.lName.splice(this.historyList.lName.indexOf(val), 1);
+              this.historyList.lName.unshift(val);
             } else { // 没有相同的 添加
-              this.historyList.lName.unshift(val)
+              this.historyList.lName.unshift(val);
             }
           } else { // 没有数据 添加
-            this.historyList.lName.unshift(val)
+            this.historyList.lName.unshift(val);
           }
           if (this.historyList.lName.length > 6) { // 保留六个值
-            this.historyList.lName.pop()
+            this.historyList.lName.pop();
           }
           break;
         case 2:
-          val = val.trim() // 清除空格
+          val = val.trim(); // 清除空格
           if (this.historyList.nType.length > 0) { // 有数据的话 判断
             if (this.historyList.nType.indexOf(val) !== -1) { // 有相同的，先删除 再添加
-              this.historyList.nType.splice(this.historyList.nType.indexOf(val), 1)
-              this.historyList.nType.unshift(val)
+              this.historyList.nType.splice(this.historyList.nType.indexOf(val), 1);
+              this.historyList.nType.unshift(val);
             } else { // 没有相同的 添加
-              this.historyList.nType.unshift(val)
+              this.historyList.nType.unshift(val);
             }
           } else { // 没有数据 添加
-            this.historyList.nType.unshift(val)
+            this.historyList.nType.unshift(val);
           }
           if (this.historyList.nType.length > 6) { // 保留六个值
-            this.historyList.nType.pop()
+            this.historyList.nType.pop();
           }
           break;
       }
@@ -2359,15 +2239,13 @@ export default {
     filter() {
       let _this = this;
       var type = document.getElementById("typeFilter").value;
-      console.log(type);
       for (let i = 0; i < _this.graph.nodes.length; i++) {
         //所有满足类型要求的节点搜索
-        if (!_this.graph.nodes[i].type || _this.graph.nodes[i].type.indexOf(type)===-1) {
-          this.graph.nodes.splice(i,1);
+        if (!_this.graph.nodes[i].type || _this.graph.nodes[i].type.indexOf(type) === -1) {
+          this.graph.nodes.splice(i, 1);
           i--;
         }
       }
-      console.log(this.graph);
       this.updateGraph();
       _this.$message({
         type: "success",
@@ -2376,35 +2254,32 @@ export default {
     },
 
     getPie() {
-      var echarts1 = require('echarts');
-      var myChart = echarts1.init(document.getElementById('charts'));
-      var chartsdata=[];
+      var echarts1 = require("echarts");
+      var myChart = echarts1.init(document.getElementById("charts"));
+      var chartsdata = [];
       var times = {};
 
       console.log(this.graph.nodes.length);
-      for (var i=0;i<this.graph.nodes.length;i++){
+      for (var i = 0; i < this.graph.nodes.length; i++) {
         if (Object.prototype.hasOwnProperty.call(times, this.graph.nodes[i].type)) {
           times[this.graph.nodes[i].type]++;
         } else {
           times[this.graph.nodes[i].type] = 1;
         }
-      };
-      for (var key in times){
-        console.log(key);
-        console.log(times[key]);
-        var temp={};
-        temp['value']=times[key];
-        temp['name']=key;
+      }
+      ;
+      for (var key in times) {
+        var temp = {};
+        temp["value"] = times[key];
+        temp["name"] = key;
         chartsdata.push(temp);
       }
-      console.log(chartsdata);
-      console.log(times);
       myChart.setOption({
-        series : [
+        series: [
           {
-            name: '访问来源',
-            type: 'pie',
-            radius: ['30%','55%'],
+            name: "访问来源",
+            type: "pie",
+            radius: ["30%", "55%"],
             //top: '10%',
             itemStyle: {
               normal: {
@@ -2415,24 +2290,24 @@ export default {
                 // 阴影垂直方向上的偏移
                 shadowOffsetY: 0,
                 // 阴影颜色
-                shadowColor: 'rgba(0,0,0,0.5)',
+                shadowColor: "rgba(0,0,0,0.5)"
               }
             },
-            data:chartsdata,
-            label:{
+            data: chartsdata,
+            label: {
               //minMargin: 5,
               edgeDistance: 10,
               //lineHeight: 15,
-              color: 'rgba(255, 255, 255, 1)',
-              alignTo: 'edge',
-              formatter: '{b|{b}}\n{c|nums:{c}}',
-              rich:{
-                b:{
+              color: "rgba(255, 255, 255, 1)",
+              alignTo: "edge",
+              formatter: "{b|{b}}\n{c|nums:{c}}",
+              rich: {
+                b: {
                   //color:'rgba(255, 255, 255, 0.5)',
                 },
-                c:{
-                  color:'rgba(255, 255, 255, 0.7)',
-                  fontSize:10,
+                c: {
+                  color: "rgba(255, 255, 255, 0.7)",
+                  fontSize: 10
                 }
               }
             },
@@ -2440,14 +2315,14 @@ export default {
               smooth: 0.1,
               length: 20,
               length2: 15,
-              maxSurfaceAngle:80,
+              maxSurfaceAngle: 80,
               lineStyle: {
-                color: 'rgba(255,255,255,0.5)'
+                color: "rgba(255,255,255,0.5)"
               }
-            },
+            }
           }
         ]
-      })
+      });
     }
   }
 };
@@ -2564,7 +2439,7 @@ h4 {
   font-size: 1.2em;
 }
 
-#switch button{
+#switch button {
   margin-left: 5%;
   width: 35%;
   height: 30px;
@@ -2640,18 +2515,19 @@ h4 {
   color: white;
 }
 
-.holder{
+.holder {
 }
 
 .search_menu {
   background-color: rgb(224, 224, 224);
   display: none;
-  width:124px;
+  width: 124px;
   border-bottom-left-radius: 4px;
   border-bottom-right-radius: 4px;
 }
+
 .search_menu li {
-  margin-top: 1px ;
+  margin-top: 1px;
   margin-bottom: 1px;
   text-indent: 2px;
   height: 25px;
@@ -2664,10 +2540,12 @@ h4 {
   color: #3d3d3d;
   cursor: pointer;
 }
+
 .search_menu li:hover {
   color: dodgerblue;
   font-weight: bold;
 }
+
 .holder:hover .search_menu {
   display: block;
 }
@@ -2717,7 +2595,6 @@ a {
   right: 45px;
   height: 260px;
   width: 240px;
-  /*background-color: transparent;*/
   background: rgba(204, 204, 204, 0.35); /*半透明*/
   color: white;
   resize: none;
