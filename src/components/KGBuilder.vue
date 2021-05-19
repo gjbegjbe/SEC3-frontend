@@ -556,7 +556,6 @@ export default {
       this.svg.attr("id", "svg_idx");
       this.svg.attr("preserveAspectRatio", "xMidYMidmeet");
 
-      console.log("abc");
       let temp;
       if (i === 0) {
         temp = await getOnlineGraph();
@@ -572,10 +571,7 @@ export default {
           this.nodeForce = -60;
         }
       }
-      console.log(this.nodeForce);
-      console.log("000");
 
-      console.log(this.nodeForce);
       this.simulation = d3
           .forceSimulation()
           .force("charge", d3.forceManyBody().strength(this.nodeForce))
@@ -618,8 +614,8 @@ export default {
           false
       );
     },
+
     async initGraph(i) {
-      console.log(i);
       let data;
       if (i === 0) {
         data = await getOnlineGraph();
@@ -636,9 +632,6 @@ export default {
           this.currentMode = false;
         }
       }
-      console.log(this.graph);
-      console.log(this.currentMode);
-
       for (let node of this.graph.nodes) {
         if (node.uuid + 1 > this.uuidEndNum) this.uuidEndNum = node.uuid + 1;
       }
@@ -649,6 +642,7 @@ export default {
       this.updateGraph();
       this.getPie();
     },
+
     addMaker() {
       var arrowMarker = this.svg
           .append("marker")
@@ -667,6 +661,7 @@ export default {
           .attr("class", "arrowmarker")
           .attr("fill", "#56c38a");
     },
+
     drawNode(nodes) {
       var _this = this;
       var node = this.qaGraphNode.selectAll("circle").data(nodes, function(d) {
@@ -938,6 +933,7 @@ export default {
           });
       return node;
     },
+
     drawNodeText(nodes) {
       var _this = this;
       var nodetext = this.qaGraphNodeText
@@ -979,6 +975,7 @@ export default {
           });
       return nodetext;
     },
+
     drawLink(links) {
       var _this = this;
       var link = this.qaGraphLink
@@ -1014,6 +1011,7 @@ export default {
       link = linkEnter.merge(link);
       return link;
     },
+
     drawLinkText(links) {
       var _this = this;
       var linktext = _this.qaGraphLinkText
@@ -1054,6 +1052,7 @@ export default {
 
       return linktext;
     },
+
     drawButtonGroup(nodes) {
       var _this = this;
       var nodebutton = _this.nodebuttonGroup
@@ -1081,7 +1080,6 @@ export default {
             return "#out_circle_" + d.r;
           }) //  指定 use 引用的内容
           .attr("class", function(d) {
-            //console.log("!!!"+d.uuid);
             return "buttongroup out_buttongroup_" + d.uuid;
           })
           .classed("notshow", true);
@@ -1089,6 +1087,7 @@ export default {
 
       return nodebutton;
     },
+
     drawToolButton(nodes) {
       var _this = this;
       //先删除所有为节点自定义的按钮组
@@ -1165,6 +1164,7 @@ export default {
         }
       });
     },
+
     bindEventButtonGroup() {
       //给按钮绑定事件
       var _this = this;
@@ -1203,7 +1203,6 @@ export default {
                   })
                   .then(() => {
                     var selectDeleteUuid = _this.selectUuid;
-                    //console.log(selectDeleteUuid);
                     for (let i = 0; i < _this.graph.nodes.length; i++) {
                       if (_this.graph.nodes[i].uuid === selectDeleteUuid) {
                         _this.graph.nodes.splice(i, 1);
@@ -1225,10 +1224,10 @@ export default {
                   });
               break;
           }
-          console.log(_this.editNodeFormVisible);
         });
       });
     },
+
     formatData() {
       var _this = this;
       var lks = _this.graph.links;
@@ -1262,6 +1261,7 @@ export default {
       data.links = links;
       return data;
     },
+
     updateGraph() {
       var _this = this;
       var data = _this.formatData();
@@ -1366,21 +1366,25 @@ export default {
           4
       );
     },
+
     dragStarted(d) {
       this.svg.selectAll(".buttongroup").classed("notshow", true);
       if (!d3.event.active) this.simulation.alphaTarget(0.8).restart();
       d.fx = d.x;
       d.fy = d.y;
     },
+
     dragged(d) {
       d.fx = d3.event.x;
       d.fy = d3.event.y;
     },
+
     dragEnded(d) {
       if (!d3.event.active) this.simulation.alphaTarget(0);
       d.fx = d3.event.x;
       d.fy = d3.event.y;
     },
+
     zoomed() {
       d3.select("#g1").attr("transform", d3.event.transform);
       d3.select("#g2").attr("transform", d3.event.transform);
@@ -1388,125 +1392,7 @@ export default {
       d3.select("#g4").attr("transform", d3.event.transform);
       d3.select("#g5").attr("transform", d3.event.transform);
     },
-    zoomClick(direction) {
-      var self = this;
-      var factor = 0.2;
-      var targetZoom = 1;
-      var extent = self.zoom.scaleExtent();
-      targetZoom = 1 + factor * direction;
-      if (targetZoom < extent[0] || targetZoom > extent[1]) {
-        return false;
-      }
-      self.zoom.scaleBy(self.svg, targetZoom); // 执行该方法后 会触发zoom事件
-    },
-    zoomIn() {
-      this.zoomClick(1);
-    },
-    zoomOut() {
-      this.zoomClick(-1);
-    },
-    refresh() {
-      this.svg.call(this.zoom.transform, d3.zoomIdentity);
-    },
-    changeFull() {
-      this.isFullscreen = !this.isFullscreen;
-      if (this.isFullscreen) {
-        let full = document.getElementById("kg_container");
-        this.fullScreen(full);
-      } else {
-        this.exitFullScreen();
-      }
-    },
-    fullScreen(element) {
-      if (element.requestFullscreen) {
-        element.requestFullscreen();
-      } else if (element.mozRequestFullScreen) {
-        element.mozRequestFullScreen();
-      } else if (element.webkitRequestFullscreen) {
-        element.webkitRequestFullscreen();
-      } else if (element.msRequestFullscreen) {
-        element.msRequestFullscreen();
-      }
-    },
-    exitFullScreen() {
-      if (document.exitFullscreen) {
-        document.exitFullscreen();
-      } else if (document.mozCancelFullScreen) {
-        document.mozCancelFullScreen();
-      } else if (document.webkitExitFullscreen) {
-        document.webkitExitFullscreen();
-      }
-    },
-    exportPNG: function() {
-      var serializer = new XMLSerializer();
-      var newsvg = this.svg;
-      console.log(newsvg);
-      newsvg.selectAll(".nodebutton").remove();
 
-      var source =
-          "<?xml version=\"1.0\" standalone=\"no\"?>\r\n" +
-          serializer.serializeToString(newsvg.node());
-      var image = new Image();
-      image.src =
-          "data:image/svg+xml;charset=utf-8," + encodeURIComponent(source);
-      var canvas = document.createElement("canvas");
-      canvas.width = window.screen.width;
-      canvas.height = window.screen.height;
-      var context = canvas.getContext("2d");
-      context.fillStyle = "#fff";
-      context.fillRect(0, 0, 10000, 10000);
-      context.drawImage(image, 0, 0);
-      image.onload = function() {
-        context.drawImage(image, 0, 0);
-        var a = document.createElement("a");
-        var timestamp = Date.parse(new Date());
-        a.download = timestamp + ".png";
-        a.href = canvas.toDataURL("image/png");
-        a.click();
-      };
-    },
-    exportJSON: function() {
-      console.log(this.graph);
-      var datastr =
-          "data:text/json;charset=utf-8," +
-          encodeURIComponent(JSON.stringify(this.graph, null, 4));
-      var downloadAnchorNode = document.createElement("a");
-      downloadAnchorNode.setAttribute("href", datastr);
-      var timestamp = Date.parse(new Date());
-      downloadAnchorNode.setAttribute("download", timestamp + ".json");
-      downloadAnchorNode.click();
-      downloadAnchorNode.remove();
-    },
-    exportXML: function() {
-      var jsonstr = JSON.stringify(this.graph, null, 4); //json字符串
-      var jsonob = JSON.parse(jsonstr); //转为json对象
-      var xmlstr = this.$x2js.js2xml(jsonob); //转换为xml字符串
-      var xml = "data:text/xml;charset=utf-8," + encodeURIComponent(xmlstr); //生成包含xml文件的地址以供下载
-      var downloadAnchorNode = document.createElement("a");
-      downloadAnchorNode.setAttribute("href", xml);
-      var timestamp = Date.parse(new Date());
-      downloadAnchorNode.setAttribute("download", timestamp + ".xml");
-      downloadAnchorNode.click();
-      downloadAnchorNode.remove();
-    },
-    exportSERVER: async function() {
-      if (await addGraph(this.graph))
-        this.$message({
-          type: "success",
-          message: "保存成功！"
-        });
-      else
-        this.$message({
-          type: "info",
-          message: "保存失败！"
-        });
-    },
-    restartPicture(i) {
-      d3.select("svg").remove();
-      this.initGraphContainer(i);
-      this.addMaker();
-      this.initGraph(i);
-    },
     // 增加节点
     addNode() {
       this.isAddingNode = true;
@@ -1515,7 +1401,6 @@ export default {
       var svg = d3.select("svg");
       let cursor = document.getElementById("gid").style.cursor;
       svg.on("click", function() {
-        console.log(event.offsetX);
         var offsetX = event.offsetX;
         var offsetY = event.offsetY;
         if (cursor == "crosshair" && _this.isAddingNode) {
@@ -1560,6 +1445,7 @@ export default {
         }
       });
     },
+
     // 删除节点
     deleteNode() {
       let _this = this;
@@ -1593,6 +1479,7 @@ export default {
             });
           });
     },
+
     // 修改节点名
     changeNode() {
       let _this = this;
@@ -1627,6 +1514,7 @@ export default {
             });
           });
     },
+
     // 增加联系
     addLink() {
       let _this = this;
@@ -1673,6 +1561,7 @@ export default {
             });
           });
     },
+
     // 删除联系
     deleteLink() {
       var sourceName = document.getElementById("from_id").value;
@@ -1720,6 +1609,7 @@ export default {
             });
           });
     },
+
     // 修改联系名
     changeLink() {
       var sourceName = document.getElementById("from_id").value;
@@ -1768,12 +1658,7 @@ export default {
           });
     },
 
-    change: function() {
-      var _this = this;
-      _this.graph = JSON.parse(document.getElementById("text").value);
-      _this.updateGraph();
-    },
-
+    // 取消编辑节点
     cancelNodeEdit() {
       var _this = this;
       _this.editNodeFormVisible = false;
@@ -1784,6 +1669,7 @@ export default {
       _this.editNodeType = "";
     },
 
+    // 保存编辑节点
     saveNodeEdit() {
       var _this = this;
       _this.editNodeFormVisible = false;
@@ -1804,6 +1690,80 @@ export default {
       _this.getPie();
     },
 
+    // 生成统计图
+    getPie() {
+      var echarts1 = require("echarts");
+      var myChart = echarts1.init(document.getElementById("charts"));
+      var chartsdata = [];
+      var times = {};
+
+      console.log(this.graph.nodes.length);
+      for (var i = 0; i < this.graph.nodes.length; i++) {
+        if (Object.prototype.hasOwnProperty.call(times, this.graph.nodes[i].type)) {
+          times[this.graph.nodes[i].type]++;
+        } else {
+          times[this.graph.nodes[i].type] = 1;
+        }
+      }
+      ;
+      for (var key in times) {
+        var temp = {};
+        temp["value"] = times[key];
+        temp["name"] = key;
+        chartsdata.push(temp);
+      }
+      myChart.setOption({
+        series: [
+          {
+            name: "访问来源",
+            type: "pie",
+            radius: ["30%", "55%"],
+            //top: '10%',
+            itemStyle: {
+              normal: {
+                // 阴影的大小
+                shadowBlur: 15,
+                // 阴影水平方向上的偏移
+                shadowOffsetX: 0,
+                // 阴影垂直方向上的偏移
+                shadowOffsetY: 0,
+                // 阴影颜色
+                shadowColor: "rgba(0,0,0,0.5)"
+              }
+            },
+            data: chartsdata,
+            label: {
+              //minMargin: 5,
+              edgeDistance: 10,
+              //lineHeight: 15,
+              color: "rgba(255, 255, 255, 1)",
+              alignTo: "edge",
+              formatter: "{b|{b}}\n{c|nums:{c}}",
+              rich: {
+                b: {
+                  //color:'rgba(255, 255, 255, 0.5)',
+                },
+                c: {
+                  color: "rgba(255, 255, 255, 0.7)",
+                  fontSize: 10
+                }
+              }
+            },
+            labelLine: {
+              smooth: 0.1,
+              length: 20,
+              length2: 15,
+              maxSurfaceAngle: 80,
+              lineStyle: {
+                color: "rgba(255,255,255,0.5)"
+              }
+            }
+          }
+        ]
+      });
+    },
+
+    // 力导图模式
     toForced() {
       let _this = this;
       if (_this.currentMode) { //已经是力导图模式
@@ -1854,6 +1814,7 @@ export default {
       _this.restartPicture(1);
     },
 
+    // 排版模式
     toListed() {
       let _this = this;
       if (!_this.currentMode) { //已经是排版模式
@@ -1898,6 +1859,148 @@ export default {
       _this.restartPicture(-1);
     },
 
+    // 保存为图片
+    exportPNG: function() {
+      var serializer = new XMLSerializer();
+      var newsvg = this.svg;
+      newsvg.selectAll(".nodebutton").remove();
+
+      var source =
+          "<?xml version=\"1.0\" standalone=\"no\"?>\r\n" +
+          serializer.serializeToString(newsvg.node());
+      var image = new Image();
+      image.src =
+          "data:image/svg+xml;charset=utf-8," + encodeURIComponent(source);
+      var canvas = document.createElement("canvas");
+      canvas.width = window.screen.width;
+      canvas.height = window.screen.height;
+      var context = canvas.getContext("2d");
+      context.fillStyle = "#fff";
+      context.fillRect(0, 0, 10000, 10000);
+      context.drawImage(image, 0, 0);
+      image.onload = function() {
+        context.drawImage(image, 0, 0);
+        var a = document.createElement("a");
+        var timestamp = Date.parse(new Date());
+        a.download = timestamp + ".png";
+        a.href = canvas.toDataURL("image/png");
+        a.click();
+      };
+    },
+
+    // 保存为JSON
+    exportJSON: function() {
+      var datastr =
+          "data:text/json;charset=utf-8," +
+          encodeURIComponent(JSON.stringify(this.graph, null, 4));
+      var downloadAnchorNode = document.createElement("a");
+      downloadAnchorNode.setAttribute("href", datastr);
+      var timestamp = Date.parse(new Date());
+      downloadAnchorNode.setAttribute("download", timestamp + ".json");
+      downloadAnchorNode.click();
+      downloadAnchorNode.remove();
+    },
+
+    // 保存为XML
+    exportXML: function() {
+      var jsonstr = JSON.stringify(this.graph, null, 4); //json字符串
+      var jsonob = JSON.parse(jsonstr); //转为json对象
+      var xmlstr = this.$x2js.js2xml(jsonob); //转换为xml字符串
+      var xml = "data:text/xml;charset=utf-8," + encodeURIComponent(xmlstr); //生成包含xml文件的地址以供下载
+      var downloadAnchorNode = document.createElement("a");
+      downloadAnchorNode.setAttribute("href", xml);
+      var timestamp = Date.parse(new Date());
+      downloadAnchorNode.setAttribute("download", timestamp + ".xml");
+      downloadAnchorNode.click();
+      downloadAnchorNode.remove();
+    },
+
+    // 保存到服务器
+    exportSERVER: async function() {
+      if (await addGraph(this.graph))
+        this.$message({
+          type: "success",
+          message: "保存成功！"
+        });
+      else
+        this.$message({
+          type: "info",
+          message: "保存失败！"
+        });
+    },
+
+    // 用于下面的放大缩小
+    zoomClick(direction) {
+      var self = this;
+      var factor = 0.2;
+      var targetZoom = 1;
+      var extent = self.zoom.scaleExtent();
+      targetZoom = 1 + factor * direction;
+      if (targetZoom < extent[0] || targetZoom > extent[1]) {
+        return false;
+      }
+      self.zoom.scaleBy(self.svg, targetZoom); // 执行该方法后 会触发zoom事件
+    },
+
+    // 放大
+    zoomIn() {
+      this.zoomClick(1);
+    },
+
+    // 缩小
+    zoomOut() {
+      this.zoomClick(-1);
+    },
+
+    // 还原大小
+    refresh() {
+      this.svg.call(this.zoom.transform, d3.zoomIdentity);
+    },
+
+    // 还原图形
+    restartPicture(i) {
+      d3.select("svg").remove();
+      this.initGraphContainer(i);
+      this.addMaker();
+      this.initGraph(i);
+    },
+
+    // 全屏切换
+    changeFull() {
+      this.isFullscreen = !this.isFullscreen;
+      if (this.isFullscreen) {
+        let full = document.getElementById("kg_container");
+        this.fullScreen(full);
+      } else {
+        this.exitFullScreen();
+      }
+    },
+
+    // 进入全屏
+    fullScreen(element) {
+      if (element.requestFullscreen) {
+        element.requestFullscreen();
+      } else if (element.mozRequestFullScreen) {
+        element.mozRequestFullScreen();
+      } else if (element.webkitRequestFullscreen) {
+        element.webkitRequestFullscreen();
+      } else if (element.msRequestFullscreen) {
+        element.msRequestFullscreen();
+      }
+    },
+
+    // 退出全屏
+    exitFullScreen() {
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+      } else if (document.mozCancelFullScreen) {
+        document.mozCancelFullScreen();
+      } else if (document.webkitExitFullscreen) {
+        document.webkitExitFullscreen();
+      }
+    },
+
+    // 搜索
     async search() {
       let _this = this;
       // clear
@@ -2169,6 +2272,7 @@ export default {
       }
     },
 
+    // 搜索记录
     inputHistory(item, i) {
       switch (i) {
         case 0:
@@ -2183,6 +2287,7 @@ export default {
       }
     },
 
+    // 搜索值
     searchVal(val, i) {
       switch (i) {
         case 0:
@@ -2236,6 +2341,7 @@ export default {
       }
     },
 
+    // 过滤
     filter() {
       let _this = this;
       var type = document.getElementById("typeFilter").value;
@@ -2253,77 +2359,12 @@ export default {
       });
     },
 
-    getPie() {
-      var echarts1 = require("echarts");
-      var myChart = echarts1.init(document.getElementById("charts"));
-      var chartsdata = [];
-      var times = {};
-
-      console.log(this.graph.nodes.length);
-      for (var i = 0; i < this.graph.nodes.length; i++) {
-        if (Object.prototype.hasOwnProperty.call(times, this.graph.nodes[i].type)) {
-          times[this.graph.nodes[i].type]++;
-        } else {
-          times[this.graph.nodes[i].type] = 1;
-        }
-      }
-      ;
-      for (var key in times) {
-        var temp = {};
-        temp["value"] = times[key];
-        temp["name"] = key;
-        chartsdata.push(temp);
-      }
-      myChart.setOption({
-        series: [
-          {
-            name: "访问来源",
-            type: "pie",
-            radius: ["30%", "55%"],
-            //top: '10%',
-            itemStyle: {
-              normal: {
-                // 阴影的大小
-                shadowBlur: 15,
-                // 阴影水平方向上的偏移
-                shadowOffsetX: 0,
-                // 阴影垂直方向上的偏移
-                shadowOffsetY: 0,
-                // 阴影颜色
-                shadowColor: "rgba(0,0,0,0.5)"
-              }
-            },
-            data: chartsdata,
-            label: {
-              //minMargin: 5,
-              edgeDistance: 10,
-              //lineHeight: 15,
-              color: "rgba(255, 255, 255, 1)",
-              alignTo: "edge",
-              formatter: "{b|{b}}\n{c|nums:{c}}",
-              rich: {
-                b: {
-                  //color:'rgba(255, 255, 255, 0.5)',
-                },
-                c: {
-                  color: "rgba(255, 255, 255, 0.7)",
-                  fontSize: 10
-                }
-              }
-            },
-            labelLine: {
-              smooth: 0.1,
-              length: 20,
-              length2: 15,
-              maxSurfaceAngle: 80,
-              lineStyle: {
-                color: "rgba(255,255,255,0.5)"
-              }
-            }
-          }
-        ]
-      });
-    }
+    // 文档修改
+    change: function() {
+      var _this = this;
+      _this.graph = JSON.parse(document.getElementById("text").value);
+      _this.updateGraph();
+    },
   }
 };
 </script>
