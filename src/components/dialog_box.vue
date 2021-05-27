@@ -1,0 +1,447 @@
+<template>
+  <div class="dialogue-wrapper">
+    <div id="button-open" class="dialogue-support-button">
+      <i class="dialogue-support-icon"></i>
+      <i class="dialogue-support-line"></i>
+      <span class ="dialogue-support-text">Contact with client</span>
+
+    </div>
+    <div class="dialogue-main">
+      <div class="dialogue-header">
+        <i id="button-close" class="dialogue-close">X</i>
+        <div class="dialogue-service-info">
+          <i class="dialogue-service-img">avatar</i>
+          <div class="dialogue-service-title">
+            <p class="dialogue-service-name">xx_client</p>
+            <p class="dialogue-service-detail">xx-client-support-platform</p>
+          </div>
+        </div>
+      </div>
+      <div id="dialogue-container" class="dialogue-container">
+        <p class="dialogue-service-container">
+          <span class="dialogue-text dialogue-service-text">hello! tap your question</span>
+        </p>
+      </div>
+      <div class="dialogue-submit">
+        <p id="dialogue-hint" class="dialogue-hint">
+          <span class="dialogue-hint-icon">attention!</span>
+          <span class="dialogue-hint-text">Your input should not be empty!</span>
+        </p>
+        <textarea id="dialogue-input" class="dialogue-input-text" placeholder="Enter your question">
+
+        </textarea>
+        <div class="dialogue-input-tool">
+          tools-preserve
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+</template>
+
+<script>
+import $ from "jquery";
+export default {
+  name: "dialog_box",
+  data(){},
+  mounted() {
+    this.simulator()
+  },
+  created() {
+  },
+  watch:{},
+  methods:{
+    simulator(){
+      var doc = document;
+      var serviceData = {
+        'robot':{
+          'name':'robot001',
+          'dialogue':['dialogue1','dialogue2','dialogue3'],
+          'welcome':'hello,it\'s 001 serving'
+        }
+      };
+      var dialogueInput = doc.getElementById('dialogue-input'),
+          dialogueContainer = doc.getElementById('dialogue-container'),
+          dialogueHint = doc.getElementById('dialogue-hint'),
+          buttonOpen = doc.getElementById('button-open'),
+          buttonClose = doc.getElementById('button-close'),
+          timer,
+          timerId,
+          shiftKeyOn = false ;//辅助判断是否按住shift
+      buttonOpen.addEventListener('click',function(){
+        console.log('click opb')
+        $('.dialogue-support-button').css({'display':'none'});
+        $('.dialogue-main').css({'display':'inline-block','height':'0'});
+        $('.dialogue-main').animate({'height':'600px'})
+      });
+
+      buttonClose.addEventListener('click',function (){
+        $('.dialogue-main').animate({'height':0},function(){
+          $('.dialogue-main').css({'display':'none'});
+          $('.dialogue-support-button').css({'display':'inline-block'});
+        });
+      });
+
+      dialogueInput.addEventListener('keydown',function(e){
+        var e_ = e || window.event;
+        if (e_.keyCode==16){
+          shiftKeyOn=true;
+        }
+        if(shiftKeyOn){
+          return true;
+        }else if(e_.keyCode==13 && dialogueInput.value==''){
+          console.log('should not send an empty message')
+          //多次触发只执行一次渐隐
+          setTimeout(function(){
+            fadeIn(dialogueHint);
+            clearTimeout(timerId);
+            timer = setTimeout(function(){
+              fadeOut(dialogueHint)
+            },2000);
+          },10);
+          timerId=timer;
+          return true;
+        }else if(e_.keyCode==13){
+          console.log('create a bubble')
+          var nodeP =doc.createElement('p'),
+              nodeSpan=doc.createElement('span');
+          nodeP.classList.add('dialogue-customer-container');
+          nodeSpan.classList.add('dialogue-text','dialogue-customer-text');
+          nodeSpan.innerHTML=dialogueInput.value;
+          nodeP.appendChild(nodeSpan);
+          dialogueContainer.appendChild(nodeP);
+          dialogueContainer.scrollTop=dialogueContainer.scrollHeight;
+          submitCustomerText(dialogueInput.value);
+        }
+      });
+      dialogueInput.addEventListener('keyup',function(e){
+        var e_=e||window.event;
+        if(e_.keyCode==16){
+          shiftKeyOn=false;
+          return true;
+        }
+        if(!shiftKeyOn&&e_.keyCode==13){
+          dialogueInput.value=null;
+        }
+      })
+      function submitCustomerText(text){
+        console.log(text)
+        //code here 向后端发送text
+        //模拟后端回复
+        var num=Math.random()*10;
+        if(num<7){
+          getServiceText(serviceData);
+        }
+      }
+
+      function getServiceText(data){
+        var serviceText =data.robot.dialogue,
+            i = Math.floor(Math.random()*serviceText.length);
+        var nodeP = doc.createElement('p'),
+            nodeSpan =doc.createElement('span');
+        nodeP.classList.add('dialogue-service-container');
+        nodeSpan.classList.add('dialogue-text','dialogue-service-text');
+        nodeSpan.innerHTML=serviceText[i];
+        nodeP.appendChild(nodeSpan);
+        dialogueContainer.appendChild(nodeP);
+        dialogueContainer.scrollTop=dialogueContainer.scrollHeight;
+      }
+
+      function fadeOut(obj){ //渐隐
+        var n =100;
+        var time=setInterval(function(){
+          if(n>0){
+            n-=10;
+            obj.style.opacity='0.'+n;
+          }else if (n<=30){
+            obj.style.opacity='0';
+            clearInterval(time);
+          }
+        },10);
+        return true;
+      }
+
+      function fadeIn(obj){  //渐显
+        var n =30;
+        var time = setInterval(function(){
+          if(n<90){
+            n+=10;
+            obj.style.opacity='0.'+n;
+          }else if(n>=80){
+            obj.style.opacity='1';
+            clearInterval(time);
+          }
+        },100);
+        return true;
+      }
+
+    },
+
+
+
+  }
+};
+</script>
+
+<style>
+body{
+  position: relative;
+}
+.dialogue-wrapper{
+  font-size: 14px;
+  color: #fff;
+}
+/*右侧点击按钮*/
+.dialogue-wrapper .dialogue-support-button{
+  position: fixed;
+  display: inline-block;
+  top:50%;
+  right: 0;
+  margin-top: -70px;
+  padding: 10px 0;
+  width: 40px;
+  height: 120px;
+  font-size: 16px;
+  font-weight: 500;
+  text-align: center;
+  cursor:pointer;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+  box-shadow: -1px 1px 5px rgba(0, 0, 0, .4);
+  background-color: #5d94f3;
+}
+
+.dialogue-wrapper .dialogue-support-button .dialogue-support-icon{
+  position: relative;
+  display: inline-block;
+  margin-bottom: -2px;
+  width: 20px;
+  height: 16px;
+  border-radius: 4px;
+  background-color: #fff;
+}
+
+.dialogue-wrapper .dialogue-support-button .dialogue-support-icon:before{
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: -6px;
+  margin-left: -3px;
+  width: 0;
+  height: 0;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-top: 6px solid #ffffff;
+
+}
+
+.dialogue-wrapper .dialogue-support-button .dialogue-support-line{
+  display: inline-block;
+  width: 100%;
+  height: 1px;
+  background-color: #ddd;
+}
+.dialogue-wrapper .dialogue-support-button .dialogue-support-text{
+  padding: 5px;
+  letter-spacing: 4px;
+  writing-mode: vertical-rl;
+  -webkit-user-select: none;
+}
+
+/*底部客服对话框*/
+.dialogue-wrapper .dialogue-main{
+  position: fixed;
+  display: none;
+  right: 100px;
+  bottom: 10px;
+  width: 400px;
+  height: 600px;
+  border-radius: 4px;
+  box-shadow: 0 0 5px rgba(0,0,0, .4);
+}
+/*
+客服对话框头部
+ */
+.dialogue-wrapper .dialogue-main .dialogue-header{
+  position: relative;
+  padding: 10px;
+  height: 80px;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  box-shadow: 0 0 5px rgba(0,0,0, .2);
+  background-color: #5d94f3;
+}
+
+.dialogue-wrapper .dialogue-main .dialogue-close{
+  position: absolute;
+  top:10px;
+  right: 20px;
+  padding: 2px;
+  font-size: 22px;
+  transform: rotate(90deg);
+  cursor:pointer;
+}
+
+.dialogue-wrapper .dialogue-main .dialogue-service-info{
+  position: relative;
+  top: 50%;
+  margin-top: -20px;
+  height: 40px;
+}
+
+.dialogue-wrapper .dialogue-main .dialogue-service-img{
+  display: inline-block;
+  margin: 0 10px 0 20px;
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  inline-height:40px;
+  vertical-align: middle;
+  color: #000;
+  border-radius: 50%;
+  box-shadow: 1px 1px 4px rgba(0,0,0,.2);
+  background-color: #ffffff;
+}
+.dialogue-wrapper .dialogue-main .dialogue-service-title{
+  display:inline-block;
+  vertical-align: middle;
+}
+
+.dialogue-wrapper .dialogue-main .dialogue-service-detail{
+  font-size: 12px;
+}
+/*客服对话框内容*/
+.dialogue-wrapper .dialogue-main .dialogue-container{
+  overflow-y: auto;
+  padding: 10px;
+  height: 380px;
+  word-wrap: break-word;
+  background-color: #f9f9f9;
+}
+
+.dialogue-wrapper .dialogue-main .dialogue-text{
+  display: inline-block;
+  position: relative;
+  padding: 10px;
+  max-width: 120px;
+  white-space: pre-wrap;
+  border: 1px solid #09d07d;
+  border-radius: 4px;
+  background-color: #09d07d;
+  box-sizing: border-box;
+}
+
+.dialogue-wrapper .dialogue-main .dialogue-service-container{
+  margin-bottom: 10px;
+  text-align: left;
+}
+/*dialogue-wrapper .dialogue-main .dialogue-text*/
+.dialogue-wrapper .dialogue-main .dialogue-service-text{
+  margin-left: 20px;
+
+}
+
+.dialogue-wrapper .dialogue-main .dialogue-service-text:before{
+  content: '';
+  position: absolute;
+  top:50%;
+  left: -10px;
+  width: 0;
+  height: 0;
+  border-top: 6px solid transparent;
+  border-bottom: 6px solid transparent;
+  border-right: 10px solid #09d07d;
+  -webkit-transform: translate(0,-50%);
+  transform: translate(0,-50%);
+}
+.dialogue-wrapper .dialogue-main .dialogue-customer-container{
+  margin-bottom:10px;
+  text-align: right;
+}
+.dialogue-wrapper .dialogue-main .dialogue-customer-text{
+  margin-right: 20px;
+}
+.dialogue-wrapper .dialogue-main .dialogue-customer-text:after{
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: -10px;
+  width: 0;
+  height: 0;
+  border-top: 6px solid transparent;
+  border-bottom: 6px solid transparent;
+  -webkit-transform: translate(0,-50%);
+  transform: translate(0,-50%);
+
+}
+
+/*客服对话框底部输入*/
+.dialogue-wrapper .dialogue-main .dialogue-submit{
+  position: relative;
+  padding: 10px;
+  height: 100px;
+  color: #000;
+  word-wrap: break-word;
+  border-top: 1px solid #dddddd;
+  box-sizing: border-box;
+}
+
+/*输入空的提示*/
+.dialogue-wrapper .dialogue-main .dialogue-hint{
+  position: absolute;
+  top: -15px;
+  left: 20px;
+  padding: 2px;
+  width: 140px;
+  height: 18px;
+  opacity: 0;
+  font-size: 12px;
+  text-align: center;
+  line-height: 18px;
+  border:1px solid #ddd;
+  box-shadow: 1px 1px 4px rgba(0,0,0, .4);
+  background-color: #fff;
+}
+
+.dialogue-wrapper .dialogue-main .dialogue-hint-icon{
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  margin-right:5px;
+  font-size: 14px;
+  font-style: italic;
+  font-weight: 700;
+  vertical-align: middle;
+  line-height: 18px;
+  color: #fff;
+  border-radius: 50%;
+  background-color: #5d94f3;
+}
+
+.dialogue-wrapper .dialogue-main .dialogue-hint-text{
+  display: inline-block;
+  vertical-align: middle;
+}
+/*输入框*/
+.dialogue-wrapper .dialogue-submit .dialogue-input-text{
+  overflow-y: auto;
+  display: inline-block;
+  padding: 5px 10px;
+  width: 295px;
+  height: 70px;
+  vertical-align: middle;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  resize: none;
+  border-right: 1px solid #dddddd;
+  box-sizing: border-box;
+}
+.dialogue-wrapper .dialogue-submit .dialogue-input-tool{
+  display: inline-block;
+  width: 80px;
+  height: 80px;
+  vertical-align: middle;
+}
+</style>

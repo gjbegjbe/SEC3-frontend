@@ -3,15 +3,22 @@
     <div id="kg_container" class="home">
       <KGBuilder pid="kg_container" />
     </div>
+    <div>
+      <dialog_box>
+
+      </dialog_box>
+    </div>
   </div>
 </template>
 
 <script>
 import KGBuilder from '@/components/KGBuilder.vue'
+import dialog_box from "@/components/dialog_box";
 export default {
   name: 'Home',
   components: {
     KGBuilder,
+    dialog_box,
   },
 }
 </script>
@@ -35,4 +42,5 @@ html,body{
   height: 50vh;
   width: 100%;
 }
+
 </style>
