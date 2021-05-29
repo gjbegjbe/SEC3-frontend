@@ -254,10 +254,13 @@ body{
 .dialogue-wrapper .dialogue-main{
   position: fixed;
   display: none;
+  height: 50%;
+  top: 10px;
   right: 100px;
-  bottom: 10px;
+  bottom: 50px;
   width: 400px;
-  height: 600px;
+  /*height: 600px;*/
+
   border-radius: 4px;
   box-shadow: 0 0 5px rgba(0,0,0, .4);
 }
