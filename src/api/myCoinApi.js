@@ -2,22 +2,109 @@ import axios from "axios";
 
 const baseURL = 'http://localhost:8081/api';
 
+/**
+ * 获得酒店图谱
+ * @returns {Promise<null|*>}
+ */
 export async function getCoin() {
     let response = {};
     try {
         response = await axios.get(baseURL + "/getCoin", {});
-        if (response.data.node.length === 0)
-            response = await axios.get("/static/kgData.json", {});
+        if (response.data.nodes.length === 0)
+            return null;
+        return response.data;
     } catch (e) {
-        response = await axios.get("/static/kgData.json", {});
+        return null;
     }
-    return response.data;
 }
 
-export async function updateCoin(params) {
+/**
+ * 添加group
+ * 添加成功结果为group的uuid，添加失败结果为"fail"
+ * @param {string} name
+ * @param {string} introduction
+ * @param {string} VIP
+ * @param {string} headquarter
+ * @param {string} platform
+ * @param {string} homepage
+ * @returns {Promise<string>}
+ */
+export async function addGroup(name, introduction, VIP, headquarter, platform, homepage) {
+    let params = {
+        "name": name,
+        "introduction": introduction,
+        "VIP": VIP,
+        "headquarter": headquarter,
+        "platform": platform,
+        "homepage": homepage
+    };
     try {
-        await axios.post(baseURL + "/updateCoin", params);
-        return true;
+        let response = await axios.post(baseURL + "/addGroup", params);
+        return response.data.uuid;
+    } catch (e) {
+        return "fail";
+    }
+}
+
+/**
+ * 通过uuid删除group，同时也会在数据库中删除所有关联的brand
+ * 删除成功结果为ture，否则结果为false
+ * @param {string} uuid
+ * @returns {Promise<boolean>}
+ */
+export async function deleteGroupByUuid(uuid) {
+    let params = {"uuid": uuid};
+    try {
+        let response = await axios.post(baseURL + "/deleteGroupByUuid", params);
+        return response.data.deleted;
+    } catch (e) {
+        return false;
+    }
+}
+
+/**
+ * 添加brand
+ * 添加成功结果为brand的uuid，添加失败结果为"fail"
+ * @param {string} name
+ * @param {string} groupUuid
+ * @param {string} rankUuid
+ * @param {string} priority
+ * @param {string} discount
+ * @param {string} checkout
+ * @param {string} breakfast
+ * @returns {Promise<string>}
+ */
+export async function addBrand(name, groupUuid, rankUuid, priority, discount, checkout, breakfast) {
+    let gid = parseInt(groupUuid.substr(5));
+    let rid = parseInt(rankUuid.substr(4));
+    let params = {
+        "name": name,
+        "priority": priority,
+        "discount": discount,
+        "checkout": checkout,
+        "breakfast": breakfast,
+        "gid": gid,
+        "rid": rid
+    };
+    try {
+        let response = await axios.post(baseURL + "/addBrand", params);
+        return response.data.uuid;
+    } catch (e) {
+        return "fail";
+    }
+}
+
+/**
+ * 通过uuid删除brand
+ * 删除成功结果为ture，否则结果为false
+ * @param {string} uuid
+ * @returns {Promise<boolean>}
+ */
+export async function deleteBrandByUuid(uuid) {
+    let params = {"uuid": uuid};
+    try {
+        let response = await axios.post(baseURL + "/deleteBrandByUuid", params);
+        return response.data.deleted;
     } catch (e) {
         return false;
     }
