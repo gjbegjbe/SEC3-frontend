@@ -296,6 +296,7 @@ body{
 .dialogue-wrapper .dialogue-main .dialogue-service-img{
   display: inline-block;
   margin: 0 10px 0 20px;
+  left: 20px;
   width: 40px;
   height: 40px;
   text-align: center;
@@ -323,7 +324,7 @@ body{
 .dialogue-wrapper .dialogue-main .dialogue-container{
   overflow-y: auto;
   padding: 10px;
-  height: 280px;
+  height: 330px;
   word-wrap: break-word;
   background-color: #ffffff;
 }
@@ -388,6 +389,7 @@ body{
 /*客服对话框底部输入*/
 .dialogue-wrapper .dialogue-main .dialogue-submit{
   /*position: relative;*/
+  bottom: 0px;
   padding: 10px;
   height: 100px;
   color: #ffffff;
