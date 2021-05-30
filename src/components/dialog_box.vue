@@ -74,7 +74,7 @@ export default {
         console.log('click opb')
         $('.dialogue-support-button').css({'display':'none'});
         $('.dialogue-main').css({'display':'inline-block','height':'0'});
-        $('.dialogue-main').animate({'height':'600px'})
+        $('.dialogue-main').animate({'height':'550px'})
       });
 
       buttonClose.addEventListener('click',function (){
@@ -254,11 +254,11 @@ body{
 .dialogue-wrapper .dialogue-main{
   position: fixed;
   display: none;
-  height: 50%;
-  top: 100px;
+  height: 30%;
+  top: 10px;
   right: 100px;
   width: 400px;
-  /*height: 600px;*/
+  /*height: 800px;*/
 
   border-radius: 4px;
   box-shadow: 0 0 5px rgba(0,0,0, .4);
@@ -323,7 +323,7 @@ body{
 .dialogue-wrapper .dialogue-main .dialogue-container{
   overflow-y: auto;
   padding: 10px;
-  height: 380px;
+  height: 280px;
   word-wrap: break-word;
   background-color: #ffffff;
 }
@@ -387,7 +387,7 @@ body{
 
 /*客服对话框底部输入*/
 .dialogue-wrapper .dialogue-main .dialogue-submit{
-  position: relative;
+  /*position: relative;*/
   padding: 10px;
   height: 100px;
   color: #ffffff;
