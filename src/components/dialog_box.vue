@@ -8,12 +8,12 @@
     </div>
     <div class="dialogue-main">
       <div class="dialogue-header">
-        <i id="button-close" class="dialogue-close">X</i>
+        <i id="button-close" class="dialogue-close">×</i>
         <div class="dialogue-service-info">
           <i class="dialogue-service-img"></i>
           <div class="dialogue-service-title">
             <p class="dialogue-service-name">智能客服</p>
-            <p class="dialogue-service-detail">智能问答系统</p>
+
           </div>
         </div>
       </div>
@@ -24,8 +24,8 @@
       </div>
       <div class="dialogue-submit">
         <p id="dialogue-hint" class="dialogue-hint">
-          <span class="dialogue-hint-icon">attention!</span>
-          <span class="dialogue-hint-text">Your input should not be empty!</span>
+          <span class="dialogue-hint-icon">!</span>
+          <span class="dialogue-hint-text">输入不能为空</span>
         </p>
         <textarea id="dialogue-input" class="dialogue-input-text" placeholder="输入您的问题">
 
@@ -269,7 +269,7 @@ body{
 .dialogue-wrapper .dialogue-main .dialogue-header{
   position: relative;
   padding: 10px;
-  height: 80px;
+  height: 50px;
   border-top-left-radius: 4px;
   border-top-right-radius: 4px;
   box-shadow: 0 0 5px rgba(0,0,0, .2);
@@ -282,14 +282,12 @@ body{
   right: 20px;
   padding: 2px;
   font-size: 22px;
-  transform: rotate(90deg);
+  font-family: 微软雅黑;
   cursor:pointer;
 }
 
 .dialogue-wrapper .dialogue-main .dialogue-service-info{
-  position: relative;
-  top: 50%;
-  margin-top: -20px;
+  position: absolute;
   height: 40px;
 }
 
@@ -318,13 +316,13 @@ body{
 }
 
 .dialogue-wrapper .dialogue-main .dialogue-service-detail{
-  font-size: 12px;
+  font-size: 10px;
 }
 /*客服对话框内容*/
 .dialogue-wrapper .dialogue-main .dialogue-container{
   overflow-y: auto;
   padding: 10px;
-  height: 330px;
+  height: 360px;
   word-wrap: break-word;
   background-color: #ffffff;
 }
@@ -402,7 +400,7 @@ body{
 /*输入空的提示*/
 .dialogue-wrapper .dialogue-main .dialogue-hint{
   position: absolute;
-  top: -15px;
+  bottom:88px;
   left: 20px;
   padding: 2px;
   width: 140px;
@@ -412,7 +410,8 @@ body{
   text-align: center;
   line-height: 18px;
   border:1px solid #ddd;
-  box-shadow: 1px 1px 4px rgba(0,0,0, .4);
+  border-radius: 5px;
+  box-shadow: 1px 1px 4px rgba(145, 143, 143, 0.4);
   background-color: #fff;
 }
 
@@ -434,6 +433,7 @@ body{
 .dialogue-wrapper .dialogue-main .dialogue-hint-text{
   display: inline-block;
   vertical-align: middle;
+  color: #3d3d3d;
 }
 /*输入框*/
 .dialogue-wrapper .dialogue-submit .dialogue-input-text{
@@ -450,6 +450,7 @@ body{
   border-width: 2px;
   border-radius: 5px;
   box-sizing: border-box;
+  outline: none;
 }
 .dialogue-wrapper .dialogue-submit .dialogue-input-tool{
   /*display: inline-block;*/
