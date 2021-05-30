@@ -3,23 +3,23 @@
     <div id="button-open" class="dialogue-support-button">
       <i class="dialogue-support-icon"></i>
       <i class="dialogue-support-line"></i>
-      <span class ="dialogue-support-text">Contact with client</span>
+      <span class ="dialogue-support-text">智能问答</span>
 
     </div>
     <div class="dialogue-main">
       <div class="dialogue-header">
         <i id="button-close" class="dialogue-close">X</i>
         <div class="dialogue-service-info">
-          <i class="dialogue-service-img">avatar</i>
+          <i class="dialogue-service-img"></i>
           <div class="dialogue-service-title">
-            <p class="dialogue-service-name">xx_client</p>
-            <p class="dialogue-service-detail">xx-client-support-platform</p>
+            <p class="dialogue-service-name">智能客服</p>
+            <p class="dialogue-service-detail">智能问答系统</p>
           </div>
         </div>
       </div>
       <div id="dialogue-container" class="dialogue-container">
         <p class="dialogue-service-container">
-          <span class="dialogue-text dialogue-service-text">hello! tap your question</span>
+          <span class="dialogue-text dialogue-service-text">请输入您的问题</span>
         </p>
       </div>
       <div class="dialogue-submit">
@@ -27,11 +27,11 @@
           <span class="dialogue-hint-icon">attention!</span>
           <span class="dialogue-hint-text">Your input should not be empty!</span>
         </p>
-        <textarea id="dialogue-input" class="dialogue-input-text" placeholder="Enter your question">
+        <textarea id="dialogue-input" class="dialogue-input-text" placeholder="输入您的问题">
 
         </textarea>
         <div class="dialogue-input-tool">
-          tools-preserve
+          发送
         </div>
       </div>
 
@@ -305,7 +305,11 @@ body{
   color: #000;
   border-radius: 50%;
   box-shadow: 1px 1px 4px rgba(0,0,0,.2);
-  background-color: #ffffff;
+  background-image: url('../assets/answer.png');
+  background-repeat:no-repeat;
+  background-size:100% 100%;
+  -moz-background-size:100% 100%;
+  /*background-color: #ffffff;*/
 }
 .dialogue-wrapper .dialogue-main .dialogue-service-title{
   display:inline-block;
@@ -442,9 +446,20 @@ body{
   box-sizing: border-box;
 }
 .dialogue-wrapper .dialogue-submit .dialogue-input-tool{
+  /*display: inline-block;*/
+  /*width: 80px;*/
+  /*height: 80px;*/
+  /*vertical-align: middle;*/
   display: inline-block;
-  width: 80px;
-  height: 80px;
+  margin: 0 10px 30px 30px;
+  width: 40px;
+  height: 30px;
+  text-align: center;
+  inline-height:40px;
   vertical-align: middle;
+  color: #ffffff;
+  border-radius: 30%;
+  box-shadow: 1px 1px 4px rgba(0,0,0,.2);
+  background-color: #5d94f3;
 }
 </style>
