@@ -210,7 +210,7 @@ body{
   border-top-left-radius: 5px;
   border-bottom-left-radius: 5px;
   box-shadow: -1px 1px 5px rgba(0, 0, 0, .4);
-  background-color: #5d94f3;
+  background-color: #7F7FD5;
 }
 
 .dialogue-wrapper .dialogue-support-button .dialogue-support-icon{
@@ -273,7 +273,7 @@ body{
   border-top-left-radius: 4px;
   border-top-right-radius: 4px;
   box-shadow: 0 0 5px rgba(0,0,0, .2);
-  background-color: #5d94f3;
+  background-color: #7F7FD5;
 }
 
 .dialogue-wrapper .dialogue-main .dialogue-close{
@@ -304,6 +304,7 @@ body{
   color: #000;
   border-radius: 50%;
   box-shadow: 1px 1px 4px rgba(0,0,0,.2);
+  background-color: white;
   background-image: url('../assets/answer.png');
   background-repeat:no-repeat;
   background-size:100% 100%;
@@ -324,7 +325,7 @@ body{
   padding: 10px;
   height: 380px;
   word-wrap: break-word;
-  background-color: #f9f9f9;
+  background-color: #ffffff;
 }
 
 .dialogue-wrapper .dialogue-main .dialogue-text{
@@ -389,10 +390,11 @@ body{
   position: relative;
   padding: 10px;
   height: 100px;
-  color: #000;
+  color: #ffffff;
   word-wrap: break-word;
-  border-top: 1px solid #dddddd;
+  border-top: 1px solid #ffffff;
   box-sizing: border-box;
+  background-color: #dedede;
 }
 
 /*输入空的提示*/
@@ -424,7 +426,7 @@ body{
   line-height: 18px;
   color: #fff;
   border-radius: 50%;
-  background-color: #5d94f3;
+  background-color: #7F7FD5;
 }
 
 .dialogue-wrapper .dialogue-main .dialogue-hint-text{
@@ -436,13 +438,15 @@ body{
   overflow-y: auto;
   display: inline-block;
   padding: 5px 10px;
-  width: 295px;
-  height: 70px;
+  width: 280px;
+  height: 75px;
   vertical-align: middle;
   white-space: pre-wrap;
   word-wrap: break-word;
   resize: none;
-  border-right: 1px solid #dddddd;
+  border-color: #ffffff;
+  border-width: 2px;
+  border-radius: 5px;
   box-sizing: border-box;
 }
 .dialogue-wrapper .dialogue-submit .dialogue-input-tool{
@@ -451,15 +455,15 @@ body{
   /*height: 80px;*/
   /*vertical-align: middle;*/
   display: inline-block;
-  margin: 0 10px 30px 30px;
-  width: 40px;
+  margin: 0 10px 0px 20px;
+  width: 50px;
   height: 30px;
-  text-align: center;
-  inline-height:40px;
+  line-height:30px;
   vertical-align: middle;
   color: #ffffff;
-  border-radius: 30%;
+  border-radius: 10px;
   box-shadow: 1px 1px 4px rgba(0,0,0,.2);
-  background-color: #5d94f3;
+  background-color: #7F7FD5;
+
 }
 </style>
