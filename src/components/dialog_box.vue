@@ -255,9 +255,8 @@ body{
   position: fixed;
   display: none;
   height: 50%;
-  top: 10px;
+  top: 100px;
   right: 100px;
-  bottom: 50px;
   width: 400px;
   /*height: 600px;*/
 
@@ -379,6 +378,7 @@ body{
   height: 0;
   border-top: 6px solid transparent;
   border-bottom: 6px solid transparent;
+  border-left:10px solid #09d07d;;
   -webkit-transform: translate(0,-50%);
   transform: translate(0,-50%);
 
