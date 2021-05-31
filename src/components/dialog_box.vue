@@ -30,7 +30,7 @@
         <textarea id="dialogue-input" class="dialogue-input-text" placeholder="输入您的问题">
 
         </textarea>
-        <div class="dialogue-input-tool">
+        <div id="dialogue-input-tool" class="dialogue-input-tool">
           发送
         </div>
       </div>
@@ -67,6 +67,7 @@ export default {
           dialogueHint = doc.getElementById('dialogue-hint'),
           buttonOpen = doc.getElementById('button-open'),
           buttonClose = doc.getElementById('button-close'),
+          dialogueInputTool = doc.getElementById('dialogue-input-tool'),
           timer,
           timerId,
           shiftKeyOn = false ;//辅助判断是否按住shift
@@ -126,6 +127,36 @@ export default {
           dialogueInput.value=null;
         }
       })
+
+      dialogueInputTool.addEventListener('click',function(){
+        if(dialogueInput.value==''){
+          console.log('should not send an empty message')
+          //多次触发只执行一次渐隐
+          setTimeout(function(){
+            fadeIn(dialogueHint);
+            clearTimeout(timerId);
+            timer = setTimeout(function(){
+              fadeOut(dialogueHint)
+            },2000);
+          },10);
+          timerId=timer;
+          return true;
+        }else{
+          console.log('create a bubble')
+          var nodeP =doc.createElement('p'),
+              nodeSpan=doc.createElement('span');
+          nodeP.classList.add('dialogue-customer-container');
+          nodeSpan.classList.add('dialogue-text','dialogue-customer-text');
+          nodeSpan.innerHTML=dialogueInput.value;
+          nodeP.appendChild(nodeSpan);
+          dialogueContainer.appendChild(nodeP);
+          dialogueContainer.scrollTop=dialogueContainer.scrollHeight;
+          submitCustomerText(dialogueInput.value);
+          dialogueInput.value=null;
+        }
+
+      });
+
       function submitCustomerText(text){
         console.log(text)
         //code here 向后端发送text
