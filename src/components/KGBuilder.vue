@@ -379,6 +379,7 @@
 import * as d3 from "d3";
 import $ from "jquery";
 import { getOnlineGraph, addGraph, getLocalGraph } from "../api/graphApi";
+import { getGroupNameList, getGraphByGroupName } from "../api/groupApi";
 
 export default {
   props: ["pid"],
@@ -616,9 +617,13 @@ export default {
     },
 
     async initGraph(i) {
+      let groupNameList = await getGroupNameList();
+      console.log(groupNameList);
+
       let data;
       if (i === 0) {
-        data = await getOnlineGraph();
+        // data = await getOnlineGraph();
+        data = await getGraphByGroupName("锦江国际集团");
         if (!data)
           data = await getLocalGraph();
       } else if (i === 1) {
