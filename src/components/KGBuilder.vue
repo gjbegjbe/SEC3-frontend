@@ -539,18 +539,30 @@ export default {
   watch: {},
   methods: {
     async initGraphContainer(i) {
+      console.log('step0');
       this.gcontainer = d3.select("#gid");
       this.gcontainer = d3.select("#gid");
       if (this.isFullscreen) {
         this.width = window.screen.width;
         this.height = window.screen.height;
       } else {
-        this.width = $("#" + this.pid).width();
-        this.height = $("#" + this.pid).height();
+
+        this.width = $("#gid").width();
+        this.height = $("#gid").height();
+
+        // this.width = window.screen.width;
+        // this.height = window.screen.height;
+
+        console.log(this.width);
+        console.log(this.height);
+        console.log(window.screen.width);
+
+
       }
       this.svg = this.gcontainer.append("svg");
       var sWidth = this.width;
       var sHeight = this.height;
+
 
       this.svg.attr("width", sWidth);
       this.svg.attr("height", sHeight);
@@ -617,13 +629,14 @@ export default {
     },
 
     async initGraph(i) {
+      console.log('step2');
       let groupNameList = await getGroupNameList();
       console.log(groupNameList);
 
       let data;
       if (i === 0) {
         // data = await getOnlineGraph();
-        data = await getGraphByGroupName("锦江国际集团");
+        data = await getGraphByGroupName("华住酒店集团");
         if (!data)
           data = await getLocalGraph();
       } else if (i === 1) {
@@ -649,6 +662,7 @@ export default {
     },
 
     addMaker() {
+      console.log('step1');
       var arrowMarker = this.svg
           .append("marker")
           .attr("id", "arrow")
@@ -2684,5 +2698,10 @@ li {
 .nodetext:hover {
   stroke-dashoffset: 0;
   stroke-dasharray: 100;
+}
+
+#gid{
+  height: 80vh;
+  width: 100vw;
 }
 </style>

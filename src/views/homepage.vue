@@ -1,13 +1,39 @@
 <template>
   <div>
-    <div id="kg_container" class="home">
-      <KGBuilder pid="kg_container" />
-    </div>
-    <div>
+  <div class="block">
+    <el-carousel height="100vh">
+<!--      <el-carousel-item>-->
+
+
+
+<!--      </el-carousel-item>-->
+      <el-carousel-item>
+        <div id="kg_container" class="home">
+          <KGBuilder pid="kg_container" />
+        </div>
+
+
+
+      </el-carousel-item>
+    </el-carousel>
+  </div>
+
+
+
+
+<!--    <div id="kg_container" class="home">-->
+<!--      <KGBuilder pid="kg_container"/>-->
+<!--    </div>-->
+
+    <div id="dialog_box">
       <dialog_box>
 
       </dialog_box>
     </div>
+
+
+
+
   </div>
 </template>
 
@@ -19,6 +45,7 @@ export default {
   components: {
     KGBuilder,
     dialog_box,
+
   },
 }
 </script>
@@ -38,9 +65,15 @@ html,body{
   background-size: cover;
 
 }
+
 #kg_container2 {
   height: 50vh;
   width: 100%;
+}
+
+#dialog_box{
+  z-index: 999;
+  position: absolute;
 }
 
 </style>
