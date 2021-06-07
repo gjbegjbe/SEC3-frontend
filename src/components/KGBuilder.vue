@@ -380,6 +380,7 @@ import * as d3 from "d3";
 import $ from "jquery";
 import { getOnlineGraph, addGraph, getLocalGraph } from "../api/graphApi";
 import { getGroupNameList, getGraphByGroupName } from "../api/groupApi";
+import { getAnswer } from "../api/util/qaApi";
 
 export default {
   props: ["pid"],
@@ -629,6 +630,9 @@ export default {
     },
 
     async initGraph(i) {
+      let answer = await getAnswer('华住酒店集团的介绍');
+      console.log(answer);
+
       console.log('step2');
       let groupNameList = await getGroupNameList();
       console.log(groupNameList);
