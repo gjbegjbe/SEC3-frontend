@@ -688,6 +688,7 @@ export default {
 
     drawNode(nodes) {
       var _this = this;
+      var groupname = this.groupname;
       var node = this.qaGraphNode.selectAll("circle").data(nodes, function(d) {
         return d.uuid;
       });
@@ -727,17 +728,17 @@ export default {
         console.log("鼠标移出");
         d3.select(this).style("stroke-width", 0);
         //todo其他节点和连线一并显示
-        d3.select(".node").style("fill-opacity", 1);
-        d3.select(".nodetext").style("fill-opacity", 1);
-        d3.selectAll(".linkline")
+        d3.select("#"+groupname).select(".node").style("fill-opacity", 1);
+        d3.select("#"+groupname).select(".nodetext").style("fill-opacity", 1);
+        d3.select("#"+groupname).selectAll(".linkline")
             .style("stroke-opacity", 1)
             .style("stroke-width", 1);
-        d3.selectAll(".linktext").style("fill-opacity", 1);
-        d3.selectAll(".arrowmarker").style("fill-opacity", 1);
+        d3.select("#"+groupname).selectAll(".linktext").style("fill-opacity", 1);
+        d3.select("#"+groupname).selectAll(".arrowmarker").style("fill-opacity", 1);
       });
       nodeEnter.on("mouseover", function(d) {
         //todo鼠标放上去只显示相关节点，其他节点和连线隐藏
-        d3.selectAll(".node").style("fill-opacity", 0.1);
+        d3.select("#"+groupname).selectAll(".node").style("fill-opacity", 0.1);
         const relvantNodeIds = [];
         var relvantNodes = _this.graph.links.filter(function(n) {
           return n.sourceid == d.uuid || n.targetid == d.uuid;
@@ -755,7 +756,7 @@ export default {
               }
             });
         //透明所有节点文字
-        d3.selectAll(".nodetext").style("fill-opacity", 0.1);
+        d3.select("#"+groupname).selectAll(".nodetext").style("fill-opacity", 0.1);
         //显示相关的节点文字
         _this.qaGraphNodeText
             .selectAll("text")
@@ -765,8 +766,8 @@ export default {
               }
             });
         //透明所有连线
-        d3.selectAll(".linkline").style("stroke-opacity", 0.1);
-        d3.selectAll(".arrowmarker").style("fill-opacity", 0.5);
+        d3.select("#"+groupname).selectAll(".linkline").style("stroke-opacity", 0.1);
+        d3.select("#"+groupname).selectAll(".arrowmarker").style("fill-opacity", 0.5);
         //显示相关的连线
         _this.qaGraphLink
             .selectAll(".linkline")
@@ -782,7 +783,7 @@ export default {
             });
 
         //透明所有连线文字
-        _this.qaGraphLinkText.selectAll(".linktext").style("fill-opacity", 0.1);
+        _this.qaGraphLinkText.select("#"+groupname).selectAll(".linktext").style("fill-opacity", 0.1);
 
         //显示相关的连线文字
         _this.qaGraphLinkText
