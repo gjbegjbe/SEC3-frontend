@@ -383,7 +383,7 @@ import { getGroupNameList, getGraphByGroupName } from "../api/groupApi";
 import { getAnswer } from "../api/util/qaApi";
 
 export default {
-  props: ["pid"],
+  props: ["pid","groupname"],
   data() {
     return {
       theme: 0,
@@ -640,7 +640,7 @@ export default {
       let data;
       if (i === 0) {
         // data = await getOnlineGraph();
-        data = await getGraphByGroupName("华住酒店集团");
+        data = await getGraphByGroupName(this.groupname);
         if (!data)
           data = await getLocalGraph();
       } else if (i === 1) {
