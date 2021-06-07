@@ -11,13 +11,13 @@
         <el-carousel-item>
 
           <div class="kg_container">
-            <KGBuilder pid="kg_container" groupname="华住酒店集团" />
+            <KGBuilder id="亚朵集团" groupname="亚朵集团" />
           </div>
         </el-carousel-item>
         <el-carousel-item>
 
           <div class="kg_container">
-            <KGBuilder pid="kg_container" groupname="华住酒店集团" />
+            <KGBuilder id="华住酒店集团" groupname="华住酒店集团" />
           </div>
         </el-carousel-item>
 

@@ -540,9 +540,10 @@ export default {
   watch: {},
   methods: {
     async initGraphContainer(i) {
-      console.log('step0');
-      this.gcontainer = d3.select("#gid");
-      this.gcontainer = d3.select("#gid");
+      console.log(this.groupname);
+      this.gcontainer = d3.select("#"+this.groupname).select("#gid");
+      console.log(this.gcontainer)
+      //this.gcontainer = d3.select("#gid");
       if (this.isFullscreen) {
         this.width = window.screen.width;
         this.height = window.screen.height;
