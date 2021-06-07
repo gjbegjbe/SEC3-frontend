@@ -228,7 +228,7 @@ body{
 .dialogue-wrapper .dialogue-support-button{
   position: fixed;
   display: inline-block;
-  top:50%;
+  top:20%;
   right: 0;
   margin-top: -70px;
   padding: 10px 0;
