@@ -43,6 +43,7 @@
 
 <script>
 import $ from "jquery";
+import {getAnswer} from "@/api/util/qaApi";
 export default {
   name: "dialog_box",
   data(){},
@@ -157,24 +158,17 @@ export default {
 
       });
 
-      function submitCustomerText(text){
-        console.log(text)
-        //code here 向后端发送text
-        //模拟后端回复
-        var num=Math.random()*10;
-        if(num<7){
-          getServiceText(serviceData);
-        }
+      async function submitCustomerText(text) {
+        let answer = await getAnswer(text);
+        getServiceText(answer);
       }
 
-      function getServiceText(data){
-        var serviceText =data.robot.dialogue,
-            i = Math.floor(Math.random()*serviceText.length);
+      function getServiceText(serviceText){
         var nodeP = doc.createElement('p'),
             nodeSpan =doc.createElement('span');
         nodeP.classList.add('dialogue-service-container');
         nodeSpan.classList.add('dialogue-text','dialogue-service-text');
-        nodeSpan.innerHTML=serviceText[i];
+        nodeSpan.innerHTML=serviceText;
         nodeP.appendChild(nodeSpan);
         dialogueContainer.appendChild(nodeP);
         dialogueContainer.scrollTop=dialogueContainer.scrollHeight;
