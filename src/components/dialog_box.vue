@@ -56,13 +56,6 @@ export default {
   methods:{
     simulator(){
       var doc = document;
-      var serviceData = {
-        'robot':{
-          'name':'robot001',
-          'dialogue':['dialogue1','dialogue2','dialogue3'],
-          'welcome':'hello,it\'s 001 serving'
-        }
-      };
       var dialogueInput = doc.getElementById('dialogue-input'),
           dialogueContainer = doc.getElementById('dialogue-container'),
           dialogueHint = doc.getElementById('dialogue-hint'),
@@ -356,7 +349,7 @@ body{
   display: inline-block;
   position: relative;
   padding: 10px;
-  max-width: 120px;
+  max-width: 320px;
   white-space: pre-wrap;
   border: 1px solid #09d07d;
   border-radius: 4px;
