@@ -20,6 +20,12 @@
             <KGBuilder id="华住酒店集团" groupname="华住酒店集团" />
           </div>
         </el-carousel-item>
+        <el-carousel-item>
+
+          <div class="kg_container">
+            <KGBuilder id="锦江国际集团" groupname="锦江国际集团" />
+          </div>
+        </el-carousel-item>
 
       </el-carousel>
     </div>
