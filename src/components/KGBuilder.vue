@@ -1093,16 +1093,21 @@ export default {
             case "append":
               break;
             case "edit":
-              _this.editNodeFormVisible = true;
-              _this.editNodeUuid = _this.selectUuid;
-              for (let i = 0; i < _this.graph.nodes.length; i++) {
-                if (_this.graph.nodes[i].uuid === _this.editNodeUuid) {
-                  _this.editNodeName = _this.graph.nodes[i].name;
-                  _this.editNodeColor = _this.graph.nodes[i].color;
-                  _this.editNodeShape = _this.graph.nodes[i].shape;
-                  _this.editNodeType = _this.graph.nodes[i].type;
-                }
-              }
+              _this.tt=false;
+
+              // _this.editNodeFormVisible = true;
+              //
+              // _this.editNodeUuid = _this.selectUuid;
+              // for (let i = 0; i < _this.graph.nodes.length; i++) {
+              //   if (_this.graph.nodes[i].uuid === _this.editNodeUuid) {
+              //     _this.select=_this.graph.nodes[i].uuid;
+              //     _this.editNodeName = _this.graph.nodes[i].name;
+              //     _this.editNodeColor = _this.graph.nodes[i].color;
+              //     _this.editNodeShape = _this.graph.nodes[i].shape;
+              //     _this.editNodeType = _this.graph.nodes[i].type;
+              //     console.log(_this.select);
+              //   }
+              // }
               break;
             case "more":
               break;
