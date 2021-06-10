@@ -414,7 +414,7 @@ export default {
       nodeTextSize: 12, // 节点字体大小
       linkTextSize: 10, // 关系字体大小
       linkTextVisible: true, //是否显示关系文字
-      nodeForce: -1000 //节点之间作用力大小，绝对值越大距离越大
+      nodeForce: -200 //节点之间作用力大小，绝对值越大距离越大
 
     };
   },
