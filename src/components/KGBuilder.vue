@@ -60,6 +60,13 @@
       </el-dialog>
     </div>
 
+    <div>
+      <el-dialog title="详细信息" :visible.sync="moreInformationFormVisible" style="width: 1200px ;height:640px; left:20%">
+
+
+      </el-dialog>
+    </div>
+
     <input type="checkbox" id="sidemenu" />
     <div id="wrap">
       <label id="sideMenuControl" for="sidemenu">≡</label>
@@ -334,7 +341,7 @@ export default {
       ],
       toolbarData: [
         { name: "编辑", value: 1, code: "edit" },
-        { name: "展开", value: 1, code: "more" },
+        { name: "详细", value: 1, code: "more" },
         { name: "追加", value: 1, code: "append" },
         { name: "连线", value: 1, code: "link" },
         { name: "删除", value: 1, code: "delete" }
@@ -357,6 +364,8 @@ export default {
       editNodeColor: "", //正在编辑的节点颜色
       editNodeShape: "", //正在编辑的节点形状
       editNodeType: "", // 正在编辑的节点类型
+
+      moreInformationFormVisible: false, //查看节点详细信息窗口是否展示
 
       shapes: [
         {
@@ -1086,23 +1095,23 @@ export default {
             case "append":
               break;
             case "edit":
-              _this.tt=false;
 
-              // _this.editNodeFormVisible = true;
-              //
-              // _this.editNodeUuid = _this.selectUuid;
-              // for (let i = 0; i < _this.graph.nodes.length; i++) {
-              //   if (_this.graph.nodes[i].uuid === _this.editNodeUuid) {
-              //     _this.select=_this.graph.nodes[i].uuid;
-              //     _this.editNodeName = _this.graph.nodes[i].name;
-              //     _this.editNodeColor = _this.graph.nodes[i].color;
-              //     _this.editNodeShape = _this.graph.nodes[i].shape;
-              //     _this.editNodeType = _this.graph.nodes[i].type;
-              //     console.log(_this.select);
-              //   }
-              // }
+              _this.editNodeFormVisible = true;
+
+              _this.editNodeUuid = _this.selectUuid;
+              for (let i = 0; i < _this.graph.nodes.length; i++) {
+                if (_this.graph.nodes[i].uuid === _this.editNodeUuid) {
+                  _this.select=_this.graph.nodes[i].uuid;
+                  _this.editNodeName = _this.graph.nodes[i].name;
+                  _this.editNodeColor = _this.graph.nodes[i].color;
+                  _this.editNodeShape = _this.graph.nodes[i].shape;
+                  _this.editNodeType = _this.graph.nodes[i].type;
+                  console.log(_this.select);
+                }
+              }
               break;
             case "more":
+              _this.moreInformationFormVisible = true;
               break;
             case "link":
               break;
