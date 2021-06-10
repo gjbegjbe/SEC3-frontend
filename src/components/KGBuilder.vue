@@ -2584,7 +2584,7 @@ li {
 }
 
 #gid{
-  height: 80vh;
+  height: 100vh;
   width: 100vw;
 }
 </style>
