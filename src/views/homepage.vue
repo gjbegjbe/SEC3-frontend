@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="block">
-      <el-carousel height="100vh" interval=99999>
+      <el-carousel height="100vh" interval=99999 trigger="click">
         <!--        <el-carousel-item v-for="item in grouplist">-->
 
         <!--          <div id="kg_container" class="home">-->
