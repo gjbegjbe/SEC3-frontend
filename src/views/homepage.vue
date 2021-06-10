@@ -6,6 +6,10 @@
         <KGBuilder id="亚朵集团" :groupname="this.activeName" />
       </div>
 
+      <div class="kg_container">
+        <KGBuilder id="华住酒店集团" :groupname="this.groupname" />
+      </div>
+
     </div>
 
     <div id="dialog_box">

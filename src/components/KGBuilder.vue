@@ -470,11 +470,6 @@ export default {
       } else if (i === -1) {
         temp = this.listed;
       }
-      for (let j = 0; j < temp.links.length; j++) {
-        if (temp.links[j].targetid < 0) { //如果已经有targetid为负，则读入的是排版模式
-          this.nodeForce = -60;
-        }
-      }
 
       this.simulation = d3
           .forceSimulation()
@@ -538,12 +533,8 @@ export default {
       } else if (i === -1) {
         data = this.listed;
       }
+      console.log(data)
       this.graph = data;
-      for (let i = 0; i < this.graph.links.length; i++) {
-        if (this.graph.links[i].targetid < 0) { //如果已经有targetid为负，则读入的是排版模式
-          this.currentMode = false;
-        }
-      }
       for (let node of this.graph.nodes) {
         if (node.uuid + 1 > this.uuidEndNum) this.uuidEndNum = node.uuid + 1;
       }
@@ -578,6 +569,7 @@ export default {
     drawNode(nodes) {
       var _this = this;
       var groupname = this.groupname;
+      console.log(this.qaGraphNode)
       var node = this.qaGraphNode.selectAll("circle").data(nodes, function(d) {
         return d.uuid;
       });
@@ -845,6 +837,7 @@ export default {
             }
             return "";
           });
+      console.log(node);
       return node;
     },
 
@@ -1186,6 +1179,7 @@ export default {
       var data = _this.formatData();
       var nodes = data.nodes;
       var links = data.links;
+      console.log(data)
       //定义按钮组引用的use元素
       _this.drawToolButton(nodes);
       // 更新节点
@@ -1735,47 +1729,11 @@ export default {
 
     // 排版模式
     toListed() {
-      let _this = this;
-      if (!_this.currentMode) { //已经是排版模式
-        return 0;
-      }
-      _this.currentMode = false;
-      _this.listed.nodes.splice(0, _this.listed.nodes.length);
-      _this.listed.links.splice(0, _this.listed.links.length);
-      for (let i = 0; i < _this.graph.nodes.length; i++) {
-        _this.listed.nodes.push(JSON.parse(JSON.stringify(_this.graph.nodes[i])));
-        delete _this.listed.nodes[_this.listed.nodes.length - 1].fx;
-        delete _this.listed.nodes[_this.listed.nodes.length - 1].fy;
-        delete _this.listed.nodes[_this.listed.nodes.length - 1].x;
-        delete _this.listed.nodes[_this.listed.nodes.length - 1].y;
-        delete _this.listed.nodes[_this.listed.nodes.length - 1].vx;
-        delete _this.listed.nodes[_this.listed.nodes.length - 1].vy;
-      }
-      for (let i = 0; i < _this.graph.links.length; i++) {
-        for (let j = 0; j < _this.graph.nodes.length; j++) {
-          if (_this.graph.links[i].targetid === _this.graph.nodes[j].uuid) {
-            _this.listed.nodes.push(JSON.parse(JSON.stringify(_this.graph.nodes[j])));
-            if (_this.listed.nodes[_this.listed.nodes.length - 2].uuid > 0) {
-              _this.listed.nodes[_this.listed.nodes.length - 1].uuid = -1;
-            } else {
-              _this.listed.nodes[_this.listed.nodes.length - 1].uuid = _this.listed.nodes[_this.listed.nodes.length - 2].uuid - 1;
-            }
-            _this.listed.links.push(JSON.parse(JSON.stringify(_this.graph.links[i])));
-            _this.listed.links[_this.listed.links.length - 1].targetid = _this.listed.nodes[_this.listed.nodes.length - 1].uuid;
-            break;
-          }
-        }
-      }
-      _this.graph.nodes.splice(0, _this.graph.nodes.length);
-      _this.graph.links.splice(0, _this.graph.links.length);
-      for (let i = 0; i < _this.listed.nodes.length; i++) {
-        _this.graph.nodes.push(JSON.parse(JSON.stringify(_this.listed.nodes[i])));
-      }
-      for (let i = 0; i < _this.listed.links.length; i++) {
-        _this.graph.links.push(JSON.parse(JSON.stringify(_this.listed.links[i])));
-      }
-      _this.nodeForce = -60;
-      _this.restartPicture(-1);
+      this.groupname = "华住酒店集团";
+      this.initGraphContainer(0);
+      this.addMaker();
+      this.initGraph(0);
+
     },
 
     // 保存为图片
