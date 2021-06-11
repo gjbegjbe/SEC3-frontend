@@ -3,11 +3,7 @@
 
     <div id="test" class="block" style="height: 100vh">
       <div class="kg_container">
-        <KGBuilder id="亚朵集团" :groupname="this.activeName" />
-      </div>
-
-      <div class="kg_container">
-        <KGBuilder id="华住酒店集团" :groupname="this.groupname" />
+        <KGBuilder id="亚朵集团" :groupname="this.activeName" @child-event='huazhu'/>
       </div>
 
     </div>
@@ -40,7 +36,13 @@ export default {
     };
   },
   mounted() {},
-  methods: {},
+  methods: {
+    huazhu(data){
+      console.log(data);
+      this.activeName = data;
+      console.log(this.activeName);
+    }
+  },
 };
 
 

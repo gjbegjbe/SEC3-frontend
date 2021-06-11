@@ -1738,11 +1738,10 @@ export default {
 
     // 排版模式
     toListed() {
-      this.groupname = "华住酒店集团";
+      this.$emit('child-event','华住酒店集团')
       this.initGraphContainer(0);
       this.addMaker();
       this.initGraph(0);
-
     },
 
     // 保存为图片
