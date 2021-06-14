@@ -3,7 +3,7 @@
 
     <div id="test" class="block" style="height: 100vh">
       <div class="kg_container">
-        <KGBuilder id="亚朵集团" :groupname="this.activeName" @child-event='huazhu'/>
+        <KGBuilder id="亚朵集团" :groupname="this.activeName" @child-event='changeActive'/>
       </div>
 
     </div>
@@ -37,7 +37,7 @@ export default {
   },
   mounted() {},
   methods: {
-    huazhu(data){
+    changeActive(data){
       console.log(data);
       this.activeName = data;
       console.log(this.activeName);
