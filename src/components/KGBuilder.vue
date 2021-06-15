@@ -69,6 +69,9 @@
           <el-form-item v-if="this.moreInformationNodeType==='Brand'" label="酒店名称">
             {{this.moreInformationNodeName}}
           </el-form-item>
+          <el-form-item v-if="this.moreInformationNodeType==='Brand'" label="详细信息">
+            {{this.moreInformationNodeData}}
+          </el-form-item>
         </el-form>
 
       </el-dialog>
@@ -286,6 +289,7 @@ import $ from "jquery";
 import { getOnlineGraph, addGraph, getLocalGraph } from "../api/graphApi";
 import { getGroupNameList, getGraphByGroupName } from "../api/groupApi";
 import { getAnswer } from "../api/util/qaApi";
+import { getDetailByBrandName } from "../api/myCoinApi";
 
 export default {
   props: ["pid","groupname"],
@@ -378,6 +382,7 @@ export default {
       moreInformationNodeUuid: "",
       moreInformationNodeName: "",
       moreInformationNodeType: "",
+      moreInformationNodeData: "",
 
 
 
@@ -1101,7 +1106,7 @@ export default {
       //按钮组事件绑定
       _this.toolbarData.forEach(function(m) {
         var btnClass = ".action_" + m.code;
-        _this.svg.selectAll(btnClass).on("click", function(d) {
+        _this.svg.selectAll(btnClass).on("click", async function(d) {
           console.log(
               d.data.name + ":" + d.data.code + ":uuid:" + _this.selectUuid
           );
@@ -1129,12 +1134,13 @@ export default {
               _this.moreInformationNodeUuid = _this.selectUuid;
               for (let i = 0; i < _this.graph.nodes.length; i++) {
                 if (_this.graph.nodes[i].uuid === _this.moreInformationNodeUuid) {
-
                   _this.moreInformationNodeName = _this.graph.nodes[i].name;
                   _this.moreInformationNodeType = _this.graph.nodes[i].type;
-
                 }
               }
+              _this.moreInformationNodeData=await getDetailByBrandName(_this.moreInformationNodeName);
+              console.log(_this.moreInformationNodeData);
+
               break;
             case "link":
               break;
