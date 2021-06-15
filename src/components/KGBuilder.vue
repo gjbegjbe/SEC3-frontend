@@ -111,6 +111,8 @@
           <div class="collapse-card" id="switch">
             <button type="info" @click="toForced">力导图模式</button>
             <button type="info" @click="toListed">排版模式</button>
+            <textarea id="groupSelect"></textarea>
+            <button type="info" @click="groupSelect">切换集团</button>
           </div>
         </div>
       </div>
@@ -1697,6 +1699,16 @@ export default {
     // 排版模式
     toListed() {
       this.$emit('child-event','华住酒店集团')
+      // this.groupname='华住酒店集团';
+      d3.select("#gid").html('');
+      this.initGraphContainer(0);
+      this.addMaker();
+      this.initGraph(0);
+    },
+
+    groupSelect() {
+      var groupName = document.getElementById("groupSelect").value;
+      this.$emit('child-event',groupName)
       d3.select("#gid").html('');
       this.initGraphContainer(0);
       this.addMaker();
