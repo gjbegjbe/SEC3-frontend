@@ -62,7 +62,14 @@
 
     <div>
       <el-dialog title="详细信息" :visible.sync="moreInformationFormVisible" style="width: 1200px ;height:640px; left:20%">
-
+        <el-form label-width="80px">
+          <el-form-item v-if="this.moreInformationNodeType==='group'" label="集团名称">
+            {{this.moreInformationNodeName}}
+          </el-form-item>
+          <el-form-item v-if="this.moreInformationNodeType==='Brand'" label="酒店名称">
+            {{this.moreInformationNodeName}}
+          </el-form-item>
+        </el-form>
 
       </el-dialog>
     </div>
@@ -368,6 +375,11 @@ export default {
       editNodeType: "", // 正在编辑的节点类型
 
       moreInformationFormVisible: false, //查看节点详细信息窗口是否展示
+      moreInformationNodeUuid: "",
+      moreInformationNodeName: "",
+      moreInformationNodeType: "",
+
+
 
       shapes: [
         {
@@ -1114,6 +1126,15 @@ export default {
               break;
             case "more":
               _this.moreInformationFormVisible = true;
+              _this.moreInformationNodeUuid = _this.selectUuid;
+              for (let i = 0; i < _this.graph.nodes.length; i++) {
+                if (_this.graph.nodes[i].uuid === _this.moreInformationNodeUuid) {
+
+                  _this.moreInformationNodeName = _this.graph.nodes[i].name;
+                  _this.moreInformationNodeType = _this.graph.nodes[i].type;
+
+                }
+              }
               break;
             case "link":
               break;
