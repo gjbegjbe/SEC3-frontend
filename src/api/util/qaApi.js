@@ -1,4 +1,5 @@
 import axios from "axios";
+import { baseURL, qaURL } from "@/api/util/apiConfig";
 
 /**
  *
@@ -8,10 +9,10 @@ import axios from "axios";
 export async function getAnswer(question) {
     let questionDetails = {};
     try {
-        let response = await axios.post("http://localhost:8802/getQuestionDetails", {question: question});
+        let response = await axios.post(qaURL + "/getQuestionDetails", {question: question});
         questionDetails = response.data;
 
-        response = await axios.post("http://localhost:8081/api/getAnswer",
+        response = await axios.post(baseURL + "/getAnswer",
             {
                 "questionIndex": Number(questionDetails.question.substr(1)) + 1,
                 "groupName": questionDetails.nng,

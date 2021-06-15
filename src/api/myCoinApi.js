@@ -1,6 +1,5 @@
 import axios from "axios";
-
-const baseURL = 'http://localhost:8081/api';
+import {baseURL} from "@/api/util/apiConfig";
 
 /**
  * 获得酒店图谱
