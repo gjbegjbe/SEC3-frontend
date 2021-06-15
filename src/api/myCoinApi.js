@@ -108,3 +108,19 @@ export async function deleteBrandByUuid(uuid) {
         return false;
     }
 }
+
+
+/**
+ * 通过酒店名获得详细信息
+ * @param {string} brandName
+ * @returns {Promise<string>}
+ */
+export async function getDetailByBrandName(brandName) {
+    let params = {"brandName": brandName};
+    try {
+        let response = await axios.post(baseURL + "/getDetailByBrandName", params);
+        return response.data.detail;
+    } catch (e) {
+        return "暂无信息。";
+    }
+}
