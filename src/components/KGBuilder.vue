@@ -69,7 +69,10 @@
           <el-form-item v-if="this.moreInformationNodeType==='Brand'" label="酒店名称">
             {{this.moreInformationNodeName}}
           </el-form-item>
-          <el-form-item v-if="this.moreInformationNodeType==='Brand'" label="详细信息">
+          <el-form-item v-if="this.moreInformationNodeType==='Brand'" label="酒店信息">
+            {{this.moreInformationNodeData}}
+          </el-form-item>
+          <el-form-item  v-if="this.moreInformationNodeType==='group'" label="集团信息">
             {{this.moreInformationNodeData}}
           </el-form-item>
         </el-form>
@@ -290,6 +293,7 @@ import { getOnlineGraph, addGraph, getLocalGraph } from "../api/graphApi";
 import { getGroupNameList, getGraphByGroupName } from "../api/groupApi";
 import { getAnswer } from "../api/util/qaApi";
 import { getDetailByBrandName } from "../api/myCoinApi";
+import { getDetailByGroupName } from "../api/groupApi";
 
 export default {
   props: ["pid","groupname"],
@@ -1138,8 +1142,12 @@ export default {
                   _this.moreInformationNodeType = _this.graph.nodes[i].type;
                 }
               }
-              _this.moreInformationNodeData=await getDetailByBrandName(_this.moreInformationNodeName);
-              console.log(_this.moreInformationNodeData);
+              if(_this.moreInformationNodeType==='Brand'){
+                _this.moreInformationNodeData=await getDetailByBrandName(_this.moreInformationNodeName);
+              }
+              if(_this.moreInformationNodeType==='group'){
+                _this.moreInformationNodeData=await getDetailByGroupName(_this.moreInformationNodeName);
+              }
 
               break;
             case "link":
