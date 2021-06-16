@@ -1,67 +1,67 @@
 <template>
   <div>
+<!--    <div>-->
+<!--      <el-dialog title="修改节点" :visible.sync="editNodeFormVisible" style="width: 1200px ;height:640px; left:20%">-->
+<!--        <el-form label-width="80px">-->
+<!--          <el-form-item label="节点ID">-->
+<!--            <el-input-->
+<!--                :disabled="true"-->
+<!--                v-model="editNodeUuid"-->
+<!--                class="withoutColor"-->
+<!--                style="width: 400px;float: left"-->
+<!--            ></el-input>-->
+<!--          </el-form-item>-->
+<!--          <el-form-item label="节点名称">-->
+<!--            <el-input-->
+<!--                :disabled="false"-->
+<!--                v-model="editNodeName"-->
+<!--                class="withoutColor"-->
+<!--                style="width: 400px;float: left"-->
+<!--            ></el-input>-->
+<!--          </el-form-item>-->
+<!--          <el-form-item label="节点颜色">-->
+<!--            <el-color-picker v-model="editNodeColor" style="float: left"></el-color-picker>-->
+<!--            <el-input-->
+<!--                :disabled="true"-->
+<!--                v-model="editNodeColor"-->
+<!--                class="lineColor"-->
+<!--                style="width: 340px;float: left;margin-left: 20px"-->
+<!--            ></el-input>-->
+<!--          </el-form-item>-->
+<!--          <el-form-item label="节点形状">-->
+<!--            <el-select v-model="editNodeShape" placeholder="请选择" style="float:left">-->
+<!--              <el-option-->
+<!--                  v-for="item in shapes"-->
+<!--                  :key="item.value"-->
+<!--                  :label="item.label"-->
+<!--                  :value="item.value"-->
+<!--              >-->
+<!--              </el-option>-->
+<!--            </el-select>-->
+<!--          </el-form-item>-->
+<!--          <el-form-item label="节点类型">-->
+<!--            <el-select v-model="editNodeType" placeholder="请选择" style="float:left">-->
+<!--              <el-option-->
+<!--                  v-for="item in types"-->
+<!--                  :key="item.value"-->
+<!--                  :label="item.label"-->
+<!--                  :value="item.value"-->
+<!--              >-->
+<!--              </el-option>-->
+<!--            </el-select>-->
+<!--          </el-form-item>-->
+<!--          <el-form-item>-->
+<!--            <el-button type="primary" @click="saveNodeEdit" style="margin-top: 10px;float: left">保存修改</el-button>-->
+<!--            <el-button @click="cancelNodeEdit" style="margin-top: 10px;float: left">取消</el-button>-->
+
+<!--          </el-form-item>-->
+<!--        </el-form>-->
+
+<!--      </el-dialog>-->
+<!--    </div>-->
+
     <div>
-      <el-dialog title="修改节点" :visible.sync="editNodeFormVisible" style="width: 1200px ;height:640px; left:20%">
-        <el-form label-width="80px">
-          <el-form-item label="节点ID">
-            <el-input
-                :disabled="true"
-                v-model="editNodeUuid"
-                class="withoutColor"
-                style="width: 400px;float: left"
-            ></el-input>
-          </el-form-item>
-          <el-form-item label="节点名称">
-            <el-input
-                :disabled="false"
-                v-model="editNodeName"
-                class="withoutColor"
-                style="width: 400px;float: left"
-            ></el-input>
-          </el-form-item>
-          <el-form-item label="节点颜色">
-            <el-color-picker v-model="editNodeColor" style="float: left"></el-color-picker>
-            <el-input
-                :disabled="true"
-                v-model="editNodeColor"
-                class="lineColor"
-                style="width: 340px;float: left;margin-left: 20px"
-            ></el-input>
-          </el-form-item>
-          <el-form-item label="节点形状">
-            <el-select v-model="editNodeShape" placeholder="请选择" style="float:left">
-              <el-option
-                  v-for="item in shapes"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-              >
-              </el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="节点类型">
-            <el-select v-model="editNodeType" placeholder="请选择" style="float:left">
-              <el-option
-                  v-for="item in types"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-              >
-              </el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item>
-            <el-button type="primary" @click="saveNodeEdit" style="margin-top: 10px;float: left">保存修改</el-button>
-            <el-button @click="cancelNodeEdit" style="margin-top: 10px;float: left">取消</el-button>
-
-          </el-form-item>
-        </el-form>
-
-      </el-dialog>
-    </div>
-
-    <div>
-      <el-dialog title="详细信息" :visible.sync="moreInformationFormVisible" style="width: 1500px ;height:800px; overflow: hidden; text-align: left">
+      <el-dialog title="详细信息" :visible.sync="moreInformationFormVisible" style="top: -10%; width: 1500px ;height:800px; overflow: hidden; text-align: left">
         <el-form label-width="80px">
           <el-form-item v-if="this.moreInformationNodeType==='group'" label="集团名称">
             {{this.moreInformationNodeName}}
