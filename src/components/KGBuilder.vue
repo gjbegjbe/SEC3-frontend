@@ -115,17 +115,40 @@
                   class="el-icon-arrow-right"
                   style="transition: ease-in-out"
               ></i>
-              模式切换 SWITCH
+              集团切换 SWITCH
             </h4>
           </div>
         </label>
 
         <div class="content">
           <div class="collapse-card" id="switch">
-            <button type="info" @click="toForced">力导图模式</button>
-            <button type="info" @click="toListed">排版模式</button>
-            <textarea id="groupSelect"></textarea>
-            <button type="info" @click="groupSelect">切换集团</button>
+            <div class="holder" style="margin-bottom: 10px">
+              <span style="font-size: 1.2em"> 集团名称：</span>
+              <textarea id="groupSelect"></textarea>
+            </div>
+
+            <div>
+              <a href="javascript:;" @click="groupSelect">
+                <li style="margin-left:20%; margin-bottom:15px; margin-top: 5px">
+                  <i class="el-icon-refresh"></i> 切换
+                </li>
+              </a>
+            </div>
+
+            <button type="info" style="border-color: fuchsia" @click="jinjiang">锦江</button>
+            <button type="info" style="border-color: springgreen" @click="huazhu">华住</button>
+            <button type="info" @click="rujia">如家</button>
+            <button type="info" @click="gelin">格林</button>
+            <button type="info" style="border-color: fuchsia" @click="dongcheng">东呈</button>
+            <button type="info" style="border-color: springgreen" @click="shangmei">尚美</button>
+            <button type="info" style="border-color: springgreen" @click="dushi">都市</button>
+            <button type="info" @click="yaduo">亚朵</button>
+            <button type="info" style="border-color: fuchsia" @click="kaiyuan">开元</button>
+            <button type="info" style="border-color: fuchsia" @click="zhuyou">住友</button>
+            <button type="info" style="border-color: springgreen" @click="meihao">美豪</button>
+            <button type="info" @click="wanhao">万豪</button>
+            <button type="info" @click="xierdun">希尔顿</button>
+            <button type="info" style="border-color: fuchsia;margin-right: 30%" @click="zhouji">洲际</button>
           </div>
         </div>
       </div>
@@ -1735,28 +1758,97 @@ export default {
       });
     },
 
-    // 力导图模式
-    toForced() {
-      this.$emit('child-event','锦江国际集团')
-      d3.select("#gid").html('');
-      this.initGraphContainer(0);
-      this.addMaker();
-      this.initGraph(0);
+    // 切换为锦江
+    jinjiang() {
+      this.$emit('child-event','锦江国际集团');
+      this.reload();
     },
 
-    // 排版模式
-    toListed() {
-      this.$emit('child-event','华住酒店集团')
-      // this.groupname='华住酒店集团';
-      d3.select("#gid").html('');
-      this.initGraphContainer(0);
-      this.addMaker();
-      this.initGraph(0);
+    // 切换为华住
+    huazhu() {
+      this.$emit('child-event','华住酒店集团');
+      this.reload();
+    },
+
+    // 切换为如家
+    rujia() {
+      this.$emit('child-event','首旅如家酒店集团');
+      this.reload();
+    },
+
+    // 切换为格林
+    gelin() {
+      this.$emit('child-event','格林酒店集团');
+      this.reload();
+    },
+
+    // 切换为东呈
+    dongcheng() {
+      this.$emit('child-event','东呈国际集团');
+      this.reload();
+    },
+
+    // 切换为尚美
+    shangmei() {
+      this.$emit('child-event','尚美生活集团');
+      this.reload();
+    },
+
+    // 切换为都市
+    dushi() {
+      this.$emit('child-event','都市酒店集团');
+      this.reload();
+    },
+
+    // 切换为亚朵
+    yaduo() {
+      this.$emit('child-event','亚朵集团');
+      this.reload();
+    },
+
+    // 切换为开元
+    kaiyuan() {
+      this.$emit('child-event','开元酒店集团');
+      this.reload();
+    },
+
+    // 切换为住友
+    zhuyou() {
+      this.$emit('child-event','住友酒店集团');
+      this.reload();
+    },
+
+    // 切换为美豪
+    meihao() {
+      this.$emit('child-event','美豪酒店集团');
+      this.reload();
+    },
+
+    // 切换为万豪
+    wanhao() {
+      this.$emit('child-event','万豪国际集团');
+      this.reload();
+    },
+
+    // 切换为希尔顿
+    xierdun() {
+      this.$emit('child-event','希尔顿酒店集团');
+      this.reload();
+    },
+
+    // 切换为洲际
+    zhouji() {
+      this.$emit('child-event','洲际酒店集团');
+      this.reload();
     },
 
     groupSelect() {
       var groupName = document.getElementById("groupSelect").value;
-      this.$emit('child-event',groupName)
+      this.$emit('child-event',groupName);
+      this.reload();
+    },
+
+    reload(){
       d3.select("#gid").html('');
       this.initGraphContainer(0);
       this.addMaker();
@@ -2369,7 +2461,8 @@ h4 {
 
 #switch button {
   margin-left: 5%;
-  width: 35%;
+  width: 25%;
+  margin-bottom: 5px;
   height: 30px;
   border-color: dodgerblue;
   border-radius: 30px;
