@@ -124,3 +124,18 @@ export async function getDetailByBrandName(brandName) {
         return "暂无信息。";
     }
 }
+
+/**
+ * 通过集团名获得详细信息
+ * @param {string} groupName
+ * @returns {Promise<string>}
+ */
+export async function getDetailByGroupName(groupName) {
+    let params = {"groupName": groupName};
+    try {
+        let response = await axios.post(baseURL + "/getDetailByGroupName", params);
+        return response.data.detail;
+    } catch (e) {
+        return "暂无信息。";
+    }
+}
