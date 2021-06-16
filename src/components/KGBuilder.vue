@@ -804,8 +804,8 @@ export default {
         switch (d.shape) {
           case "piccircle":
             //圆形填充图片
-            var img_w = d.r / 3 * 8,
-                img_h = d.r / 3 * 8;
+            var img_w = d.r * 2,
+                img_h = d.r * 2;
 
             var catpattern = defs
                 .append("pattern")
