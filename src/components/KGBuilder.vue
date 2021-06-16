@@ -61,7 +61,7 @@
     </div>
 
     <div>
-      <el-dialog title="详细信息" :visible.sync="moreInformationFormVisible" style="width: 1200px ;height:640px; left:20%">
+      <el-dialog title="详细信息" :visible.sync="moreInformationFormVisible" style="width: 1200px ;height:640px; left:20%; text-align: left">
         <el-form label-width="80px">
           <el-form-item v-if="this.moreInformationNodeType==='group'" label="集团名称">
             {{this.moreInformationNodeName}}
@@ -74,6 +74,12 @@
           </el-form-item>
           <el-form-item  v-if="this.moreInformationNodeType==='group'" label="集团信息">
             {{this.moreInformationNodeData}}
+          </el-form-item>
+          <el-form-item  v-if="this.moreInformationNodeType==='Cheakout'" label="退房时间">
+            {{this.moreInformationNodeName}}酒店最晚可以在{{this.moreInformationNodeRight}}退房。
+          </el-form-item>
+          <el-form-item  v-if="this.moreInformationNodeType==='Breakfast'" label="早餐份数">
+            {{this.moreInformationNodeName}}酒店最多提供{{this.moreInformationNodeRight}}早餐。
           </el-form-item>
         </el-form>
 
@@ -410,6 +416,7 @@ export default {
       moreInformationNodeName: "",
       moreInformationNodeType: "",
       moreInformationNodeData: "",
+      moreInformationNodeRight: "",
 
 
 
@@ -746,7 +753,25 @@ export default {
         if(_this.moreInformationNodeType==='group'){
           _this.moreInformationNodeData=await getDetailByGroupName(_this.moreInformationNodeName);
         }
-
+        if(_this.moreInformationNodeType==='Cheakout' || _this.moreInformationNodeType==='Breakfast' ){
+          var fatherNodeUuid='';
+          for (let i = 0; i < _this.graph.links.length; i++) {
+            if (_this.graph.links[i].sourceid === _this.moreInformationNodeUuid) {
+              fatherNodeUuid = _this.graph.links[i].targetid;
+              break;
+            }
+          }
+          for (let i = 0; i < _this.graph.nodes.length; i++) {
+            if (_this.graph.nodes[i].uuid === fatherNodeUuid) {
+              _this.moreInformationNodeName = _this.graph.nodes[i].name;
+            }
+          }
+          for (let i = 0; i < _this.graph.nodes.length; i++) {
+            if (_this.graph.nodes[i].uuid === _this.moreInformationNodeUuid) {
+              _this.moreInformationNodeRight = _this.graph.nodes[i].name;
+            }
+          }
+        }
       });
       nodeEnter.call(
           d3
