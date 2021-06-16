@@ -61,7 +61,7 @@
     </div>
 
     <div>
-      <el-dialog title="详细信息" :visible.sync="moreInformationFormVisible" style="width: 1200px ;height:640px; left:20%; text-align: left">
+      <el-dialog title="详细信息" :visible.sync="moreInformationFormVisible" style="width: 1500px ;height:600px; overflow: hidden; text-align: left">
         <el-form label-width="80px">
           <el-form-item v-if="this.moreInformationNodeType==='group'" label="集团名称">
             {{this.moreInformationNodeName}}
@@ -69,10 +69,13 @@
           <el-form-item v-if="this.moreInformationNodeType==='Brand'" label="酒店名称">
             {{this.moreInformationNodeName}}
           </el-form-item>
-          <el-form-item v-if="this.moreInformationNodeType==='Brand'" label="酒店信息">
+          <el-form-item v-if="this.moreInformationNodeType==='Brand'" label="所属集团">
+            {{this.groupname}}
+          </el-form-item>
+          <el-form-item v-if="this.moreInformationNodeType==='Brand'" style="white-space: pre-line" label="酒店信息">
             {{this.moreInformationNodeData}}
           </el-form-item>
-          <el-form-item  v-if="this.moreInformationNodeType==='group'" label="集团信息">
+          <el-form-item  v-if="this.moreInformationNodeType==='group'" style="white-space: pre-line" label="集团信息">
             {{this.moreInformationNodeData}}
           </el-form-item>
           <el-form-item  v-if="this.moreInformationNodeType==='Cheakout'" label="退房时间">
