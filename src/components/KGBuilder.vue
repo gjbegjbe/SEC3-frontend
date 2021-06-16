@@ -61,31 +61,37 @@
 <!--    </div>-->
 
     <div>
-      <el-dialog title="详细信息" @close="closeMoreInformationDialog" :visible.sync="moreInformationFormVisible" style="top: -10%; width: 1500px ;height:800px; overflow: hidden; text-align: left">
-        <el-form label-width="80px">
-          <el-form-item v-if="this.moreInformationNodeType==='group'" label="集团名称">
-            {{this.moreInformationNodeName}}
-          </el-form-item>
-          <el-form-item v-if="this.moreInformationNodeType==='Brand'" label="酒店名称">
-            {{this.moreInformationNodeName}}
-          </el-form-item>
-          <el-form-item v-if="this.moreInformationNodeType==='Brand'" label="所属集团">
-            {{this.groupname}}
-          </el-form-item>
-          <el-form-item v-if="this.moreInformationNodeType==='Brand'" style="white-space: pre-line" label="酒店信息">
-            {{this.moreInformationNodeData}}
-          </el-form-item>
-          <el-form-item  v-if="this.moreInformationNodeType==='group'" style="white-space: pre-line" label="集团信息">
-            {{this.moreInformationNodeData}}
-          </el-form-item>
-          <el-form-item  v-if="this.moreInformationNodeType==='Cheakout'" label="退房时间">
-            {{this.moreInformationNodeName}}酒店最晚可以在{{this.moreInformationNodeRight}}退房。
-          </el-form-item>
-          <el-form-item  v-if="this.moreInformationNodeType==='Breakfast'" label="早餐份数">
-            {{this.moreInformationNodeName}}酒店最多提供{{this.moreInformationNodeRight}}早餐。
-          </el-form-item>
-        </el-form>
-
+      <el-dialog title="详细信息" @close="closeMoreInformationDialog" :visible.sync="moreInformationFormVisible" style="top: -10%; left: -20%; width: 1800px ;height:800px; overflow: hidden; text-align: left">
+        <el-container>
+          <el-aside width="110px" v-if="this.moreInformationNodeType==='Brand'">
+            <img :src="this.moreInformationNodePic" style="width: 100px">
+          </el-aside>
+          <el-main>
+            <el-form label-width="80px">
+            <el-form-item v-if="this.moreInformationNodeType==='group'" label="集团名称">
+              {{this.moreInformationNodeName}}
+            </el-form-item>
+            <el-form-item v-if="this.moreInformationNodeType==='Brand'" label="酒店名称">
+              {{this.moreInformationNodeName}}
+            </el-form-item>
+            <el-form-item v-if="this.moreInformationNodeType==='Brand'" label="所属集团">
+              {{this.groupname}}
+            </el-form-item>
+            <el-form-item v-if="this.moreInformationNodeType==='Brand'" style="white-space: pre-line" label="酒店信息">
+              {{this.moreInformationNodeData}}
+            </el-form-item>
+            <el-form-item  v-if="this.moreInformationNodeType==='group'" style="white-space: pre-line" label="集团信息">
+              {{this.moreInformationNodeData}}
+            </el-form-item>
+            <el-form-item  v-if="this.moreInformationNodeType==='Cheakout'" label="退房时间">
+              {{this.moreInformationNodeName}}酒店最晚可以在{{this.moreInformationNodeRight}}退房。
+            </el-form-item>
+            <el-form-item  v-if="this.moreInformationNodeType==='Breakfast'" label="早餐份数">
+              {{this.moreInformationNodeName}}酒店最多提供{{this.moreInformationNodeRight}}早餐。
+            </el-form-item>
+            </el-form>
+          </el-main>
+        </el-container>
       </el-dialog>
     </div>
 
@@ -324,7 +330,7 @@ import $ from "jquery";
 import { getOnlineGraph, addGraph, getLocalGraph } from "../api/graphApi";
 import { getGroupNameList, getGraphByGroupName } from "../api/groupApi";
 import { getAnswer } from "../api/util/qaApi";
-import { getDetailByBrandName } from "../api/myCoinApi";
+import { getDetailByBrandName, getPicByBrandName } from "../api/myCoinApi";
 import { getDetailByGroupName } from "../api/groupApi";
 
 export default {
@@ -420,6 +426,7 @@ export default {
       moreInformationNodeType: "",
       moreInformationNodeData: "",
       moreInformationNodeRight: "",
+      moreInformationNodePic: "",
 
 
 
@@ -751,6 +758,7 @@ export default {
         }
         if(_this.moreInformationNodeType==='Brand'){
           _this.moreInformationNodeData=await getDetailByBrandName(_this.moreInformationNodeName);
+          _this.moreInformationNodePic=await getPicByBrandName(_this.moreInformationNodeName);
         }
         if(_this.moreInformationNodeType==='group'){
           _this.moreInformationNodeData=await getDetailByGroupName(_this.moreInformationNodeName);
@@ -2380,6 +2388,7 @@ export default {
       _this.moreInformationNodeType='';
       _this.moreInformationNodeRight='';
       _this.moreInformationFormVisible=false;
+      _this.moreInformationNodePic='';
     }
   }
 };
