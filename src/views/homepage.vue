@@ -59,7 +59,7 @@ html, body {
   height: 100vh;
   width: 100%;
   overflow: hidden;
-  background: linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.2)), url('../assets/bg.jpeg') no-repeat;
+  background: linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.3)), url('../assets/bg.jpeg') no-repeat;
   /*overflow: hidden;*/
   background-size: cover;
 
