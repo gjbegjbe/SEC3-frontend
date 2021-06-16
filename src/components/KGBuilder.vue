@@ -298,13 +298,13 @@
                 <textarea id="text"></textarea>
               </li>
             </a>
-            <a href="javascript:;" @click="change">
-              <li
-                  style="float: left;margin-left: 35px;margin-bottom:20px;font-size: 1.2em;color: white;"
-              >
-                <i class="el-icon-edit-outline"></i> 文档修改
-              </li>
-            </a>
+<!--            <a href="javascript:;" @click="change">-->
+<!--              <li-->
+<!--                  style="float: left;margin-left: 35px;margin-bottom:20px;font-size: 1.2em;color: white;"-->
+<!--              >-->
+<!--                <i class="el-icon-edit-outline"></i> 文档修改-->
+<!--              </li>-->
+<!--            </a>-->
           </div>
         </div>
       </div>
@@ -2365,12 +2365,12 @@ export default {
     },
 
 
-    // 文档修改
-    change: function() {
-      var _this = this;
-      _this.graph = JSON.parse(document.getElementById("text").value);
-      _this.updateGraph();
-    },
+    // // 文档修改
+    // change: function() {
+    //   var _this = this;
+    //   _this.graph = JSON.parse(document.getElementById("text").value);
+    //   _this.updateGraph();
+    // },
 
     closeMoreInformationDialog(){
       var _this=this;
