@@ -311,7 +311,7 @@ export default {
       simulation: {},
       isFullscreen: false,
       qaGraphNode: {},
-      qaButtonGroup: {},
+      // qaButtonGroup: {},
       qaGraphNodeText: {},
       qaGraphLink: {},
       qaGraphLinkText: {},
@@ -370,7 +370,7 @@ export default {
       txx: "",
       tyy: "",
 
-      isToolButtonShow: false,
+      // isToolButtonShow: false,
 
       isAddingNode: false,
       shape: 5, //2 圆形图片 1 正方形 3 待实现 4 圆角矩形 5 倒三角 6 正三角 7 五角星 8 菱形
@@ -533,17 +533,17 @@ export default {
           .append("g")
           .attr("class", "nodetext")
           .attr("id", "g4");
-      this.nodebuttonGroup = this.svg
-          .append("g")
-          .attr("class", "nodebutton")
-          .attr("id", "g5");
-      this.svg.on(
-          "click",
-          function() {
-            d3.selectAll(".buttongroup").classed("notshow", true);
-          },
-          false
-      );
+      // this.nodebuttonGroup = this.svg
+      //     .append("g")
+      //     .attr("class", "nodebutton")
+      //     .attr("id", "g5");
+      // this.svg.on(
+      //     "click",
+      //     function() {
+      //       d3.selectAll(".buttongroup").classed("notshow", true);
+      //     },
+      //     false
+      // );
     },
 
     async initGraph(i) {
@@ -611,26 +611,26 @@ export default {
           .append("circle")
           .style("stroke-width", 0);
 
-      nodeEnter.on("click", function(d) {
+      nodeEnter.on("click", function() {
         console.log("触发单击");
-        _this.selectUuid = d.uuid;
-        var out_buttongroup_id = ".out_buttongroup_" + d.uuid;
-        var selectItem = d3.select(out_buttongroup_id)._groups[0][0];
-        if (
-            selectItem.classList.contains("notshow") &&
-            !_this.isToolButtonShow
-        ) {
-          _this.isToolButtonShow = true;
-          _this.svg.selectAll(".buttongroup").classed("notshow", true);
-          d3.select(out_buttongroup_id)
-              .classed("notshow", false)
-              .attr("transform", function(d) {
-                return "translate(" + d.x + "," + d.y + ") scale(1)";
-              });
-        } else {
-          _this.isToolButtonShow = false;
-          d3.select(out_buttongroup_id).classed("notshow", true);
-        }
+        // _this.selectUuid = d.uuid;
+        // var out_buttongroup_id = ".out_buttongroup_" + d.uuid;
+        // var selectItem = d3.select(out_buttongroup_id)._groups[0][0];
+        // if (
+        //     selectItem.classList.contains("notshow") &&
+        //     !_this.isToolButtonShow
+        // ) {
+        //   _this.isToolButtonShow = true;
+        //   _this.svg.selectAll(".buttongroup").classed("notshow", true);
+        //   d3.select(out_buttongroup_id)
+        //       .classed("notshow", false)
+        //       .attr("transform", function(d) {
+        //         return "translate(" + d.x + "," + d.y + ") scale(1)";
+        //       });
+        // } else {
+        //   _this.isToolButtonShow = false;
+        //   d3.select(out_buttongroup_id).classed("notshow", true);
+        // }
         event.stopPropagation();
       });
       nodeEnter.on("mouseenter", function() {
@@ -1005,40 +1005,40 @@ export default {
       return linktext;
     },
 
-    drawButtonGroup(nodes) {
-      var _this = this;
-      var nodebutton = _this.nodebuttonGroup
-          .selectAll("nodebutton")
-          .data(nodes, function(d) {
-            return d.uuid;
-          });
-      nodebutton.exit().remove();
-      var nodebuttonEnter = nodebutton
-          .enter()
-          .append("use") //  为每个节点组添加一个 use 子元素
-          .attr("r", function(d) {
-            if (!d.r) {
-              return _this.defaultR;
-            }
-            return d.r;
-          })
-          .attr("uuid", function(d) {
-            return d.uuid;
-          })
-          .attr("xlink:href", function(d) {
-            if (!d.r) {
-              return "#out_circle_" + _this.defaultR;
-            }
-            return "#out_circle_" + d.r;
-          }) //  指定 use 引用的内容
-          .attr("class", function(d) {
-            return "buttongroup out_buttongroup_" + d.uuid;
-          })
-          .classed("notshow", true);
-      nodebutton = nodebuttonEnter.merge(nodebutton);
-
-      return nodebutton;
-    },
+    // drawButtonGroup(nodes) {
+    //   var _this = this;
+    //   var nodebutton = _this.nodebuttonGroup
+    //       .selectAll("nodebutton")
+    //       .data(nodes, function(d) {
+    //         return d.uuid;
+    //       });
+    //   nodebutton.exit().remove();
+    //   var nodebuttonEnter = nodebutton
+    //       .enter()
+    //       .append("use") //  为每个节点组添加一个 use 子元素
+    //       .attr("r", function(d) {
+    //         if (!d.r) {
+    //           return _this.defaultR;
+    //         }
+    //         return d.r;
+    //       })
+    //       .attr("uuid", function(d) {
+    //         return d.uuid;
+    //       })
+    //       .attr("xlink:href", function(d) {
+    //         if (!d.r) {
+    //           return "#out_circle_" + _this.defaultR;
+    //         }
+    //         return "#out_circle_" + d.r;
+    //       }) //  指定 use 引用的内容
+    //       .attr("class", function(d) {
+    //         return "buttongroup out_buttongroup_" + d.uuid;
+    //       })
+    //       .classed("notshow", true);
+    //   nodebutton = nodebuttonEnter.merge(nodebutton);
+    //
+    //   return nodebutton;
+    // },
 
     drawToolButton(nodes) {
       var _this = this;
@@ -1117,87 +1117,87 @@ export default {
       });
     },
 
-    bindEventButtonGroup() {
-      //给按钮绑定事件
-      var _this = this;
-      //按钮组事件绑定
-      _this.toolbarData.forEach(function(m) {
-        var btnClass = ".action_" + m.code;
-        _this.svg.selectAll(btnClass).on("click", async function(d) {
-          console.log(
-              d.data.name + ":" + d.data.code + ":uuid:" + _this.selectUuid
-          );
-          switch (d.data.code) {
-            case "append":
-              break;
-            case "edit":
-
-              _this.editNodeFormVisible = true;
-
-              _this.editNodeUuid = _this.selectUuid;
-              for (let i = 0; i < _this.graph.nodes.length; i++) {
-                if (_this.graph.nodes[i].uuid === _this.editNodeUuid) {
-                  _this.select=_this.graph.nodes[i].uuid;
-                  _this.editNodeName = _this.graph.nodes[i].name;
-                  _this.editNodeColor = _this.graph.nodes[i].color;
-                  _this.editNodeShape = _this.graph.nodes[i].shape;
-                  _this.editNodeType = _this.graph.nodes[i].type;
-                  console.log(_this.select);
-                }
-              }
-              break;
-            case "more":
-              _this.moreInformationFormVisible = true;
-              _this.moreInformationNodeUuid = _this.selectUuid;
-              for (let i = 0; i < _this.graph.nodes.length; i++) {
-                if (_this.graph.nodes[i].uuid === _this.moreInformationNodeUuid) {
-                  _this.moreInformationNodeName = _this.graph.nodes[i].name;
-                  _this.moreInformationNodeType = _this.graph.nodes[i].type;
-                }
-              }
-              if(_this.moreInformationNodeType==='Brand'){
-                _this.moreInformationNodeData=await getDetailByBrandName(_this.moreInformationNodeName);
-              }
-              if(_this.moreInformationNodeType==='group'){
-                _this.moreInformationNodeData=await getDetailByGroupName(_this.moreInformationNodeName);
-              }
-
-              break;
-            case "link":
-              break;
-            case "delete":
-              _this
-                  .$confirm("该操作暂时不可撤销", "将要删除该节点，是否继续？", {
-                    confirmButtonText: "确定",
-                    cancelButtonText: "取消",
-                    type: "warning"
-                  })
-                  .then(() => {
-                    var selectDeleteUuid = _this.selectUuid;
-                    for (let i = 0; i < _this.graph.nodes.length; i++) {
-                      if (_this.graph.nodes[i].uuid === selectDeleteUuid) {
-                        _this.graph.nodes.splice(i, 1);
-                        break;
-                      }
-                    }
-                    _this.updateGraph();
-                    _this.$message({
-                      type: "success",
-                      message: "删除成功！"
-                    });
-                  })
-                  .catch(() => {
-
-                    _this.$message({
-                      type: "info",
-                      message: "操作已取消"
-                    });
-                  });
-              break;
-          }
-        });
-      });
-    },
+    // bindEventButtonGroup() {
+    //   //给按钮绑定事件
+    //   var _this = this;
+    //   //按钮组事件绑定
+    //   _this.toolbarData.forEach(function(m) {
+    //     var btnClass = ".action_" + m.code;
+    //     _this.svg.selectAll(btnClass).on("click", async function(d) {
+    //       console.log(
+    //           d.data.name + ":" + d.data.code + ":uuid:" + _this.selectUuid
+    //       );
+    //       switch (d.data.code) {
+    //         case "append":
+    //           break;
+    //         case "edit":
+    //
+    //           _this.editNodeFormVisible = true;
+    //
+    //           _this.editNodeUuid = _this.selectUuid;
+    //           for (let i = 0; i < _this.graph.nodes.length; i++) {
+    //             if (_this.graph.nodes[i].uuid === _this.editNodeUuid) {
+    //               _this.select=_this.graph.nodes[i].uuid;
+    //               _this.editNodeName = _this.graph.nodes[i].name;
+    //               _this.editNodeColor = _this.graph.nodes[i].color;
+    //               _this.editNodeShape = _this.graph.nodes[i].shape;
+    //               _this.editNodeType = _this.graph.nodes[i].type;
+    //               console.log(_this.select);
+    //             }
+    //           }
+    //           break;
+    //         case "more":
+    //           _this.moreInformationFormVisible = true;
+    //           _this.moreInformationNodeUuid = _this.selectUuid;
+    //           for (let i = 0; i < _this.graph.nodes.length; i++) {
+    //             if (_this.graph.nodes[i].uuid === _this.moreInformationNodeUuid) {
+    //               _this.moreInformationNodeName = _this.graph.nodes[i].name;
+    //               _this.moreInformationNodeType = _this.graph.nodes[i].type;
+    //             }
+    //           }
+    //           if(_this.moreInformationNodeType==='Brand'){
+    //             _this.moreInformationNodeData=await getDetailByBrandName(_this.moreInformationNodeName);
+    //           }
+    //           if(_this.moreInformationNodeType==='group'){
+    //             _this.moreInformationNodeData=await getDetailByGroupName(_this.moreInformationNodeName);
+    //           }
+    //
+    //           break;
+    //         case "link":
+    //           break;
+    //         case "delete":
+    //           _this
+    //               .$confirm("该操作暂时不可撤销", "将要删除该节点，是否继续？", {
+    //                 confirmButtonText: "确定",
+    //                 cancelButtonText: "取消",
+    //                 type: "warning"
+    //               })
+    //               .then(() => {
+    //                 var selectDeleteUuid = _this.selectUuid;
+    //                 for (let i = 0; i < _this.graph.nodes.length; i++) {
+    //                   if (_this.graph.nodes[i].uuid === selectDeleteUuid) {
+    //                     _this.graph.nodes.splice(i, 1);
+    //                     break;
+    //                   }
+    //                 }
+    //                 _this.updateGraph();
+    //                 _this.$message({
+    //                   type: "success",
+    //                   message: "删除成功！"
+    //                 });
+    //               })
+    //               .catch(() => {
+    //
+    //                 _this.$message({
+    //                   type: "info",
+    //                   message: "操作已取消"
+    //                 });
+    //               });
+    //           break;
+    //       }
+    //     });
+    //   });
+    // },
 
     formatData() {
       var _this = this;
@@ -1246,7 +1246,7 @@ export default {
       // 更新节点文字
       var graphNodeText = _this.drawNodeText(nodes);
       // 更新按钮组
-      var graphNodeButtonGroup = _this.drawButtonGroup(nodes);
+      // var graphNodeButtonGroup = _this.drawButtonGroup(nodes);
       // 更新连线 links
       var graphLink = _this.drawLink(links);
       // 更新连线文字
@@ -1297,13 +1297,13 @@ export default {
               return d.y;
             });
         // 更新节点操作按钮组坐标
-        graphNodeButtonGroup
-            .attr("cx", function(d) {
-              return d.x;
-            })
-            .attr("cy", function(d) {
-              return d.y;
-            });
+        // graphNodeButtonGroup
+        //     .attr("cx", function(d) {
+        //       return d.x;
+        //     })
+        //     .attr("cy", function(d) {
+        //       return d.y;
+        //     });
 
         // 更新文字坐标
         graphNodeText
@@ -1330,7 +1330,7 @@ export default {
       // 静止双击缩放
       _this.svg.on("dblclick.zoom", null);
       //为按钮组绑定事件
-      _this.bindEventButtonGroup();
+      // _this.bindEventButtonGroup();
       //在文本框显示json内容
       document.getElementById("text").value = JSON.stringify(
           this.graph,
@@ -1340,7 +1340,7 @@ export default {
     },
 
     dragStarted(d) {
-      this.svg.selectAll(".buttongroup").classed("notshow", true);
+      // this.svg.selectAll(".buttongroup").classed("notshow", true);
       if (!d3.event.active) this.simulation.alphaTarget(0.8).restart();
       d.fx = d.x;
       d.fy = d.y;
