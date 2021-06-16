@@ -2614,6 +2614,7 @@ a {
 
 /*控制侧边栏进出的按钮（外部包裹）*/
 #wrap {
+  position: absolute;
   transition: 0.2s ease-out;
 }
 
