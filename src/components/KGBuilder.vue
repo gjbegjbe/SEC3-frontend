@@ -61,7 +61,7 @@
     </div>
 
     <div>
-      <el-dialog title="详细信息" :visible.sync="moreInformationFormVisible" style="width: 1500px ;height:600px; overflow: hidden; text-align: left">
+      <el-dialog title="详细信息" :visible.sync="moreInformationFormVisible" style="width: 1500px ;height:800px; overflow: hidden; text-align: left">
         <el-form label-width="80px">
           <el-form-item v-if="this.moreInformationNodeType==='group'" label="集团名称">
             {{this.moreInformationNodeName}}
