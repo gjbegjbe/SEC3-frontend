@@ -61,7 +61,7 @@
 <!--    </div>-->
 
     <div>
-      <el-dialog title="详细信息" :visible.sync="moreInformationFormVisible" style="top: -10%; width: 1500px ;height:800px; overflow: hidden; text-align: left">
+      <el-dialog title="详细信息" @close="closeMoreInformationDialog" :visible.sync="moreInformationFormVisible" style="top: -10%; width: 1500px ;height:800px; overflow: hidden; text-align: left">
         <el-form label-width="80px">
           <el-form-item v-if="this.moreInformationNodeType==='group'" label="集团名称">
             {{this.moreInformationNodeName}}
@@ -2371,6 +2371,16 @@ export default {
       _this.graph = JSON.parse(document.getElementById("text").value);
       _this.updateGraph();
     },
+
+    closeMoreInformationDialog(){
+      var _this=this;
+      _this.moreInformationNodeUuid='';
+      _this.moreInformationNodeName='';
+      _this.moreInformationNodeData='';
+      _this.moreInformationNodeType='';
+      _this.moreInformationNodeRight='';
+      _this.moreInformationFormVisible=false;
+    }
   }
 };
 </script>
