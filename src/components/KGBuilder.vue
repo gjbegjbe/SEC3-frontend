@@ -708,8 +708,21 @@ export default {
               return 0.1;
             });
       });
-      nodeEnter.on("dblclick", function() {
-        console.log(this.r.animVal.value);
+      nodeEnter.on("dblclick", async function(d) {
+        _this.moreInformationFormVisible = true;
+        _this.moreInformationNodeUuid = d.uuid;
+        for (let i = 0; i < _this.graph.nodes.length; i++) {
+          if (_this.graph.nodes[i].uuid === _this.moreInformationNodeUuid) {
+            _this.moreInformationNodeName = _this.graph.nodes[i].name;
+            _this.moreInformationNodeType = _this.graph.nodes[i].type;
+          }
+        }
+        if(_this.moreInformationNodeType==='Brand'){
+          _this.moreInformationNodeData=await getDetailByBrandName(_this.moreInformationNodeName);
+        }
+        if(_this.moreInformationNodeType==='group'){
+          _this.moreInformationNodeData=await getDetailByGroupName(_this.moreInformationNodeName);
+        }
 
       });
       nodeEnter.call(
