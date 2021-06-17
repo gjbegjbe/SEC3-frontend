@@ -245,7 +245,7 @@
 
 import * as d3 from "d3";
 import $ from "jquery";
-import { getOnlineGraph, addGraph, getLocalGraph } from "../api/graphApi";
+import { getOnlineGraph, getLocalGraph } from "../api/graphApi";
 import { getGraphByGroupName } from "../api/groupApi";
 import { getDetailByBrandName, getPicByBrandName } from "../api/myCoinApi";
 import { getDetailByGroupName } from "../api/groupApi";
