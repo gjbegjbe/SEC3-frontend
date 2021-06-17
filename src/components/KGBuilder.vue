@@ -61,11 +61,8 @@
 <!--    </div>-->
 
     <div>
-      <el-dialog title="详细信息" @close="closeMoreInformationDialog" :visible.sync="moreInformationFormVisible" style="top: -10%; left: -20%; width: 1800px ;height:800px; overflow: hidden; text-align: left">
+      <el-dialog title="详细信息" @close="closeMoreInformationDialog" :visible.sync="moreInformationFormVisible" style="overflow: hidden; text-align: left">
         <el-container>
-          <el-aside width="110px" v-if="this.moreInformationNodeType==='Brand'">
-            <img :src="this.moreInformationNodePic" style="width: 100px">
-          </el-aside>
           <el-main>
             <el-form label-width="80px">
             <el-form-item v-if="this.moreInformationNodeType==='Group'" label="集团名称">
@@ -77,6 +74,9 @@
             <el-form-item v-if="this.moreInformationNodeType==='Brand'" label="所属集团">
               {{this.groupname}}
             </el-form-item>
+              <label width="100px" v-if="this.moreInformationNodeType==='Brand'">
+                <img :src="this.moreInformationNodePic" style="width: 100px;position:absolute;right:15%; top:20%">
+              </label>
             <el-form-item v-if="this.moreInformationNodeType==='Brand'" style="white-space: pre-line" label="酒店信息">
               {{this.moreInformationNodeData}}
             </el-form-item>
