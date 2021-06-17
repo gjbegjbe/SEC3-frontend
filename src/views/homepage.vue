@@ -3,7 +3,7 @@
 
     <div id="test" class="block" style="height: 100vh">
       <div class="kg_container">
-        <KGBuilder id="亚朵集团" :groupname="this.activeName" @child-event='changeActive'/>
+        <KGBuilder id="酒店集团" :groupname="this.activeName" @child-event='changeActive'/>
       </div>
 
     </div>
@@ -32,7 +32,7 @@ export default {
   data() {
     return {
       grouplist: ["锦江国际集团", "华住酒店集团"],
-      activeName: '亚朵集团',
+      activeName: '洲际酒店集团',
     };
   },
   mounted() {},
