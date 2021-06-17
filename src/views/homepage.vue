@@ -32,7 +32,7 @@ export default {
   data() {
     return {
       grouplist: ["锦江国际集团", "华住酒店集团"],
-      activeName: '洲际酒店集团',
+      activeName: '华住酒店集团',
     };
   },
   mounted() {},
