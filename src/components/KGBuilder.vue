@@ -2098,6 +2098,7 @@ export default {
           for (let j = 0; j < _this.selected.nodes.length; j++) {
             if (_this.selected.nodes[j].type.indexOf(nType) === -1) {
               this.selected.nodes.splice(j, 1);
+              j--;
             }
           }
         }
