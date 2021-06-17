@@ -124,3 +124,18 @@ export async function getDetailByBrandName(brandName) {
         return "暂无信息。";
     }
 }
+
+/**
+ * 通过酒店名获得logo url
+ * @param {string} brandName
+ * @returns {Promise<string>}
+ */
+export async function getPicByBrandName(brandName) {
+    let params = {"brandName": brandName};
+    try {
+        let response = await axios.post(baseURL + "/getPicByBrandName", params);
+        return response.data.detail;
+    } catch (e) {
+        return "";
+    }
+}
