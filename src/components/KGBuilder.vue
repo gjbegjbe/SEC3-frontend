@@ -139,7 +139,7 @@
           <div class="collapse-card" id="switch">
             <div class="holder" style="margin-bottom: 10px">
               <span style="font-size: 1.2em"> 集团名称：</span>
-              <textarea id="groupSelect"></textarea>
+              <textarea id="groupSelect" style="font-size: 1em"></textarea>
             </div>
 
             <div>
