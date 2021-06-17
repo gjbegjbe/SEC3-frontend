@@ -1,67 +1,7 @@
 <template>
   <div>
-<!--    <div>-->
-<!--      <el-dialog title="修改节点" :visible.sync="editNodeFormVisible" style="width: 1200px ;height:640px; left:20%">-->
-<!--        <el-form label-width="80px">-->
-<!--          <el-form-item label="节点ID">-->
-<!--            <el-input-->
-<!--                :disabled="true"-->
-<!--                v-model="editNodeUuid"-->
-<!--                class="withoutColor"-->
-<!--                style="width: 400px;float: left"-->
-<!--            ></el-input>-->
-<!--          </el-form-item>-->
-<!--          <el-form-item label="节点名称">-->
-<!--            <el-input-->
-<!--                :disabled="false"-->
-<!--                v-model="editNodeName"-->
-<!--                class="withoutColor"-->
-<!--                style="width: 400px;float: left"-->
-<!--            ></el-input>-->
-<!--          </el-form-item>-->
-<!--          <el-form-item label="节点颜色">-->
-<!--            <el-color-picker v-model="editNodeColor" style="float: left"></el-color-picker>-->
-<!--            <el-input-->
-<!--                :disabled="true"-->
-<!--                v-model="editNodeColor"-->
-<!--                class="lineColor"-->
-<!--                style="width: 340px;float: left;margin-left: 20px"-->
-<!--            ></el-input>-->
-<!--          </el-form-item>-->
-<!--          <el-form-item label="节点形状">-->
-<!--            <el-select v-model="editNodeShape" placeholder="请选择" style="float:left">-->
-<!--              <el-option-->
-<!--                  v-for="item in shapes"-->
-<!--                  :key="item.value"-->
-<!--                  :label="item.label"-->
-<!--                  :value="item.value"-->
-<!--              >-->
-<!--              </el-option>-->
-<!--            </el-select>-->
-<!--          </el-form-item>-->
-<!--          <el-form-item label="节点类型">-->
-<!--            <el-select v-model="editNodeType" placeholder="请选择" style="float:left">-->
-<!--              <el-option-->
-<!--                  v-for="item in types"-->
-<!--                  :key="item.value"-->
-<!--                  :label="item.label"-->
-<!--                  :value="item.value"-->
-<!--              >-->
-<!--              </el-option>-->
-<!--            </el-select>-->
-<!--          </el-form-item>-->
-<!--          <el-form-item>-->
-<!--            <el-button type="primary" @click="saveNodeEdit" style="margin-top: 10px;float: left">保存修改</el-button>-->
-<!--            <el-button @click="cancelNodeEdit" style="margin-top: 10px;float: left">取消</el-button>-->
-
-<!--          </el-form-item>-->
-<!--        </el-form>-->
-
-<!--      </el-dialog>-->
-<!--    </div>-->
-
     <div>
-      <el-dialog title="详细信息" @close="closeMoreInformationDialog" :visible.sync="moreInformationFormVisible" style="overflow: hidden; text-align: left">
+      <el-dialog title="详细信息" @close="closeMoreInformationDialog" :visible.sync="moreInformationFormVisible" style="overflow: hidden; text-align: left ; top:-10px;">
         <el-container>
           <el-main>
             <el-form label-width="80px">
@@ -193,9 +133,6 @@
             <a href="javascript:;" @click="exportXML">
               <li><i class="el-icon-document-copy"></i> 保存为XML</li>
             </a>
-            <a href="javascript:;" @click="exportSERVER">
-              <li><i class="el-icon-office-building"></i> 保存到服务器</li>
-            </a>
           </div>
         </div>
       </div>
@@ -255,15 +192,6 @@
                 </li>
               </div>
             </div>
-<!--            <div class="holder" style="margin-bottom: 4px;float: left">-->
-<!--              <span style="font-size: 1.2em"> 关系名称：</span>-->
-<!--              <textarea id="relSearch"></textarea>-->
-<!--              <div class="search_menu" style="margin-bottom: 4px;float: left">-->
-<!--                <li v-for="item in historyList.lName" :key="item.id" @click="inputHistory(item, 1)">-->
-<!--                  {{ item }}-->
-<!--                </li>-->
-<!--              </div>-->
-<!--            </div>-->
             <div class="holder" style="margin-bottom: 4px;float: left">
               <span style="font-size: 1.2em"> 类型检索：</span>
               <textarea id="typeSearch"></textarea>
@@ -304,13 +232,6 @@
                 <textarea id="text"></textarea>
               </li>
             </a>
-<!--            <a href="javascript:;" @click="change">-->
-<!--              <li-->
-<!--                  style="float: left;margin-left: 35px;margin-bottom:20px;font-size: 1.2em;color: white;"-->
-<!--              >-->
-<!--                <i class="el-icon-edit-outline"></i> 文档修改-->
-<!--              </li>-->
-<!--            </a>-->
           </div>
         </div>
       </div>
@@ -349,7 +270,6 @@ export default {
       simulation: {},
       isFullscreen: false,
       qaGraphNode: {},
-      // qaButtonGroup: {},
       qaGraphNodeText: {},
       qaGraphLink: {},
       qaGraphLinkText: {},
@@ -357,7 +277,6 @@ export default {
         nodes: [],
         links: []
       },
-      currentMode: true, //true为力导图模式，false为排版模式
       listed: {
         nodes: [],
         links: []
@@ -408,7 +327,6 @@ export default {
       txx: "",
       tyy: "",
 
-      // isToolButtonShow: false,
 
       isAddingNode: false,
       shape: 5, //2 圆形图片 1 正方形 3 待实现 4 圆角矩形 5 倒三角 6 正三角 7 五角星 8 菱形
@@ -573,17 +491,6 @@ export default {
           .append("g")
           .attr("class", "nodetext")
           .attr("id", "g4");
-      // this.nodebuttonGroup = this.svg
-      //     .append("g")
-      //     .attr("class", "nodebutton")
-      //     .attr("id", "g5");
-      // this.svg.on(
-      //     "click",
-      //     function() {
-      //       d3.selectAll(".buttongroup").classed("notshow", true);
-      //     },
-      //     false
-      // );
     },
 
     async initGraph(i) {
@@ -601,8 +508,13 @@ export default {
       if (i === 0) {
         // data = await getOnlineGraph();
         data = await getGraphByGroupName(this.groupname);
-        if (!data)
-          data = await getLocalGraph();
+        if (!data){
+          this.$message({
+            type: "warning",
+            message: "未找到此集团"
+          });
+          data = await getGraphByGroupName('亚朵酒店集团');
+        }
       } else if (i === 1) {
         data = this.forced;
       } else if (i === -1) {
@@ -655,24 +567,6 @@ export default {
 
       nodeEnter.on("click", function() {
         console.log("触发单击");
-        // _this.selectUuid = d.uuid;
-        // var out_buttongroup_id = ".out_buttongroup_" + d.uuid;
-        // var selectItem = d3.select(out_buttongroup_id)._groups[0][0];
-        // if (
-        //     selectItem.classList.contains("notshow") &&
-        //     !_this.isToolButtonShow
-        // ) {
-        //   _this.isToolButtonShow = true;
-        //   _this.svg.selectAll(".buttongroup").classed("notshow", true);
-        //   d3.select(out_buttongroup_id)
-        //       .classed("notshow", false)
-        //       .attr("transform", function(d) {
-        //         return "translate(" + d.x + "," + d.y + ") scale(1)";
-        //       });
-        // } else {
-        //   _this.isToolButtonShow = false;
-        //   d3.select(out_buttongroup_id).classed("notshow", true);
-        // }
         event.stopPropagation();
       });
       nodeEnter.on("mouseenter", function() {
@@ -1065,42 +959,6 @@ export default {
 
       return linktext;
     },
-
-    // drawButtonGroup(nodes) {
-    //   var _this = this;
-    //   var nodebutton = _this.nodebuttonGroup
-    //       .selectAll("nodebutton")
-    //       .data(nodes, function(d) {
-    //         return d.uuid;
-    //       });
-    //   nodebutton.exit().remove();
-    //   var nodebuttonEnter = nodebutton
-    //       .enter()
-    //       .append("use") //  为每个节点组添加一个 use 子元素
-    //       .attr("r", function(d) {
-    //         if (!d.r) {
-    //           return _this.defaultR;
-    //         }
-    //         return d.r;
-    //       })
-    //       .attr("uuid", function(d) {
-    //         return d.uuid;
-    //       })
-    //       .attr("xlink:href", function(d) {
-    //         if (!d.r) {
-    //           return "#out_circle_" + _this.defaultR;
-    //         }
-    //         return "#out_circle_" + d.r;
-    //       }) //  指定 use 引用的内容
-    //       .attr("class", function(d) {
-    //         return "buttongroup out_buttongroup_" + d.uuid;
-    //       })
-    //       .classed("notshow", true);
-    //   nodebutton = nodebuttonEnter.merge(nodebutton);
-    //
-    //   return nodebutton;
-    // },
-
     drawToolButton(nodes) {
       var _this = this;
       //先删除所有为节点自定义的按钮组
@@ -1177,88 +1035,6 @@ export default {
         }
       });
     },
-
-    // bindEventButtonGroup() {
-    //   //给按钮绑定事件
-    //   var _this = this;
-    //   //按钮组事件绑定
-    //   _this.toolbarData.forEach(function(m) {
-    //     var btnClass = ".action_" + m.code;
-    //     _this.svg.selectAll(btnClass).on("click", async function(d) {
-    //       console.log(
-    //           d.data.name + ":" + d.data.code + ":uuid:" + _this.selectUuid
-    //       );
-    //       switch (d.data.code) {
-    //         case "append":
-    //           break;
-    //         case "edit":
-    //
-    //           _this.editNodeFormVisible = true;
-    //
-    //           _this.editNodeUuid = _this.selectUuid;
-    //           for (let i = 0; i < _this.graph.nodes.length; i++) {
-    //             if (_this.graph.nodes[i].uuid === _this.editNodeUuid) {
-    //               _this.select=_this.graph.nodes[i].uuid;
-    //               _this.editNodeName = _this.graph.nodes[i].name;
-    //               _this.editNodeColor = _this.graph.nodes[i].color;
-    //               _this.editNodeShape = _this.graph.nodes[i].shape;
-    //               _this.editNodeType = _this.graph.nodes[i].type;
-    //               console.log(_this.select);
-    //             }
-    //           }
-    //           break;
-    //         case "more":
-    //           _this.moreInformationFormVisible = true;
-    //           _this.moreInformationNodeUuid = _this.selectUuid;
-    //           for (let i = 0; i < _this.graph.nodes.length; i++) {
-    //             if (_this.graph.nodes[i].uuid === _this.moreInformationNodeUuid) {
-    //               _this.moreInformationNodeName = _this.graph.nodes[i].name;
-    //               _this.moreInformationNodeType = _this.graph.nodes[i].type;
-    //             }
-    //           }
-    //           if(_this.moreInformationNodeType==='Brand'){
-    //             _this.moreInformationNodeData=await getDetailByBrandName(_this.moreInformationNodeName);
-    //           }
-    //           if(_this.moreInformationNodeType==='Group'){
-    //             _this.moreInformationNodeData=await getDetailByGroupName(_this.moreInformationNodeName);
-    //           }
-    //
-    //           break;
-    //         case "link":
-    //           break;
-    //         case "delete":
-    //           _this
-    //               .$confirm("该操作暂时不可撤销", "将要删除该节点，是否继续？", {
-    //                 confirmButtonText: "确定",
-    //                 cancelButtonText: "取消",
-    //                 type: "warning"
-    //               })
-    //               .then(() => {
-    //                 var selectDeleteUuid = _this.selectUuid;
-    //                 for (let i = 0; i < _this.graph.nodes.length; i++) {
-    //                   if (_this.graph.nodes[i].uuid === selectDeleteUuid) {
-    //                     _this.graph.nodes.splice(i, 1);
-    //                     break;
-    //                   }
-    //                 }
-    //                 _this.updateGraph();
-    //                 _this.$message({
-    //                   type: "success",
-    //                   message: "删除成功！"
-    //                 });
-    //               })
-    //               .catch(() => {
-    //
-    //                 _this.$message({
-    //                   type: "info",
-    //                   message: "操作已取消"
-    //                 });
-    //               });
-    //           break;
-    //       }
-    //     });
-    //   });
-    // },
 
     formatData() {
       var _this = this;
@@ -1357,14 +1133,6 @@ export default {
             .attr("cy", function(d) {
               return d.y;
             });
-        // 更新节点操作按钮组坐标
-        // graphNodeButtonGroup
-        //     .attr("cx", function(d) {
-        //       return d.x;
-        //     })
-        //     .attr("cy", function(d) {
-        //       return d.y;
-        //     });
 
         // 更新文字坐标
         graphNodeText
@@ -2103,57 +1871,6 @@ export default {
           }
         }
 
-        // // 以下检索出相关关系及关联节点
-        // for (let m = 0; m < _this.selected.nodes.length; m++) {
-        //   //将与检索出节点有关的关系列出
-        //   for (let n = 0; n < _this.graph.links.length; n++) {
-        //     if (
-        //         _this.selected.nodes[m].uuid === _this.graph.links[n].sourceid
-        //     ) {
-        //       //由目标节点指出的关系
-        //       this.selected.linksOut.push(JSON.parse(JSON.stringify(_this.graph.links[n])));
-        //     } else if (
-        //         _this.selected.nodes[m].uuid === _this.graph.links[n].targetid
-        //     ) {
-        //       //向目标节点指入的关系
-        //       this.selected.linksIn.push(JSON.parse(JSON.stringify(_this.graph.links[n])));
-        //     }
-        //   }
-        // }
-        // if (lName !== "") {
-        //   //按关系名筛选
-        //   for (let k = 0; k < _this.selected.linksIn.length; k++) {
-        //     if (_this.selected.linksIn[k].name.indexOf(lName) === -1) {
-        //       this.selected.linksIn.splice(k, 1);
-        //       k--;
-        //     }
-        //   }
-        //   for (let l = 0; l < _this.selected.linksOut.length; l++) {
-        //     if (_this.selected.linksOut[l].name.indexOf(lName) === -1) {
-        //       this.selected.linksOut.splice(l, 1);
-        //       l--;
-        //     }
-        //   }
-        // }
-        // for (let i = 0; i < _this.graph.nodes.length; i++) {
-        //   //将与检索出节点有关的节点列出
-        //   for (let p = 0; p < _this.selected.linksIn.length; p++) {
-        //     //相关源节点
-        //     if (
-        //         _this.graph.nodes[i].uuid === _this.selected.linksIn[p].sourceid
-        //     ) {
-        //       this.selected.sourceNodes.push(JSON.parse(JSON.stringify(_this.graph.nodes[i])));
-        //     }
-        //   }
-        //   for (let q = 0; q < _this.selected.linksOut.length; q++) {
-        //     //相关目标节点
-        //     if (
-        //         _this.graph.nodes[i].uuid === _this.selected.linksOut[q].targetid
-        //     ) {
-        //       this.selected.targetNodes.push(JSON.parse(JSON.stringify(_this.graph.nodes[i])));
-        //     }
-        //   }
-        // }
       }
 
       //无节点名的情况下优先节点类型搜索
@@ -2166,103 +1883,11 @@ export default {
           }
         }
 
-        // // 以下检索出相关关系及关联节点
-        // if (lName !== "") {
-        //   //按关系名筛选
-        //   for (let m = 0; m < _this.selected.nodes.length; m++) {
-        //     //将与检索出节点有关的关系列出
-        //     for (let n = 0; n < _this.graph.links.length; n++) {
-        //       if (
-        //           _this.selected.nodes[m].uuid === _this.graph.links[n].sourceid
-        //       ) {
-        //         //由目标节点指出的关系
-        //         this.selected.linksOut.push(JSON.parse(JSON.stringify(_this.graph.links[n])));
-        //       } else if (
-        //           _this.selected.nodes[m].uuid === _this.graph.links[n].targetid
-        //       ) {
-        //         //向目标节点指入的关系
-        //         this.selected.linksIn.push(JSON.parse(JSON.stringify(_this.graph.links[n])));
-        //       }
-        //     }
-        //   }
-        //   for (let k = 0; k < _this.selected.linksIn.length; k++) {
-        //     if (_this.selected.linksIn[k].name.indexOf(lName) === -1) {
-        //       this.selected.linksIn.splice(k, 1);
-        //       k--;
-        //     }
-        //   }
-        //   for (let l = 0; l < _this.selected.linksOut.length; l++) {
-        //     if (_this.selected.linksOut[l].name.indexOf(lName) === -1) {
-        //       this.selected.linksOut.splice(l, 1);
-        //       l--;
-        //     }
-        //   }
-        // }
-        // for (let i = 0; i < _this.graph.nodes.length; i++) {
-        //   //将与检索出节点有关的节点列出
-        //   for (let p = 0; p < _this.selected.linksIn.length; p++) {
-        //     //相关源节点
-        //     if (
-        //         _this.graph.nodes[i].uuid === _this.selected.linksIn[p].sourceid
-        //     ) {
-        //       this.selected.sourceNodes.push(JSON.parse(JSON.stringify(_this.graph.nodes[i])));
-        //     }
-        //   }
-        //   for (let q = 0; q < _this.selected.linksOut.length; q++) {
-        //     //相关目标节点
-        //     if (
-        //         _this.graph.nodes[i].uuid === _this.selected.linksOut[q].targetid
-        //     ) {
-        //       this.selected.targetNodes.push(JSON.parse(JSON.stringify(_this.graph.nodes[i])));
-        //     }
-        //   }
-        // }
       }
 
-      // //关系搜索
-      // else if (lName !== "") {
-      //   // 以下检索出目标关系及关系双方节点
-      //   for (let i = 0; i < _this.graph.links.length; i++) {
-      //     //所有满足名称要求的关系搜索
-      //     if (_this.graph.links[i].name.indexOf(lName) !== -1) {
-      //       this.selected.links.push(JSON.parse(JSON.stringify(_this.graph.links[i])));
-      //       for (let j = 0; j < _this.graph.nodes.length; j++) {
-      //         //将检索出关系的源节点在对应位置列出
-      //         if (_this.graph.nodes[j].uuid === _this.graph.links[i].sourceid) {
-      //           this.selected.sourceNodes.push(JSON.parse(JSON.stringify(_this.graph.nodes[j])));
-      //         } else if (
-      //             _this.graph.nodes[j].uuid === _this.graph.links[i].targetid
-      //         ) {
-      //           //将检索出关系的目标节点在对应位置列出
-      //           this.selected.targetNodes.push(JSON.parse(JSON.stringify(_this.graph.nodes[j])));
-      //         }
-      //       }
-      //     }
-      //   }
-      // }
 
 
       for (let i = 0; i < _this.graph.nodes.length; i++) {
-        // for (let j = 0; j < _this.selected.sourceNodes.length; j++) {
-        //   //上级节点
-        //   if (
-        //       _this.graph.nodes[i].uuid === _this.selected.sourceNodes[j].uuid
-        //   ) {
-        //     this.graph.nodes[i].shape = "piccircle";
-        //     this.graph.nodes[i].imgsrc =
-        //         "https://ftp.bmp.ovh/imgs/2021/04/8936ebaa1cae405e.png";
-        //   }
-        // }
-        // for (let j = 0; j < _this.selected.targetNodes.length; j++) {
-        //   //下级节点
-        //   if (
-        //       _this.graph.nodes[i].uuid === _this.selected.targetNodes[j].uuid
-        //   ) {
-        //     this.graph.nodes[i].shape = "piccircle";
-        //     this.graph.nodes[i].imgsrc =
-        //         "https://ftp.bmp.ovh/imgs/2021/04/bba912c80570087a.png";
-        //   }
-        // }
         for (let j = 0; j < _this.selected.nodes.length; j++) {
           if (_this.graph.nodes[i].uuid === _this.selected.nodes[j].uuid) {
             //目标节点
@@ -2283,28 +1908,6 @@ export default {
           message: "未找到目标节点！"
         });
       }
-      // if (
-      //     (nName !== "" || nType !== "") &&
-      //     lName !== "" &&
-      //     _this.selected.linksIn.length === 0 &&
-      //     _this.selected.linksOut.length === 0
-      // ) {
-      //   await _this.$message({
-      //     type: "warning",
-      //     message: "未找到目标节点的目标关系！"
-      //   });
-      // }
-      // if (
-      //     nName === "" &&
-      //     nType === "" &&
-      //     lName !== "" &&
-      //     _this.selected.links.length === 0
-      // ) {
-      //   await _this.$message({
-      //     type: "warning",
-      //     message: "未找到目标关系！"
-      //   });
-      // }
     },
 
     // 搜索记录
@@ -2377,12 +1980,7 @@ export default {
     },
 
 
-    // // 文档修改
-    // change: function() {
-    //   var _this = this;
-    //   _this.graph = JSON.parse(document.getElementById("text").value);
-    //   _this.updateGraph();
-    // },
+
 
     closeMoreInformationDialog(){
       var _this=this;
