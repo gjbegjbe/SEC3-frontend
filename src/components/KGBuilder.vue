@@ -68,7 +68,7 @@
           </el-aside>
           <el-main>
             <el-form label-width="80px">
-            <el-form-item v-if="this.moreInformationNodeType==='group'" label="集团名称">
+            <el-form-item v-if="this.moreInformationNodeType==='Group'" label="集团名称">
               {{this.moreInformationNodeName}}
             </el-form-item>
             <el-form-item v-if="this.moreInformationNodeType==='Brand'" label="酒店名称">
@@ -80,10 +80,10 @@
             <el-form-item v-if="this.moreInformationNodeType==='Brand'" style="white-space: pre-line" label="酒店信息">
               {{this.moreInformationNodeData}}
             </el-form-item>
-            <el-form-item  v-if="this.moreInformationNodeType==='group'" style="white-space: pre-line" label="集团信息">
+            <el-form-item  v-if="this.moreInformationNodeType==='Group'" style="white-space: pre-line" label="集团信息">
               {{this.moreInformationNodeData}}
             </el-form-item>
-            <el-form-item  v-if="this.moreInformationNodeType==='Cheakout'" label="退房时间">
+            <el-form-item  v-if="this.moreInformationNodeType==='Checkout'" label="退房时间">
               {{this.moreInformationNodeName}}酒店最晚可以在{{this.moreInformationNodeRight}}退房。
             </el-form-item>
             <el-form-item  v-if="this.moreInformationNodeType==='Breakfast'" label="早餐份数">
@@ -590,6 +590,9 @@ export default {
       let answer = await getAnswer('华住酒店集团的介绍');
       console.log(answer);
 
+      let detail = await getPicByBrandName("7天");
+      console.log(detail);
+
       console.log('step2');
       let groupNameList = await getGroupNameList();
       console.log(groupNameList);
@@ -760,10 +763,10 @@ export default {
           _this.moreInformationNodeData=await getDetailByBrandName(_this.moreInformationNodeName);
           _this.moreInformationNodePic=await getPicByBrandName(_this.moreInformationNodeName);
         }
-        if(_this.moreInformationNodeType==='group'){
+        if(_this.moreInformationNodeType==='Group'){
           _this.moreInformationNodeData=await getDetailByGroupName(_this.moreInformationNodeName);
         }
-        if(_this.moreInformationNodeType==='Cheakout' || _this.moreInformationNodeType==='Breakfast' ){
+        if(_this.moreInformationNodeType==='Checkout' || _this.moreInformationNodeType==='Breakfast' ){
           var fatherNodeUuid='';
           for (let i = 0; i < _this.graph.links.length; i++) {
             if (_this.graph.links[i].sourceid === _this.moreInformationNodeUuid) {
@@ -1216,7 +1219,7 @@ export default {
     //           if(_this.moreInformationNodeType==='Brand'){
     //             _this.moreInformationNodeData=await getDetailByBrandName(_this.moreInformationNodeName);
     //           }
-    //           if(_this.moreInformationNodeType==='group'){
+    //           if(_this.moreInformationNodeType==='Group'){
     //             _this.moreInformationNodeData=await getDetailByGroupName(_this.moreInformationNodeName);
     //           }
     //
