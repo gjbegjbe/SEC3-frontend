@@ -31,7 +31,6 @@ export default {
   },
   data() {
     return {
-      grouplist: ["锦江国际集团", "华住酒店集团"],
       activeName: '华住酒店集团',
     };
   },
@@ -60,14 +59,8 @@ html, body {
   width: 100%;
   overflow: hidden;
   background: linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.3)), url('../assets/bg.jpeg') no-repeat;
-  /*overflow: hidden;*/
   background-size: cover;
 
-}
-
-#kg_container2 {
-  height: 50vh;
-  width: 100%;
 }
 
 #dialog_box {

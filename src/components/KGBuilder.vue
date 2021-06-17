@@ -163,9 +163,6 @@
               <a href="javascript:;" @click="restartPicture(0)">
                 <li style="margin-left:20%; margin-bottom:20px; width:37%"><i class="el-icon-refresh"></i> 还原全图</li>
               </a>
-              <a href="javascript:;" @click="changeFull">
-                <li style="width:37%; margin-right: 6%"><i class="el-icon-full-screen"></i> 全屏切换</li>
-              </a>
             </div>
 
           </div>
@@ -221,7 +218,7 @@
         <label style="display: flex;" for="collapse5">
           <h4>
             <i class="el-icon-arrow-right"></i>
-            文本编辑 JSON EDIT
+            文本查看 JSON VIEW
           </h4>
         </label>
 
@@ -249,8 +246,7 @@
 import * as d3 from "d3";
 import $ from "jquery";
 import { getOnlineGraph, addGraph, getLocalGraph } from "../api/graphApi";
-import { getGroupNameList, getGraphByGroupName } from "../api/groupApi";
-import { getAnswer } from "../api/util/qaApi";
+import { getGraphByGroupName } from "../api/groupApi";
 import { getDetailByBrandName, getPicByBrandName } from "../api/myCoinApi";
 import { getDetailByGroupName } from "../api/groupApi";
 
@@ -494,15 +490,9 @@ export default {
     },
 
     async initGraph(i) {
-      let answer = await getAnswer('华住酒店集团的介绍');
-      console.log(answer);
-
-      let detail = await getPicByBrandName("7天");
-      console.log(detail);
 
       console.log('step2');
-      let groupNameList = await getGroupNameList();
-      console.log(groupNameList);
+
 
       let data;
       if (i === 0) {
@@ -1082,8 +1072,6 @@ export default {
       var graphNode = _this.drawNode(nodes);
       // 更新节点文字
       var graphNodeText = _this.drawNodeText(nodes);
-      // 更新按钮组
-      // var graphNodeButtonGroup = _this.drawButtonGroup(nodes);
       // 更新连线 links
       var graphLink = _this.drawLink(links);
       // 更新连线文字
@@ -1194,302 +1182,6 @@ export default {
       d3.select("#g5").attr("transform", d3.event.transform);
     },
 
-    // 增加节点
-    addNode() {
-      this.isAddingNode = true;
-      d3.select(".gid").style("cursor", "crosshair");
-      let _this = this;
-      var svg = d3.select("svg");
-      let cursor = document.getElementById("gid").style.cursor;
-      svg.on("click", function() {
-        var offsetX = event.offsetX;
-        var offsetY = event.offsetY;
-        if (cursor == "crosshair" && _this.isAddingNode) {
-          _this
-              .$confirm("是否加入该节点？", {
-                confirmButtonText: "确定",
-                cancelButtonText: "取消",
-                type: "warning"
-              })
-
-              .then(() => {
-                var nName = "新节点";
-                console.log(nName);
-
-                let newNode = {};
-                newNode.name = nName;
-                newNode.uuid = _this.uuidEndNum;
-                newNode.color = 3;
-                _this.uuidEndNum++;
-                newNode.x = 0;
-                newNode.y = 0;
-                newNode.fx = offsetX;
-                newNode.fy = offsetY;
-                _this.graph.nodes.push(newNode);
-
-                _this.updateGraph();
-
-                _this.$message({
-                  type: "success",
-                  message: "添加成功！"
-                });
-              })
-              .catch(() => {
-
-                _this.$message({
-                  type: "info",
-                  message: "操作已取消"
-                });
-              });
-          d3.select(".gid").style("cursor", "");
-          _this.isAddingNode = false;
-        }
-      });
-    },
-
-    // 删除节点
-    deleteNode() {
-      let _this = this;
-      _this
-          .$confirm("该操作暂时不可撤销", "将要删除该节点，是否继续？", {
-            confirmButtonText: "确定",
-            cancelButtonText: "取消",
-            type: "warning"
-          })
-          .then(() => {
-            var nName = document.getElementById("nameIn").value;
-            for (let i = 0; i < _this.graph.nodes.length; i++) {
-              if (_this.graph.nodes[i].name === nName) {
-                _this.graph.nodes.splice(i, 1);
-                break;
-              }
-            }
-            _this.updateGraph();
-
-            _this.deleteNodeDialogVisible = true;
-            _this.$message({
-              type: "success",
-              message: "删除成功！"
-            });
-          })
-          .catch(() => {
-
-            _this.$message({
-              type: "info",
-              message: "操作已取消"
-            });
-          });
-    },
-
-    // 修改节点名
-    changeNode() {
-      let _this = this;
-      _this
-          .$confirm("是否修改该节点？", {
-            confirmButtonText: "确定",
-            cancelButtonText: "取消",
-            type: "warning"
-          })
-          .then(() => {
-            var nName = document.getElementById("nameIn").value;
-            var nNewName = document.getElementById("nameOut").value;
-            for (let i = 0; i < _this.graph.nodes.length; i++) {
-              if (_this.graph.nodes[i].name === nName) {
-                this.graph.nodes[i].name = nNewName;
-                break;
-              }
-            }
-            _this.updateGraph();
-
-            _this.deleteNodeDialogVisible = true;
-            _this.$message({
-              type: "success",
-              message: "修改成功！"
-            });
-          })
-          .catch(() => {
-
-            _this.$message({
-              type: "info",
-              message: "操作已取消"
-            });
-          });
-    },
-
-    // 增加联系
-    addLink() {
-      let _this = this;
-      _this
-          .$confirm("是否添加该关系？", {
-            confirmButtonText: "确定",
-            cancelButtonText: "取消",
-            type: "warning"
-          })
-          .then(() => {
-            var rName = document.getElementById("relNameIn").value;
-            let newLink = {};
-            newLink.uuid = _this.uuidEndNum;
-            _this.uuidEndNum++;
-            var sourceName = document.getElementById("from_id").value;
-            var targetName = document.getElementById("to_id").value;
-            for (let m = 0; m < _this.graph.nodes.length; m++) {
-              if (_this.graph.nodes[m].name === targetName) {
-                newLink.targetid = _this.graph.nodes[m].uuid;
-                break;
-              }
-            }
-            for (let n = 0; n < _this.graph.nodes.length; n++) {
-              if (_this.graph.nodes[n].name === sourceName) {
-                newLink.sourceid = _this.graph.nodes[n].uuid;
-                break;
-              }
-            }
-
-            newLink.name = rName;
-            _this.graph.links.push(newLink);
-            _this.updateGraph();
-
-            _this.$message({
-              type: "success",
-              message: "添加成功！"
-            });
-          })
-          .catch(() => {
-
-            _this.$message({
-              type: "info",
-              message: "操作已取消"
-            });
-          });
-    },
-
-    // 删除联系
-    deleteLink() {
-      var sourceName = document.getElementById("from_id").value;
-      var targetName = document.getElementById("to_id").value;
-      let _this = this;
-      for (let m = 0; m < _this.graph.nodes.length; m++) {
-        if (_this.graph.nodes[m].name === sourceName) {
-          this.source = _this.graph.nodes[m].uuid;
-          break;
-        }
-      }
-      for (let n = 0; n < _this.graph.nodes.length; n++) {
-        if (_this.graph.nodes[n].name === targetName) {
-          this.target = _this.graph.nodes[n].uuid;
-          break;
-        }
-      }
-      _this
-          .$confirm("该操作不可撤销", "将要删除该联系，是否继续？", {
-            confirmButtonText: "确定",
-            cancelButtonText: "取消",
-            type: "warning"
-          })
-          .then(() => {
-            for (let i = 0; i < _this.graph.links.length; i++) {
-              if (
-                  _this.graph.links[i].sourceid === _this.source &&
-                  _this.graph.links[i].targetid === _this.target
-              ) {
-                _this.graph.links.splice(i, 1);
-                break;
-              }
-            }
-            _this.updateGraph();
-            _this.$message({
-              type: "success",
-              message: "删除成功！"
-            });
-          })
-          .catch(() => {
-
-            _this.$message({
-              type: "info",
-              message: "操作已取消"
-            });
-          });
-    },
-
-    // 修改联系名
-    changeLink() {
-      var sourceName = document.getElementById("from_id").value;
-      var targetName = document.getElementById("to_id").value;
-      let _this = this;
-      for (let m = 0; m < _this.graph.nodes.length; m++) {
-        if (_this.graph.nodes[m].name === sourceName) {
-          this.source = _this.graph.nodes[m].uuid;
-          break;
-        }
-      }
-      for (let n = 0; n < _this.graph.nodes.length; n++) {
-        if (_this.graph.nodes[n].name === targetName) {
-          this.target = _this.graph.nodes[n].uuid;
-          break;
-        }
-      }
-      _this
-          .$confirm("是否修改该关系？", {
-            confirmButtonText: "确定",
-            cancelButtonText: "取消",
-            type: "warning"
-          })
-          .then(() => {
-            var lNewName = document.getElementById("relNameOut").value;
-            for (let i = 0; i < _this.graph.links.length; i++) {
-              if (
-                  _this.graph.links[i].sourceid === _this.source &&
-                  _this.graph.links[i].targetid === _this.target
-              ) {
-                this.graph.links[i].name = lNewName;
-                break;
-              }
-            }
-            _this.updateGraph();
-            _this.$message({
-              type: "success",
-              message: "修改成功！"
-            });
-          })
-          .catch(() => {
-            _this.$message({
-              type: "info",
-              message: "操作已取消"
-            });
-          });
-    },
-
-    // 取消编辑节点
-    cancelNodeEdit() {
-      var _this = this;
-      _this.editNodeFormVisible = false;
-      _this.editNodeUuid = "";
-      _this.editNodeName = "";
-      _this.editNodeColor = "";
-      _this.editNodeShape = "";
-      _this.editNodeType = "";
-    },
-
-    // 保存编辑节点
-    saveNodeEdit() {
-      var _this = this;
-      _this.editNodeFormVisible = false;
-      for (let i = 0; i < _this.graph.nodes.length; i++) {
-        if (_this.graph.nodes[i].uuid === _this.editNodeUuid) {
-          _this.graph.nodes[i].name = _this.editNodeName;
-          _this.graph.nodes[i].color = _this.editNodeColor;
-          _this.graph.nodes[i].shape = _this.editNodeShape;
-          _this.graph.nodes[i].type = _this.editNodeType;
-        }
-      }
-      _this.updateGraph();
-      _this.editNodeUuid = "";
-      _this.editNodeName = "";
-      _this.editNodeColor = "";
-      _this.editNodeShape = "";
-      _this.editNodeType = "";
-      _this.getPie();
-    },
 
     // 生成统计图
     getPie() {
@@ -1717,20 +1409,6 @@ export default {
       downloadAnchorNode.remove();
     },
 
-    // 保存到服务器
-    exportSERVER: async function() {
-      if (await addGraph(this.graph))
-        this.$message({
-          type: "success",
-          message: "保存成功！"
-        });
-      else
-        this.$message({
-          type: "info",
-          message: "保存失败！"
-        });
-    },
-
     // 用于下面的放大缩小
     zoomClick(direction) {
       var self = this;
@@ -1767,64 +1445,11 @@ export default {
       this.initGraph(i);
     },
 
-    // 全屏切换
-    changeFull() {
-      this.isFullscreen = !this.isFullscreen;
-      if (this.isFullscreen) {
-        let full = document.getElementById("kg_container");
-        this.fullScreen(full);
-      } else {
-        this.exitFullScreen();
-      }
-    },
-
-    // 进入全屏
-    fullScreen(element) {
-      if (element.requestFullscreen) {
-        element.requestFullscreen();
-      } else if (element.mozRequestFullScreen) {
-        element.mozRequestFullScreen();
-      } else if (element.webkitRequestFullscreen) {
-        element.webkitRequestFullscreen();
-      } else if (element.msRequestFullscreen) {
-        element.msRequestFullscreen();
-      }
-    },
-
-    // 退出全屏
-    exitFullScreen() {
-      if (document.exitFullscreen) {
-        document.exitFullscreen();
-      } else if (document.mozCancelFullScreen) {
-        document.mozCancelFullScreen();
-      } else if (document.webkitExitFullscreen) {
-        document.webkitExitFullscreen();
-      }
-    },
-
     // 搜索
     async search() {
       let _this = this;
       // clear
       for (let i = 0; i < _this.graph.nodes.length; i++) {
-        // for (let j = 0; j < _this.selected.sourceNodes.length; j++) {
-        //   //上级节点
-        //   if (
-        //       _this.graph.nodes[i].uuid === _this.selected.sourceNodes[j].uuid
-        //   ) {
-        //     this.graph.nodes[i].shape = _this.selected.sourceNodes[j].shape;
-        //     this.graph.nodes[i].imgsrc = _this.selected.sourceNodes[j].imgsrc;
-        //   }
-        // }
-        // for (let j = 0; j < _this.selected.targetNodes.length; j++) {
-        //   //下级节点
-        //   if (
-        //       _this.graph.nodes[i].uuid === _this.selected.targetNodes[j].uuid
-        //   ) {
-        //     this.graph.nodes[i].shape = _this.selected.targetNodes[j].shape;
-        //     this.graph.nodes[i].imgsrc = _this.selected.targetNodes[j].imgsrc;
-        //   }
-        // }
         for (let j = 0; j < _this.selected.nodes.length; j++) {
           if (_this.graph.nodes[i].uuid === _this.selected.nodes[j].uuid) {
             //目标节点
@@ -1834,19 +1459,10 @@ export default {
         }
       }
       this.selected.nodes.splice(0, _this.selected.nodes.length);
-      // this.selected.linksIn.splice(0, _this.selected.linksIn.length);
-      // this.selected.linksOut.splice(0, _this.selected.linksOut.length);
-      // this.selected.sourceNodes.splice(0, _this.selected.sourceNodes.length);
-      // this.selected.targetNodes.splice(0, _this.selected.targetNodes.length);
-      // get
       var nName = document.getElementById("nodeSearch").value;
       if (nName !== "") {
         this.searchVal(nName, 0);
       }
-      // var lName = document.getElementById("relSearch").value;
-      // if (lName !== "") {
-      //   this.searchVal(lName, 1);
-      // }
       var nType = document.getElementById("typeSearch").value;
       if (nType !== "") {
         this.searchVal(nType, 2);
@@ -1882,10 +1498,7 @@ export default {
             this.selected.nodes.push(JSON.parse(JSON.stringify(_this.graph.nodes[i])));
           }
         }
-
       }
-
-
 
       for (let i = 0; i < _this.graph.nodes.length; i++) {
         for (let j = 0; j < _this.selected.nodes.length; j++) {
@@ -1978,8 +1591,6 @@ export default {
           break;
       }
     },
-
-
 
 
     closeMoreInformationDialog(){
