@@ -1,7 +1,7 @@
 pipeline {
-    
+
     agent any
-    
+
     stages {
         stage('git') {
             steps {
@@ -16,7 +16,7 @@ pipeline {
         }
         stage('build') {
             steps {
-                sh 'npm run build'
+                sh 'npm run serve -- --port 8082'
             }
         }
         stage('deploy') {
@@ -25,5 +25,5 @@ pipeline {
             }
         }
     }
-    
+
 }
