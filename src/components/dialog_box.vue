@@ -43,7 +43,7 @@
 
 <script>
 import $ from "jquery";
-import {getAnswer} from "@/api/util/qaApi";
+import {getAnswer} from "@/api/qaApi";
 export default {
   name: "dialog_box",
   data(){},
