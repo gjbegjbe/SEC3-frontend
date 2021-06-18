@@ -14,6 +14,9 @@
             <el-form-item v-if="this.moreInformationNodeType==='Brand'" label="所属集团">
               {{this.groupname}}
             </el-form-item>
+              <el-form-item v-if="this.moreInformationNodeType==='Brand'" label="酒店档次">
+                {{this.moreInformationNodeRank}}
+              </el-form-item>
               <label width="100px" v-if="this.moreInformationNodeType==='Brand'">
                 <img :src="this.moreInformationNodePic" style="width: 100px;position:absolute;right:15%; top:20%">
               </label>
@@ -341,6 +344,7 @@ export default {
       moreInformationNodeData: "",
       moreInformationNodeRight: "",
       moreInformationNodePic: "",
+      moreInformationNodeRank: "",
 
 
 
@@ -637,15 +641,24 @@ export default {
       nodeEnter.on("dblclick", async function(d) {
         _this.moreInformationFormVisible = true;
         _this.moreInformationNodeUuid = d.uuid;
+        var color='';
         for (let i = 0; i < _this.graph.nodes.length; i++) {
           if (_this.graph.nodes[i].uuid === _this.moreInformationNodeUuid) {
             _this.moreInformationNodeName = _this.graph.nodes[i].name;
             _this.moreInformationNodeType = _this.graph.nodes[i].type;
+            color=_this.graph.nodes[i].color;
           }
         }
         if(_this.moreInformationNodeType==='Brand'){
           _this.moreInformationNodeData=await getDetailByBrandName(_this.moreInformationNodeName);
           _this.moreInformationNodePic=await getPicByBrandName(_this.moreInformationNodeName);
+          switch (color) {
+            case "rgb(230,241,216)":_this.moreInformationNodeRank='经济型';break;
+            case "rgb(175,215,136)":_this.moreInformationNodeRank='舒适型';break;
+            case "rgb(91,189,43)":_this.moreInformationNodeRank='高档型';break;
+            case "rgb(72,150,32)":_this.moreInformationNodeRank='豪华型';break;
+            case "rgb(54,117,23)":_this.moreInformationNodeRank='奢华型';break;
+          }
         }
         if(_this.moreInformationNodeType==='Group'){
           _this.moreInformationNodeData=await getDetailByGroupName(_this.moreInformationNodeName);
@@ -1602,6 +1615,7 @@ export default {
       _this.moreInformationNodeRight='';
       _this.moreInformationFormVisible=false;
       _this.moreInformationNodePic='';
+      _this.moreInformationNodeRank='';
     }
   }
 };
