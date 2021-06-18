@@ -18,7 +18,7 @@ pipeline {
         stage('build') {
             steps {
                 sh 'npm run build'
-                sh 'npm run serve -- --port 8082'
+                sh 'npm run serve -- --port 8082 &'
             }
         }
         stage('deploy') {
