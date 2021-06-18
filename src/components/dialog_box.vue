@@ -69,7 +69,7 @@ export default {
         console.log('click opb')
         $('.dialogue-support-button').css({'display':'none'});
         $('.dialogue-main').css({'display':'inline-block','height':'0'});
-        $('.dialogue-main').animate({'height':'550px'})
+        $('.dialogue-main').animate({'height':'690px'})
       });
 
       buttonClose.addEventListener('click',function (){
@@ -340,7 +340,7 @@ body{
 .dialogue-wrapper .dialogue-main .dialogue-container{
   overflow-y: auto;
   padding: 10px;
-  height: 360px;
+  height: 500px;
   word-wrap: break-word;
   background-color: #ffffff;
 }
