@@ -249,7 +249,7 @@
 import * as d3 from "d3";
 import $ from "jquery";
 import { getOnlineGraph, getLocalGraph } from "../api/graphApi";
-import { getGraphByGroupName } from "../api/groupApi";
+import { getGroupNameList, getGraphByGroupName } from "../api/groupApi";
 import { getDetailByBrandName, getPicByBrandName } from "../api/myCoinApi";
 import { getDetailByGroupName } from "../api/groupApi";
 
@@ -496,6 +496,9 @@ export default {
     async initGraph(i) {
 
       console.log('step2');
+      let groupNameList = await getGroupNameList();
+      console.log(groupNameList);
+
 
 
       let data;
