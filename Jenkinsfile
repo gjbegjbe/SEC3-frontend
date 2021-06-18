@@ -10,6 +10,7 @@ pipeline {
         }
         stage('install') {
             steps {
+                sh 'rm package-lock.json'
                 sh 'npm config set registry https://registry.npm.taobao.org'
                 sh 'npm install'
             }
