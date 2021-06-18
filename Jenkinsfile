@@ -1,7 +1,7 @@
 pipeline {
-    
+
     agent any
-    
+
     stages {
         stage('git') {
             steps {
@@ -10,13 +10,16 @@ pipeline {
         }
         stage('install') {
             steps {
+                sh 'rm package-lock.json'
                 sh 'npm config set registry https://registry.npm.taobao.org'
                 sh 'npm install'
             }
         }
         stage('build') {
             steps {
+                sh '''sh stop.sh'''
                 sh 'npm run build'
+                sh 'npm run serve -- --port 8082 &'
             }
         }
         stage('deploy') {
@@ -25,5 +28,5 @@ pipeline {
             }
         }
     }
-    
+
 }
